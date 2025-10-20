@@ -2,6 +2,10 @@
 	background: var(--grey10);
 	padding: 20px 0px;
 	color: var(--white);
+	.logo {
+		display: flex;
+		align-items: center;
+	}
 	&__container {
 		display: flex;
 		justify-content: space-between;

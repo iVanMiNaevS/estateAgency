@@ -15,7 +15,7 @@ export const Header = () => {
 	return (
 		<header className={styles.header}>
 			<div className={styles.header__container + " container"}>
-				<Link href={AppRouter.home} className="logo">
+				<Link href={AppRouter.home} className={styles.logo}>
 					<Image src={logo} alt="Логотип ЭлитДом" />
 				</Link>
 				<HeaderLinks links={nav} />

@@ -1,9 +1,9 @@
 import type {Metadata} from "next";
-import {Urbanist} from "next/font/google";
+import {Inter} from "next/font/google";
 import "./globals.css";
 import {Header} from "@/components/header/header";
 
-const urbanist = Urbanist({
+const urbanist = Inter({
 	variable: "--font-geist-sans",
 	subsets: ["latin"],
 });
@@ -22,7 +22,7 @@ export default function RootLayout({
 		<html lang="ru">
 			<body className={`${urbanist.className}`}>
 				<Header />
-				{children}
+				<main>{children}</main>
 				<footer></footer>
 			</body>
 		</html>

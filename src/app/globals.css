@@ -6,6 +6,7 @@
 	--black: #000;
 
 	--purple60: #703bf7;
+	--purple70: #946cf9;
 
 	--white: #ffffff;
 }
@@ -18,9 +19,9 @@ body {
 
 body {
 	background: var(--grey08);
-	font-family: Arial, Helvetica, sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+	color: var(--white);
 }
 
 * {
@@ -32,9 +33,43 @@ body {
 .container {
 	max-width: 1600px;
 	margin: 0 auto;
+	width: 100%;
+	padding: 0px 20px;
 }
 
 a {
 	color: inherit;
 	text-decoration: none;
+}
+img {
+	object-fit: cover;
+}
+button {
+	outline: none;
+	border: none;
+	transition: 0.3s;
+}
+.btn {
+	border-radius: 10px;
+	border: 1px solid var(--grey15);
+	color: white;
+	padding: 18px 24px;
+	background: transparent;
+	font-size: 18px;
+	cursor: pointer;
+}
+.btn:hover {
+	background: var(--grey10);
+}
+
+.btn-purple {
+	border-radius: 10px;
+	padding: 18px 24px;
+	color: white;
+	font-size: 18px;
+	background: var(--purple60);
+	cursor: pointer;
+}
+.btn-purple:hover {
+	background: var(--purple70);
 }
