@@ -20,6 +20,9 @@
 			border: 1px solid var(--grey15);
 			border-radius: 10px;
 		}
+		a.activeBtn {
+			background: var(--purple60);
+		}
 		nav {
 			a:not(.active):hover {
 				color: var(--purple60);

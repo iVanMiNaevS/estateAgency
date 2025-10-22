@@ -10,7 +10,6 @@ export const Header = () => {
 		{text: "Главная", link: AppRouter.home},
 		{text: "О нас", link: AppRouter.about},
 		{text: "Каталог", link: AppRouter.catalog},
-		{text: "Сервисы", link: AppRouter.services},
 	];
 	return (
 		<header className={styles.header}>
@@ -19,9 +18,6 @@ export const Header = () => {
 					<Image src={logo} alt="Логотип ЭлитДом" />
 				</Link>
 				<HeaderLinks links={nav} />
-				<Link href={"#callback"} className={styles.active + " " + styles.buttonLink}>
-					Связаться с нами
-				</Link>
 			</div>
 		</header>
 	);
