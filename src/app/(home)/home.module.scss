@@ -65,3 +65,31 @@
 	border-top: 15px solid var(--grey10);
 	border-bottom: 15px solid var(--grey10);
 }
+
+.recSection {
+	padding-top: var(--sectionPadding);
+	width: 100%;
+	&__top {
+		padding-bottom: 80px;
+		h2 {
+			padding-bottom: 14px;
+		}
+		p {
+			display: flex;
+			gap: 20px;
+			justify-content: space-between;
+			align-items: flex-end;
+			span {
+				line-height: 150%;
+				display: block;
+				color: var(--grey60);
+				font-size: 18px;
+				max-width: 1127px;
+			}
+			a {
+				text-wrap: nowrap;
+				display: block;
+			}
+		}
+	}
+}
