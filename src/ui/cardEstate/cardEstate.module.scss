@@ -1,0 +1,58 @@
+.cardContainer {
+	padding: 30px;
+	border: 1px solid var(--grey15);
+	border-radius: 12px;
+	display: flex;
+	gap: 30px;
+	flex-direction: column;
+	.mainImg {
+		border-radius: 10px;
+		object-fit: cover;
+		height: 318px;
+		width: 100%;
+	}
+	.textInfo {
+		h4 {
+			padding-bottom: 6px;
+		}
+		p {
+			display: -webkit-box;
+			-webkit-line-clamp: 2; // Ограничение в 3 строки
+			-webkit-box-orient: vertical;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			color: var(--grey60);
+		}
+	}
+	.options {
+		display: flex;
+		gap: 10px;
+		flex-wrap: wrap;
+		.option {
+			font-size: 16px;
+			font-weight: 500;
+			display: flex;
+			align-items: center;
+			gap: 2px;
+			border-radius: 30px;
+			background: var(--grey10);
+			border: 1px solid var(--grey15);
+			padding: 10px 15px;
+		}
+	}
+	.bottom {
+		display: flex;
+		gap: 50px;
+		justify-content: space-between;
+		.priceWrapp {
+			display: flex;
+			flex-direction: column;
+			font-size: 24px;
+			gap: 2px;
+			span:first-child {
+				font-size: 18px;
+				color: var(--grey60);
+			}
+		}
+	}
+}

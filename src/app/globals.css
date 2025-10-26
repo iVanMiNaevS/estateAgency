@@ -44,6 +44,10 @@ body {
 	color: var(--white);
 	font-weight: 600;
 }
+.h4 {
+	font-size: 24px;
+	font-weight: 600;
+}
 .buttonLink {
 	width: fit-content;
 	background: var(--grey10);
