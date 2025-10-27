@@ -3,74 +3,47 @@ import styles from "../../../app/(home)/home.module.scss";
 import Link from "next/link";
 import {AppRouter} from "@/AppRouter";
 import {UiSwiper} from "@/ui/uiSwiper/uiSwiper";
-import estate1 from "@/../public/imgs/estate1.jpg";
-import estate2 from "@/../public/imgs/estate2.jpg";
-import estate3 from "@/../public/imgs/estate3.jpg";
 import {CardEstate} from "@/ui/cardEstate/cardEstate";
-import {IEstate} from "@/types/estate.interface";
+import profile from "@/../public/imgs/Profile.png";
 
 import bed from "@/../public/icons/bed.svg";
-import homeOne from "@/../public/icons/homeOne.svg";
-import shower from "@/../public/icons/shower.svg";
+import {IReview} from "@/types/reviews.interface";
+import {CardReview} from "@/ui/cardReview/cardReview";
 
 export const ReviewsSection = () => {
-	const estates: IEstate[] = [
+	const reviews: IReview[] = [
 		{
 			id: 1,
-			img: estate1,
-			title: "Вилла безмятежности на берегу моря",
-			description:
-				"Потрясающая вилла с 4 спальнями и 3 ванными комнатами в тихом пригородном районе бла бла бла",
-			options: [
-				{type: "bedrooms", value: 4, text: "Спальни", icon: bed},
-				{type: "showers", value: 3, text: "Душевых", icon: shower},
-				{type: "type", value: "Villa", text: "Вилла", icon: homeOne},
-			],
-			price: "44, 302, 500",
+			title: "Исключительный сервис!",
+			text: "Наш опыт работы с недвижимостью был выдающимся. Преданность делу и профессионализм их команды позволили легко найти дом нашей мечты. Настоятельно рекомендуем!",
+			author: {name: "Андрей Петров", city: "Санкт-Петербург", img: profile},
+			rating: 5,
 		},
 		{
 			id: 2,
-			img: estate2,
-			title: "Вилла безмятежности на берегу моря",
-			description:
-				"Потрясающая вилла с 4 спальнями и 3 ванными комнатами в тихом пригородном районе бла бла бла",
-			options: [
-				{type: "bedrooms", value: 4, text: "Спальни", icon: bed},
-				{type: "showers", value: 3, text: "Душевых", icon: shower},
-				{type: "type", value: "Villa", text: "Вилла", icon: homeOne},
-			],
-			price: "44, 302, 500",
+			title: "Исключительный сервис!",
+			text: "Наш опыт работы с недвижимостью был выдающимся. Преданность делу и профессионализм их команды позволили легко найти дом нашей мечты. Настоятельно рекомендуем!",
+			author: {name: "Андрей Петров", city: "Санкт-Петербург", img: profile},
+			rating: 5,
 		},
 		{
 			id: 3,
-			img: estate3,
-			title: "Вилла безмятежности на берегу моря",
-			description:
-				"Потрясающая вилла с 4 спальнями и 3 ванными комнатами в тихом пригородном районе бла бла бла",
-			options: [
-				{type: "bedrooms", value: 4, text: "Спальни", icon: bed},
-				{type: "showers", value: 3, text: "Душевых", icon: shower},
-				{type: "type", value: "Villa", text: "Вилла", icon: homeOne},
-			],
-			price: "44, 302, 500",
+			title: "Исключительный сервис!",
+			text: "Наш опыт работы с недвижимостью был выдающимся. Преданность делу и профессионализм их команды позволили легко найти дом нашей мечты. Настоятельно рекомендуем!",
+			author: {name: "Андрей Петров", city: "Санкт-Петербург", img: profile},
+			rating: 5,
 		},
 		{
 			id: 4,
-			img: estate1,
-			title: "Вилла безмятежности на берегу моря",
-			description:
-				"Потрясающая вилла с 4 спальнями и 3 ванными комнатами в тихом пригородном районе бла бла бла",
-			options: [
-				{type: "bedrooms", value: 4, text: "Спальни", icon: bed},
-				{type: "showers", value: 3, text: "Душевых", icon: shower},
-				{type: "type", value: "Villa", text: "Вилла", icon: homeOne},
-			],
-			price: "44, 302, 500",
+			title: "Исключительный сервис!",
+			text: "Наш опыт работы с недвижимостью был выдающимся. Преданность делу и профессионализм их команды позволили легко найти дом нашей мечты. Настоятельно рекомендуем!",
+			author: {name: "Андрей Петров", city: "Санкт-Петербург", img: profile},
+			rating: 5,
 		},
 	];
 
-	const slides = estates.map((estate) => {
-		return <CardEstate key={estate.id} estate={estate} />;
+	const slides = reviews.map((review) => {
+		return <CardReview key={review.id} review={review} />;
 	});
 	return (
 		<section className={styles.recSection + " container"}>

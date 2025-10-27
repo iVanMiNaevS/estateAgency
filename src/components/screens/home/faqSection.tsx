@@ -3,74 +3,41 @@ import styles from "../../../app/(home)/home.module.scss";
 import Link from "next/link";
 import {AppRouter} from "@/AppRouter";
 import {UiSwiper} from "@/ui/uiSwiper/uiSwiper";
-import estate1 from "@/../public/imgs/estate1.jpg";
-import estate2 from "@/../public/imgs/estate2.jpg";
-import estate3 from "@/../public/imgs/estate3.jpg";
 import {CardEstate} from "@/ui/cardEstate/cardEstate";
-import {IEstate} from "@/types/estate.interface";
 
-import bed from "@/../public/icons/bed.svg";
-import homeOne from "@/../public/icons/homeOne.svg";
-import shower from "@/../public/icons/shower.svg";
+import {IFaq} from "@/types/faq.interface";
+import {CardFaq} from "@/ui/cardFaq/cardFaq";
 
 export const FaqSection = () => {
-	const estates: IEstate[] = [
+	const faq: IFaq[] = [
 		{
 			id: 1,
-			img: estate1,
-			title: "Вилла безмятежности на берегу моря",
-			description:
-				"Потрясающая вилла с 4 спальнями и 3 ванными комнатами в тихом пригородном районе бла бла бла",
-			options: [
-				{type: "bedrooms", value: 4, text: "Спальни", icon: bed},
-				{type: "showers", value: 3, text: "Душевых", icon: shower},
-				{type: "type", value: "Villa", text: "Вилла", icon: homeOne},
-			],
-			price: "44, 302, 500",
+			title: "Как мне искать недвижимость в ЭлитДом?",
+			text: "Узнайте, как использовать наши удобные инструменты поиска, чтобы найти недвижимость, соответствующую вашим критериям.",
+			link: "#",
 		},
 		{
 			id: 2,
-			img: estate2,
-			title: "Вилла безмятежности на берегу моря",
-			description:
-				"Потрясающая вилла с 4 спальнями и 3 ванными комнатами в тихом пригородном районе бла бла бла",
-			options: [
-				{type: "bedrooms", value: 4, text: "Спальни", icon: bed},
-				{type: "showers", value: 3, text: "Душевых", icon: shower},
-				{type: "type", value: "Villa", text: "Вилла", icon: homeOne},
-			],
-			price: "44, 302, 500",
+			title: "ККакие документы мне нужны для продажи моей недвижимости через ЭлитДом?",
+			text: "Узнайте у нас о необходимой документации для внесения вашей недвижимости в реестр.",
+			link: "#",
 		},
 		{
 			id: 3,
-			img: estate3,
-			title: "Вилла безмятежности на берегу моря",
-			description:
-				"Потрясающая вилла с 4 спальнями и 3 ванными комнатами в тихом пригородном районе бла бла бла",
-			options: [
-				{type: "bedrooms", value: 4, text: "Спальни", icon: bed},
-				{type: "showers", value: 3, text: "Душевых", icon: shower},
-				{type: "type", value: "Villa", text: "Вилла", icon: homeOne},
-			],
-			price: "44, 302, 500",
+			title: "Как я могу связаться с агентом по недвижимости?",
+			text: "Узнайте о различных способах, которыми вы можете связаться с нашими опытными агентами.",
+			link: "#",
 		},
 		{
 			id: 4,
-			img: estate1,
-			title: "Вилла безмятежности на берегу моря",
-			description:
-				"Потрясающая вилла с 4 спальнями и 3 ванными комнатами в тихом пригородном районе бла бла бла",
-			options: [
-				{type: "bedrooms", value: 4, text: "Спальни", icon: bed},
-				{type: "showers", value: 3, text: "Душевых", icon: shower},
-				{type: "type", value: "Villa", text: "Вилла", icon: homeOne},
-			],
-			price: "44, 302, 500",
+			title: "Как мне искать недвижимость в ЭлитДом?",
+			text: "Узнайте, как использовать наши удобные инструменты поиска, чтобы найти недвижимость, соответствующую вашим критериям.",
+			link: "#",
 		},
 	];
 
-	const slides = estates.map((estate) => {
-		return <CardEstate key={estate.id} estate={estate} />;
+	const slides = faq.map((faq) => {
+		return <CardFaq key={faq.id} faq={faq} />;
 	});
 	return (
 		<section className={styles.recSection + " container"}>

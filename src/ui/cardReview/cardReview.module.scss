@@ -1,0 +1,30 @@
+.cardContainer {
+	padding: 30px;
+	border: 1px solid var(--grey15);
+	border-radius: 12px;
+	display: flex;
+	gap: 30px;
+	flex-direction: column;
+	.ratingWrapp {
+		display: flex;
+		gap: 10px;
+	}
+	.infoText {
+		h4 {
+			padding-bottom: 15px;
+		}
+	}
+	.authorWrapp {
+		display: flex;
+		gap: 12px;
+		align-items: center;
+		.authorInfo {
+			font-size: 20px;
+			.city {
+				padding-top: 3px;
+				font-size: 18px;
+				color: var(--grey60);
+			}
+		}
+	}
+}

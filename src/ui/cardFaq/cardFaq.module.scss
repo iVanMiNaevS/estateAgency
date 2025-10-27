@@ -1,0 +1,23 @@
+.cardContainer {
+	padding: 30px;
+	border: 1px solid var(--grey15);
+	border-radius: 12px;
+	display: flex;
+	gap: 30px;
+	flex-direction: column;
+	p {
+		color: var(--grey60);
+		font-size: 18px;
+	}
+	a {
+		border-radius: 10px;
+		padding: 18px 24px;
+		background: var(--grey10);
+		font-size: 18px;
+		width: fit-content;
+		transition: 0.3s;
+		&:hover {
+			background: var(--grey15);
+		}
+	}
+}
