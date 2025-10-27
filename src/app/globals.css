@@ -10,13 +10,14 @@
 
 	--white: #ffffff;
 
-	--sectionPadding: 100px;
+	--sectionPadding: 150px;
 }
 
 html,
 body {
 	max-width: 100vw;
 	overflow-x: hidden;
+	scroll-behavior: smooth;
 }
 
 body {
@@ -61,8 +62,12 @@ a {
 	text-decoration: none;
 	line-height: normal;
 }
+
 img {
 	object-fit: cover;
+}
+ul {
+	list-style-type: none;
 }
 button {
 	outline: none;

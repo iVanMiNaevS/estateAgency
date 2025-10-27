@@ -13,7 +13,7 @@ export const CardReview: FC<props> = ({review}) => {
 		<div className={styles.cardContainer}>
 			<div className={styles.ratingWrapp}>
 				{Array.from({length: review.rating}, (v, i) => i + 1).map((rating, index) => {
-					return <Image key={review.rating} src={star} alt={`оценка ${index + 1}`} />;
+					return <Image key={index} src={star} alt={`оценка ${index + 1}`} />;
 				})}
 			</div>
 			<div className={styles.infoText}>

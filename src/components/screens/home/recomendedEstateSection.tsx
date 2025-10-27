@@ -13,7 +13,7 @@ import bed from "@/../public/icons/bed.svg";
 import homeOne from "@/../public/icons/homeOne.svg";
 import shower from "@/../public/icons/shower.svg";
 
-export const RecomendedEstateSection = () => {
+export const RecomendedEstateSection = ({sectionId}: {sectionId: string}) => {
 	const estates: IEstate[] = [
 		{
 			id: 1,
@@ -73,8 +73,8 @@ export const RecomendedEstateSection = () => {
 		return <CardEstate key={estate.id} estate={estate} />;
 	});
 	return (
-		<section className={styles.recSection + " container"}>
-			<div className={styles.recSection__top}>
+		<section id={sectionId} className={styles.swiperSection + " container"}>
+			<div className={styles.swiperSection__top}>
 				<h2 className="h2">Рекомендуемая недвижемость</h2>
 				<p>
 					<span>

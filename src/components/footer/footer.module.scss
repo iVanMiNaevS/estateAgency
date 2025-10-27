@@ -1,0 +1,67 @@
+.footer {
+	margin-top: var(--sectionPadding);
+	width: 100%;
+	background: var(--grey10);
+	padding: 100px 0px;
+	> div {
+		display: flex;
+		justify-content: space-between;
+		gap: 50px;
+		.linksWrapp {
+			display: flex;
+			justify-content: space-between;
+			gap: 20px;
+			row-gap: 50px;
+			flex-wrap: wrap;
+			width: 100%;
+			max-width: 978px;
+			.page {
+				display: block;
+				font-size: 20px;
+				color: var(--grey60);
+				margin-bottom: 30px;
+			}
+			ul {
+				display: flex;
+				flex-direction: column;
+				gap: 20px;
+				font-size: 16px;
+			}
+			a:hover {
+				transition: 0.3s;
+				color: var(--purple60);
+			}
+		}
+	}
+
+	form {
+		margin-top: 30px;
+		min-width: 423px;
+		position: relative;
+		input {
+			background-image: url("/icons/email.svg");
+			background-repeat: no-repeat;
+			background-position: 24px calc(50% - 2px);
+			font-size: 18px;
+			width: 100%;
+			background-color: var(--grey08);
+			color: white;
+			border-radius: 12px;
+			border: 1px solid var(--grey15);
+			padding: 18px 24px 18px 60px;
+			&:focus {
+				outline: none;
+			}
+		}
+		button {
+			position: absolute;
+			right: 24px;
+			top: calc(50% + 2px);
+			transform: translateY(-50%);
+			background: transparent;
+			border: none;
+			outline: none;
+			cursor: pointer;
+		}
+	}
+}

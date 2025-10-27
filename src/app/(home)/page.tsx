@@ -9,11 +9,11 @@ import {FaqSection} from "@/components/screens/home/faqSection";
 export default function Home() {
 	return (
 		<div className="">
-			<HeroSection />
-			<CardTextLogoSection />
-			<RecomendedEstateSection />
-			<ReviewsSection />
-			<FaqSection />
+			<HeroSection sectionId="main-heroSection" />
+			<CardTextLogoSection sectionId="main-cardTextLogoSection" />
+			<RecomendedEstateSection sectionId="main-recomendedEstateSection" />
+			<ReviewsSection sectionId="main-reviewsSection" />
+			<FaqSection sectionId="main-faqSection" />
 		</div>
 	);
 }

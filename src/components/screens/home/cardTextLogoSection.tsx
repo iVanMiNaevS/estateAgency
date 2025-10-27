@@ -6,7 +6,7 @@ import sunLogo from "@/../public/icons/sun.svg";
 import webcamLogo from "@/../public/icons/webCam.svg";
 import {CardTextLogo, typeCardTextLogo} from "@/ui/cardTextLogo/cardTextLogo";
 
-export const CardTextLogoSection = () => {
+export const CardTextLogoSection = ({sectionId}: {sectionId: string}) => {
 	const cards: typeCardTextLogo[] = [
 		{logo: homeLogo, text: "Найдите дом своей мечты"},
 		{logo: webcamLogo, text: "Разблокируйте  недвижемость"},
@@ -14,7 +14,7 @@ export const CardTextLogoSection = () => {
 		{logo: sunLogo, text: "Разумные инвестиции"},
 	];
 	return (
-		<section className={styles.cardsTextLogoSection}>
+		<section id={sectionId} className={styles.cardsTextLogoSection}>
 			{cards.map((card) => {
 				return <CardTextLogo key={card.text} logo={card.logo} text={card.text} />;
 			})}

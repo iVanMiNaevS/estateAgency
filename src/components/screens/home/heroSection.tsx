@@ -3,9 +3,9 @@ import styles from "@/app/(home)/home.module.scss";
 import Image from "next/image";
 import homeHeroSectionImg from "@/../public/imgs/homeHeroSectionImg.png";
 
-export const HeroSection = () => {
+export const HeroSection = ({sectionId}: {sectionId: string}) => {
 	return (
-		<section className={styles.heroSection + " container"}>
+		<section id={sectionId} className={styles.heroSection + " container"}>
 			<div className={styles.left}>
 				<div className={styles.heroSection__mainText}>
 					<h1>Откройте для себя недвижимость своей мечты с ЭлитДом</h1>

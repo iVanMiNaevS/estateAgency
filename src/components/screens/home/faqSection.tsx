@@ -8,7 +8,7 @@ import {CardEstate} from "@/ui/cardEstate/cardEstate";
 import {IFaq} from "@/types/faq.interface";
 import {CardFaq} from "@/ui/cardFaq/cardFaq";
 
-export const FaqSection = () => {
+export const FaqSection = ({sectionId}: {sectionId: string}) => {
 	const faq: IFaq[] = [
 		{
 			id: 1,
@@ -40,8 +40,8 @@ export const FaqSection = () => {
 		return <CardFaq key={faq.id} faq={faq} />;
 	});
 	return (
-		<section className={styles.recSection + " container"}>
-			<div className={styles.recSection__top}>
+		<section id={sectionId} className={styles.swiperSection + " container"}>
+			<div className={styles.swiperSection__top}>
 				<h2 className="h2">Часто задаваемые вопросы</h2>
 				<p>
 					<span>

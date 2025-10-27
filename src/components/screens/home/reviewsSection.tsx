@@ -10,7 +10,7 @@ import bed from "@/../public/icons/bed.svg";
 import {IReview} from "@/types/reviews.interface";
 import {CardReview} from "@/ui/cardReview/cardReview";
 
-export const ReviewsSection = () => {
+export const ReviewsSection = ({sectionId}: {sectionId: string}) => {
 	const reviews: IReview[] = [
 		{
 			id: 1,
@@ -46,8 +46,8 @@ export const ReviewsSection = () => {
 		return <CardReview key={review.id} review={review} />;
 	});
 	return (
-		<section className={styles.recSection + " container"}>
-			<div className={styles.recSection__top}>
+		<section id={sectionId} className={styles.swiperSection + " container"}>
+			<div className={styles.swiperSection__top}>
 				<h2 className="h2">Что говорят наши клиенты</h2>
 				<p>
 					<span>
