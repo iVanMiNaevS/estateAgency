@@ -2,6 +2,8 @@
 
 # dependencies
 /node_modules
+/frontend/node_modules
+/estateStrapi/node_modules
 /.pnp
 .pnp.*
 .yarn/*
@@ -14,7 +16,8 @@
 /coverage
 
 # next.js
-/.next/
+/frontend/.next/
+/frontend/out/
 /out/
 
 # production
@@ -32,6 +35,7 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+.env*.local
 
 # vercel
 .vercel
@@ -52,13 +56,11 @@ Icon
 .Trashes
 ._*
 
-
 ############################
 # Linux
 ############################
 
 *~
-
 
 ############################
 # Windows
@@ -72,7 +74,6 @@ $RECYCLE.BIN/
 *.msi
 *.msm
 *.msp
-
 
 ############################
 # Packages
@@ -102,7 +103,6 @@ $RECYCLE.BIN/
 *.out
 *.pid
 
-
 ############################
 # Logs and databases
 ############################
@@ -113,7 +113,6 @@ $RECYCLE.BIN/
 *.sqlite
 *.sqlite3
 
-
 ############################
 # Misc.
 ############################
@@ -122,8 +121,8 @@ $RECYCLE.BIN/
 ssl
 .idea
 nbproject
-public/uploads/*
-!public/uploads/.gitkeep
+/estateStrapi/public/uploads/*
+!/estateStrapi/public/uploads/.gitkeep
 .tsbuildinfo
 .eslintcache
 
@@ -167,7 +166,13 @@ coverage
 license.txt
 exports
 .strapi
-dist
-build
+/estateStrapi/dist
+/estateStrapi/build
 .strapi-updater.json
 .strapi-cloud.json
+
+############################
+# Next.js specific
+############################
+/frontend/.next-swc/
+/frontend/.turbo/

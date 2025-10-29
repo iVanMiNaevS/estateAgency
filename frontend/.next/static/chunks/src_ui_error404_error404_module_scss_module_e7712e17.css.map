@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 1, "column": 0}, "map": {"version":3,"sources":["turbopack:///turbopack:///[project]/src/ui/error404/home/web/web/estateAgency/frontend/src/ui/error404/error404.module.scss"],"sourcesContent":[".container {\n\tdisplay: flex;\n\talign-items: center;\n\tjustify-content: center;\n\theight: calc(100vh - 91px);\n\tbackground-image: url(\"/imgs/404Purple.svg\"), url(\"/imgs/404Grey.svg\");\n\tbackground-repeat: no-repeat;\n\tbackground-size: 30%;\n\tbackground-position: 55% 20%, 45% 60%;\n\t&Text {\n\t\tcolor: var(--purple60);\n\t\ttext-align: center;\n\t\tfont-size: 100px;\n\t\tfont-weight: bold;\n\t\tp {\n\t\t\ttext-transform: uppercase;\n\t\t\tfont-size: 30px;\n\t\t}\n\t}\n}\n"],"names":[],"mappings":"AAAA;;;;;;;;;;;AASC;;;;;;;AAKC","debugId":null}}]
-}
