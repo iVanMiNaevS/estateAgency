@@ -1,0 +1,45 @@
+{
+  "kind": "collectionType",
+  "collectionName": "estates",
+  "info": {
+    "singularName": "estate",
+    "pluralName": "estates",
+    "displayName": "estate"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text",
+      "required": true
+    },
+    "poster": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images",
+        "files"
+      ]
+    },
+    "price": {
+      "type": "integer",
+      "required": true
+    },
+    "options": {
+      "type": "component",
+      "component": "estate.options-estate",
+      "repeatable": true
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "title"
+    }
+  }
+}

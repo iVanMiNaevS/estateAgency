@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_main_screen_recomended_sections",
+  "info": {
+    "displayName": "recomendedSection"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "estates": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::estate.estate"
+    }
+  },
+  "config": {}
+}

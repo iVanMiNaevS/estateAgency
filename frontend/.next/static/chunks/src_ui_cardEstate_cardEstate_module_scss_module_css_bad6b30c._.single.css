@@ -1,0 +1,67 @@
+/* [project]/src/ui/cardEstate/cardEstate.module.scss.module.css [app-client] (css) */
+.cardEstate-module-scss-module__lhOJ-W__cardContainer {
+  border: 1px solid var(--grey15);
+  border-radius: 12px;
+  flex-direction: column;
+  gap: 30px;
+  padding: 30px;
+  display: flex;
+}
+
+.cardEstate-module-scss-module__lhOJ-W__cardContainer .cardEstate-module-scss-module__lhOJ-W__mainImg {
+  object-fit: cover;
+  border-radius: 10px;
+  width: 100%;
+  height: 318px;
+}
+
+.cardEstate-module-scss-module__lhOJ-W__cardContainer .cardEstate-module-scss-module__lhOJ-W__textInfo h4 {
+  padding-bottom: 6px;
+}
+
+.cardEstate-module-scss-module__lhOJ-W__cardContainer .cardEstate-module-scss-module__lhOJ-W__textInfo p {
+  -webkit-line-clamp: 2;
+  text-overflow: ellipsis;
+  color: var(--grey60);
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+  overflow: hidden;
+}
+
+.cardEstate-module-scss-module__lhOJ-W__cardContainer .cardEstate-module-scss-module__lhOJ-W__options {
+  flex-wrap: wrap;
+  gap: 10px;
+  display: flex;
+}
+
+.cardEstate-module-scss-module__lhOJ-W__cardContainer .cardEstate-module-scss-module__lhOJ-W__options .cardEstate-module-scss-module__lhOJ-W__option {
+  background: var(--grey10);
+  border: 1px solid var(--grey15);
+  border-radius: 30px;
+  align-items: center;
+  gap: 2px;
+  padding: 10px 15px;
+  font-size: 16px;
+  font-weight: 500;
+  display: flex;
+}
+
+.cardEstate-module-scss-module__lhOJ-W__cardContainer .cardEstate-module-scss-module__lhOJ-W__bottom {
+  justify-content: space-between;
+  gap: 50px;
+  display: flex;
+}
+
+.cardEstate-module-scss-module__lhOJ-W__cardContainer .cardEstate-module-scss-module__lhOJ-W__bottom .cardEstate-module-scss-module__lhOJ-W__priceWrapp {
+  flex-direction: column;
+  gap: 2px;
+  font-size: 24px;
+  display: flex;
+}
+
+.cardEstate-module-scss-module__lhOJ-W__cardContainer .cardEstate-module-scss-module__lhOJ-W__bottom .cardEstate-module-scss-module__lhOJ-W__priceWrapp span:first-child {
+  color: var(--grey60);
+  font-size: 18px;
+}
+
+/*# sourceMappingURL=src_ui_cardEstate_cardEstate_module_scss_module_css_bad6b30c._.single.css.map*/

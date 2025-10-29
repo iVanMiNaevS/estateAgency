@@ -1,0 +1,289 @@
+/* [project]/src/app/(home)/home.module.scss.module.css [app-client] (css) */
+.home-module-scss-module__lAHvIa__heroSection {
+  gap: 80px;
+  height: calc(100vh - 151px);
+  margin-top: 60px;
+  display: flex;
+}
+
+.home-module-scss-module__lAHvIa__heroSection .home-module-scss-module__lAHvIa__left {
+  flex-direction: column;
+  gap: 60px;
+  width: 50%;
+  padding-top: 100px;
+  display: flex;
+}
+
+.home-module-scss-module__lAHvIa__heroSection .home-module-scss-module__lAHvIa__right {
+  width: 50%;
+  position: relative;
+}
+
+.home-module-scss-module__lAHvIa__heroSection .home-module-scss-module__lAHvIa__right img {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+}
+
+.home-module-scss-module__lAHvIa__heroSection__mainText {
+  flex-direction: column;
+  gap: 24px;
+  display: flex;
+}
+
+.home-module-scss-module__lAHvIa__heroSection__mainText h1 {
+  font-size: 60px;
+  font-weight: 600;
+}
+
+.home-module-scss-module__lAHvIa__heroSection__mainText p {
+  font-size: 18px;
+  font-weight: medium;
+  color: var(--grey60);
+}
+
+.home-module-scss-module__lAHvIa__heroSection__btns, .home-module-scss-module__lAHvIa__heroSection__stat {
+  gap: 20px;
+  display: flex;
+}
+
+.home-module-scss-module__lAHvIa__heroSection__statBlock {
+  background: var(--grey10);
+  border-radius: 12px;
+  flex-direction: column;
+  gap: 2px;
+  width: 33%;
+  padding: 16px 24px;
+  display: flex;
+}
+
+.home-module-scss-module__lAHvIa__heroSection__statBlock h2 {
+  font-size: 40px;
+}
+
+.home-module-scss-module__lAHvIa__heroSection__statBlock p {
+  color: var(--grey60);
+  font-size: 18px;
+}
+
+.home-module-scss-module__lAHvIa__cardsTextLogoSection {
+  border-top: 15px solid var(--grey10);
+  border-bottom: 15px solid var(--grey10);
+  gap: 20px;
+  padding: 20px;
+  display: flex;
+}
+
+.home-module-scss-module__lAHvIa__recSection {
+  padding-top: var(--sectionPadding);
+  width: 100%;
+}
+
+.home-module-scss-module__lAHvIa__recSection__top {
+  padding-bottom: 80px;
+}
+
+.home-module-scss-module__lAHvIa__recSection__top h2 {
+  padding-bottom: 14px;
+}
+
+.home-module-scss-module__lAHvIa__recSection__top p {
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 20px;
+  display: flex;
+}
+
+.home-module-scss-module__lAHvIa__recSection__top p span {
+  color: var(--grey60);
+  max-width: 1127px;
+  font-size: 18px;
+  line-height: 150%;
+  display: block;
+}
+
+.home-module-scss-module__lAHvIa__recSection__top p a {
+  text-wrap: nowrap;
+  display: block;
+}
+
+/* [project]/src/ui/cardTextLogo/cardTextLogo.module.scss.module.css [app-client] (css) */
+.cardTextLogo-module-scss-module__ty1EXq__container {
+  background: var(--grey10);
+  border-radius: 20px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  padding: 40px 20px;
+  font-size: 20px;
+  display: flex;
+}
+
+/* [project]/src/ui/uiSwiper/uiSwiper.module.scss.module.css [app-client] (css) */
+.uiSwiper-module-scss-module__VuQ7-a__swiperContainer {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.uiSwiper-module-scss-module__VuQ7-a__swiper {
+  width: 100%;
+  height: 100%;
+  padding-bottom: 50px !important;
+}
+
+.uiSwiper-module-scss-module__VuQ7-a__slide {
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  display: flex;
+}
+
+.uiSwiper-module-scss-module__VuQ7-a__controls {
+  border-top: 1px solid var(--grey15);
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 20px;
+  display: flex;
+}
+
+.uiSwiper-module-scss-module__VuQ7-a__navigation {
+  gap: 12px;
+  display: flex;
+}
+
+.uiSwiper-module-scss-module__VuQ7-a__navButton {
+  background: var(--grey10);
+  border: 1px solid var(--grey15);
+  cursor: pointer;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  width: 48px;
+  height: 48px;
+  transition: all .3s;
+  display: flex;
+}
+
+.uiSwiper-module-scss-module__VuQ7-a__navButton:hover {
+  background: var(--grey15);
+}
+
+.uiSwiper-module-scss-module__VuQ7-a__navButton:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+.uiSwiper-module-scss-module__VuQ7-a__navButton svg {
+  width: 20px;
+  height: 20px;
+}
+
+.uiSwiper-module-scss-module__VuQ7-a__prevButton {
+  transform: rotate(-180deg);
+}
+
+.uiSwiper-module-scss-module__VuQ7-a__slidesCounter {
+  color: #666;
+  align-items: center;
+  gap: 5px;
+  font-size: 16px;
+  font-weight: 500;
+  display: flex;
+}
+
+.uiSwiper-module-scss-module__VuQ7-a__currentRange {
+  color: #fff;
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .uiSwiper-module-scss-module__VuQ7-a__controls {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .uiSwiper-module-scss-module__VuQ7-a__slidesCounter {
+    order: -1;
+  }
+
+  .uiSwiper-module-scss-module__VuQ7-a__navButton {
+    width: 40px;
+    height: 40px;
+  }
+
+  .uiSwiper-module-scss-module__VuQ7-a__navButton svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+/* [project]/src/ui/cardEstate/cardEstate.module.scss.module.css [app-client] (css) */
+.cardEstate-module-scss-module__lhOJ-W__cardContainer {
+  border: 1px solid var(--grey15);
+  border-radius: 12px;
+  flex-direction: column;
+  gap: 30px;
+  padding: 30px;
+  display: flex;
+}
+
+.cardEstate-module-scss-module__lhOJ-W__cardContainer .cardEstate-module-scss-module__lhOJ-W__mainImg {
+  object-fit: cover;
+  border-radius: 10px;
+  width: 100%;
+  height: 318px;
+}
+
+.cardEstate-module-scss-module__lhOJ-W__cardContainer .cardEstate-module-scss-module__lhOJ-W__textInfo h4 {
+  padding-bottom: 6px;
+}
+
+.cardEstate-module-scss-module__lhOJ-W__cardContainer .cardEstate-module-scss-module__lhOJ-W__textInfo p {
+  -webkit-line-clamp: 2;
+  text-overflow: ellipsis;
+  color: var(--grey60);
+  -webkit-box-orient: vertical;
+  display: -webkit-box;
+  overflow: hidden;
+}
+
+.cardEstate-module-scss-module__lhOJ-W__cardContainer .cardEstate-module-scss-module__lhOJ-W__options {
+  flex-wrap: wrap;
+  gap: 10px;
+  display: flex;
+}
+
+.cardEstate-module-scss-module__lhOJ-W__cardContainer .cardEstate-module-scss-module__lhOJ-W__options .cardEstate-module-scss-module__lhOJ-W__option {
+  background: var(--grey10);
+  border: 1px solid var(--grey15);
+  border-radius: 30px;
+  align-items: center;
+  gap: 2px;
+  padding: 10px 15px;
+  font-size: 16px;
+  font-weight: 500;
+  display: flex;
+}
+
+.cardEstate-module-scss-module__lhOJ-W__cardContainer .cardEstate-module-scss-module__lhOJ-W__bottom {
+  justify-content: space-between;
+  gap: 50px;
+  display: flex;
+}
+
+.cardEstate-module-scss-module__lhOJ-W__cardContainer .cardEstate-module-scss-module__lhOJ-W__bottom .cardEstate-module-scss-module__lhOJ-W__priceWrapp {
+  flex-direction: column;
+  gap: 2px;
+  font-size: 24px;
+  display: flex;
+}
+
+.cardEstate-module-scss-module__lhOJ-W__cardContainer .cardEstate-module-scss-module__lhOJ-W__bottom .cardEstate-module-scss-module__lhOJ-W__priceWrapp span:first-child {
+  color: var(--grey60);
+  font-size: 18px;
+}
+
+/*# sourceMappingURL=src_80f8cc50._.css.map*/

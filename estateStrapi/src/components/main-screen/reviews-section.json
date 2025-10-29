@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_main_screen_reviews_sections",
+  "info": {
+    "displayName": "reviewsSection"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "text"
+    },
+    "reviews": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::review.review"
+    }
+  },
+  "config": {}
+}

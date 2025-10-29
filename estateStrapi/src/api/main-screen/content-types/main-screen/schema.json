@@ -1,0 +1,30 @@
+{
+  "kind": "singleType",
+  "collectionName": "main_screens",
+  "info": {
+    "singularName": "main-screen",
+    "pluralName": "main-screens",
+    "displayName": "main-screen"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "heroSection": {
+      "type": "component",
+      "component": "main-screen.hero-section",
+      "repeatable": true
+    },
+    "recomendedSection": {
+      "type": "component",
+      "component": "main-screen.recomended-section",
+      "repeatable": true
+    },
+    "reviewsSection": {
+      "type": "component",
+      "component": "main-screen.reviews-section",
+      "repeatable": false
+    }
+  }
+}

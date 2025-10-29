@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 1, "column": 0}, "map": {"version":3,"sources":["turbopack:///turbopack:///[project]/src/ui/cardReview/home/web/web/estateAgency/frontend/src/ui/cardReview/cardReview.module.scss"],"sourcesContent":[".cardContainer {\n\tpadding: 30px;\n\tborder: 1px solid var(--grey15);\n\tborder-radius: 12px;\n\tdisplay: flex;\n\tgap: 30px;\n\tflex-direction: column;\n\t.ratingWrapp {\n\t\tdisplay: flex;\n\t\tgap: 10px;\n\t}\n\t.infoText {\n\t\th4 {\n\t\t\tpadding-bottom: 15px;\n\t\t}\n\t}\n\t.authorWrapp {\n\t\tdisplay: flex;\n\t\tgap: 12px;\n\t\talign-items: center;\n\t\t.authorInfo {\n\t\t\tfont-size: 20px;\n\t\t\t.city {\n\t\t\t\tpadding-top: 3px;\n\t\t\t\tfont-size: 18px;\n\t\t\t\tcolor: var(--grey60);\n\t\t\t}\n\t\t}\n\t}\n}\n"],"names":[],"mappings":"AAAA;;;;;;;;;AAOC;;;;;AAKC;;;;AAID;;;;;;AAIC;;;;AAEC"}}]
+}
