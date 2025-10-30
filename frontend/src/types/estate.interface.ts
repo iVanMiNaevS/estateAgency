@@ -1,15 +1,16 @@
 import {StaticImageData} from "next/image";
+import {IMediaFormat} from "./mediaFormat.interface";
 
 export interface IEstate {
 	id: number;
-	img: StaticImageData | string;
+	poster: IMediaFormat;
 	title: string;
 	description: string;
 	options: {
 		type: "bedrooms" | "showers" | "type";
 		value: number | string;
 		text: string;
-		icon: StaticImageData;
+		icon: IMediaFormat;
 	}[];
 	price: string;
 }

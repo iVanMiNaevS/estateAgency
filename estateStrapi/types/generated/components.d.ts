@@ -6,6 +6,7 @@ export interface EstateOptionsEstate extends Struct.ComponentSchema {
     displayName: 'optionsEstate';
   };
   attributes: {
+    icon: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
     text: Schema.Attribute.Enumeration<
       [
         '\u0421\u043F\u0430\u043B\u044C\u043D\u0438',
@@ -15,6 +16,30 @@ export interface EstateOptionsEstate extends Struct.ComponentSchema {
     >;
     Type: Schema.Attribute.Enumeration<['bedrooms', 'showers', 'type']>;
     value: Schema.Attribute.String;
+  };
+}
+
+export interface FaqSectionQuestion extends Struct.ComponentSchema {
+  collectionName: 'components_faq_section_questions';
+  info: {
+    displayName: 'question';
+  };
+  attributes: {
+    description: Schema.Attribute.Text;
+    slug: Schema.Attribute.String & Schema.Attribute.DefaultTo<'#'>;
+    title: Schema.Attribute.String;
+  };
+}
+
+export interface MainScreenFaqSection extends Struct.ComponentSchema {
+  collectionName: 'components_main_screen_faq_sections';
+  info: {
+    displayName: 'faqSection';
+  };
+  attributes: {
+    description: Schema.Attribute.Text;
+    questions: Schema.Attribute.Component<'faq-section.question', true>;
+    title: Schema.Attribute.String;
   };
 }
 
@@ -55,13 +80,27 @@ export interface MainScreenReviewsSection extends Struct.ComponentSchema {
   };
 }
 
+export interface SeoSeo extends Struct.ComponentSchema {
+  collectionName: 'components_seo_seos';
+  info: {
+    displayName: 'seo';
+  };
+  attributes: {
+    description: Schema.Attribute.Text;
+    title: Schema.Attribute.String;
+  };
+}
+
 declare module '@strapi/strapi' {
   export module Public {
     export interface ComponentSchemas {
       'estate.options-estate': EstateOptionsEstate;
+      'faq-section.question': FaqSectionQuestion;
+      'main-screen.faq-section': MainScreenFaqSection;
       'main-screen.hero-section': MainScreenHeroSection;
       'main-screen.recomended-section': MainScreenRecomendedSection;
       'main-screen.reviews-section': MainScreenReviewsSection;
+      'seo.seo': SeoSeo;
     }
   }
 }

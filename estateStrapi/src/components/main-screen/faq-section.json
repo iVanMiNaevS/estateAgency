@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_main_screen_faq_sections",
+  "info": {
+    "displayName": "faqSection"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "text"
+    },
+    "questions": {
+      "type": "component",
+      "component": "faq-section.question",
+      "repeatable": true
+    }
+  },
+  "config": {}
+}

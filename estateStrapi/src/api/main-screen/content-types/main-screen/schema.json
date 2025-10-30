@@ -14,16 +14,26 @@
     "heroSection": {
       "type": "component",
       "component": "main-screen.hero-section",
-      "repeatable": true
+      "repeatable": false
     },
     "recomendedSection": {
       "type": "component",
       "component": "main-screen.recomended-section",
-      "repeatable": true
+      "repeatable": false
     },
     "reviewsSection": {
       "type": "component",
       "component": "main-screen.reviews-section",
+      "repeatable": false
+    },
+    "faqSection": {
+      "type": "component",
+      "component": "main-screen.faq-section",
+      "repeatable": false
+    },
+    "seo": {
+      "type": "component",
+      "component": "seo.seo",
       "repeatable": false
     }
   }

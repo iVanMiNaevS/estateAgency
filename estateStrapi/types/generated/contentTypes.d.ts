@@ -478,7 +478,8 @@ export interface ApiMainScreenMainScreen extends Struct.SingleTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    heroSection: Schema.Attribute.Component<'main-screen.hero-section', true>;
+    faqSection: Schema.Attribute.Component<'main-screen.faq-section', false>;
+    heroSection: Schema.Attribute.Component<'main-screen.hero-section', false>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -488,12 +489,13 @@ export interface ApiMainScreenMainScreen extends Struct.SingleTypeSchema {
     publishedAt: Schema.Attribute.DateTime;
     recomendedSection: Schema.Attribute.Component<
       'main-screen.recomended-section',
-      true
+      false
     >;
     reviewsSection: Schema.Attribute.Component<
       'main-screen.reviews-section',
       false
     >;
+    seo: Schema.Attribute.Component<'seo.seo', false>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;

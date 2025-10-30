@@ -1,13 +1,13 @@
-import {StaticImageData} from "next/image";
+import {IMediaFormat} from "./mediaFormat.interface";
 
 export interface IReview {
 	id: number;
 	title: string;
 	text: string;
 	rating: number;
-	author: {
+	user: {
 		name: string;
 		city: string;
-		img: StaticImageData | string;
+		img: IMediaFormat | string;
 	};
 }
