@@ -9,12 +9,23 @@ type props = {
 };
 
 export const HeroSection = ({sectionId, data}: props) => {
+	const sectionData = data.heroSection;
+	if (!data) {
+		return (
+			<section id={sectionId} className={styles.heroSection + " container"}>
+				<div className={styles.left}>
+					<h1>Данные временно недоступны</h1>
+					<p>Пожалуйста, попробуйте позже</p>
+				</div>
+			</section>
+		);
+	}
 	return (
 		<section id={sectionId} className={styles.heroSection + " container"}>
 			<div className={styles.left}>
 				<div className={styles.heroSection__mainText}>
-					<h1>{data.heroSection.title}</h1>
-					<p>{data.heroSection.description}</p>
+					<h1>{sectionData.title}</h1>
+					<p>{sectionData.description}</p>
 				</div>
 				<div className={styles.heroSection__btns}>
 					<button className="btn">Узнать больше</button>
@@ -37,10 +48,10 @@ export const HeroSection = ({sectionId, data}: props) => {
 			</div>
 			<div className={styles.right}>
 				<Image
-					src={"http://localhost:1337" + data.heroSection.image.url}
-					width={data.heroSection.image.width}
-					height={data.heroSection.image.height}
-					alt={data.heroSection.image.alternativeText}
+					src={process.env.NEXT_PUBLIC_SERVER_URL + sectionData.image.url}
+					width={sectionData.image.width}
+					height={sectionData.image.height}
+					alt={sectionData.image.alternativeText}
 				/>
 			</div>
 		</section>

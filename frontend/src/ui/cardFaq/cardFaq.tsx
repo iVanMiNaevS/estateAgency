@@ -11,8 +11,8 @@ export const CardFaq: FC<props> = ({faq}) => {
 	return (
 		<div className={styles.cardContainer}>
 			<h4 className="h4">{faq.title}</h4>
-			<p>{faq.text}</p>
-			<Link href={faq.link}>Подробнее</Link>
+			<p>{faq.description}</p>
+			<Link href={faq.slug}>Подробнее</Link>
 		</div>
 	);
 };

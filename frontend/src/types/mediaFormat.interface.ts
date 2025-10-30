@@ -6,7 +6,7 @@ export interface IMediaFormat {
 	caption: string;
 	width: number;
 	height: number;
-	formats: string;
+	formats: {thumbnail: typeThumbnail};
 	hash: string;
 	ext: string;
 	mime: string;
@@ -17,3 +17,11 @@ export interface IMediaFormat {
 	provider_metadata: string;
 	blurHash: string;
 }
+
+type typeThumbnail = {
+	hash: string;
+	height: number;
+	name: string;
+	url: "/uploads/thumbnail_estate1_3d1dbc146f.jpg";
+	width: number;
+};

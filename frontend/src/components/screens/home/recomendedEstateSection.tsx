@@ -3,85 +3,28 @@ import styles from "../../../app/(home)/home.module.scss";
 import Link from "next/link";
 import {AppRouter} from "@/AppRouter";
 import {UiSwiper} from "@/ui/uiSwiper/uiSwiper";
-import estate1 from "@/../public/imgs/estate1.jpg";
-import estate2 from "@/../public/imgs/estate2.jpg";
-import estate3 from "@/../public/imgs/estate3.jpg";
+
 import {CardEstate} from "@/ui/cardEstate/cardEstate";
-import {IEstate} from "@/types/estate.interface";
 
-import bed from "@/../public/icons/bed.svg";
-import homeOne from "@/../public/icons/homeOne.svg";
-import shower from "@/../public/icons/shower.svg";
+import {IMainScreen} from "@/types/screens/mainScreen.interface";
 
-export const RecomendedEstateSection = ({sectionId}: {sectionId: string}) => {
-	const estates: IEstate[] = [
-		{
-			id: 1,
-			img: estate1,
-			title: "Вилла безмятежности на берегу моря",
-			description:
-				"Потрясающая вилла с 4 спальнями и 3 ванными комнатами в тихом пригородном районе бла бла бла",
-			options: [
-				{type: "bedrooms", value: 4, text: "Спальни", icon: bed},
-				{type: "showers", value: 3, text: "Душевых", icon: shower},
-				{type: "type", value: "Villa", text: "Вилла", icon: homeOne},
-			],
-			price: "44, 302, 500",
-		},
-		{
-			id: 2,
-			img: estate2,
-			title: "Вилла безмятежности на берегу моря",
-			description:
-				"Потрясающая вилла с 4 спальнями и 3 ванными комнатами в тихом пригородном районе бла бла бла",
-			options: [
-				{type: "bedrooms", value: 4, text: "Спальни", icon: bed},
-				{type: "showers", value: 3, text: "Душевых", icon: shower},
-				{type: "type", value: "Villa", text: "Вилла", icon: homeOne},
-			],
-			price: "44, 302, 500",
-		},
-		{
-			id: 3,
-			img: estate3,
-			title: "Вилла безмятежности на берегу моря",
-			description:
-				"Потрясающая вилла с 4 спальнями и 3 ванными комнатами в тихом пригородном районе бла бла бла",
-			options: [
-				{type: "bedrooms", value: 4, text: "Спальни", icon: bed},
-				{type: "showers", value: 3, text: "Душевых", icon: shower},
-				{type: "type", value: "Villa", text: "Вилла", icon: homeOne},
-			],
-			price: "44, 302, 500",
-		},
-		{
-			id: 4,
-			img: estate1,
-			title: "Вилла безмятежности на берегу моря",
-			description:
-				"Потрясающая вилла с 4 спальнями и 3 ванными комнатами в тихом пригородном районе бла бла бла",
-			options: [
-				{type: "bedrooms", value: 4, text: "Спальни", icon: bed},
-				{type: "showers", value: 3, text: "Душевых", icon: shower},
-				{type: "type", value: "Villa", text: "Вилла", icon: homeOne},
-			],
-			price: "44, 302, 500",
-		},
-	];
+type props = {
+	sectionId: string;
+	data: IMainScreen;
+};
 
-	const slides = estates.map((estate) => {
+export const RecomendedEstateSection = ({sectionId, data}: props) => {
+	const sectionData = data.recomendedSection;
+
+	const slides = sectionData.estates.map((estate) => {
 		return <CardEstate key={estate.id} estate={estate} />;
 	});
 	return (
 		<section id={sectionId} className={styles.swiperSection + " container"}>
 			<div className={styles.swiperSection__top}>
-				<h2 className="h2">Рекомендуемая недвижемость</h2>
+				<h2 className="h2">{sectionData.title}</h2>
 				<p>
-					<span>
-						Ознакомьтесь с нашей тщательно отобранной подборкой объектов недвижимости. Каждое
-						объявление дает представление об исключительных домах и инвестициях, доступных через
-						ЭлитДом. Нажмите "Просмотреть подробности" для получения дополнительной информации.
-					</span>
+					<span>{sectionData.description}</span>
 					<Link className="buttonLink" href={AppRouter.catalog}>
 						Посмотреть все объекты
 					</Link>

@@ -9,7 +9,13 @@ type props = {
 export const CardEstate: FC<props> = ({estate}) => {
 	return (
 		<div className={styles.cardContainer}>
-			<Image className={styles.mainImg} src={estate.img} alt="изображение недвижимости" />
+			<Image
+				className={styles.mainImg}
+				src={process.env.NEXT_PUBLIC_SERVER_URL + estate.poster.url}
+				alt={estate.poster.alternativeText}
+				width={estate.poster.width}
+				height={estate.poster.height}
+			/>
 			<div className={styles.textInfo}>
 				<h4 className="h4">{estate.title}</h4>
 				<p>{estate.description}</p>
@@ -17,8 +23,13 @@ export const CardEstate: FC<props> = ({estate}) => {
 			<div className={styles.options}>
 				{estate.options.map((option) => {
 					return (
-						<div key={option.type} className={styles.option}>
-							<Image src={option.icon} alt={option.text} />
+						<div key={option.id} className={styles.option}>
+							<Image
+								src={process.env.NEXT_PUBLIC_SERVER_URL + option.icon.url}
+								width={option.icon.width}
+								height={option.icon.height}
+								alt={option.icon.alternativeText || option.text}
+							/>
 							<span>
 								{option.type !== "type" ? option.value + "-" : ""}
 								{option.text}

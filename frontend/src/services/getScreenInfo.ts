@@ -36,7 +36,7 @@ export const getScreenInfo = async <T>(
 		const queryParams = new URLSearchParams(objQuery);
 
 		const res = await fetch(
-			`${"http://localhost:1337/api"}/${endPoint}?${queryParams.toString()}`
+			`${process.env.NEXT_PUBLIC_API_URL}/${endPoint}?${queryParams.toString()}`
 			// {
 			// 	headers: {
 			// 		Authorization: `Bearer ${process.env.NEXT_PUBLIC_APITOKEN}`,

@@ -18,6 +18,11 @@
 		display: flex;
 		gap: 12px;
 		align-items: center;
+		img {
+			width: 60px;
+			height: 60px;
+			border-radius: 100%;
+		}
 		.authorInfo {
 			font-size: 20px;
 			.city {

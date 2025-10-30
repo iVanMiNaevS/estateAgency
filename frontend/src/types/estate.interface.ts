@@ -7,6 +7,7 @@ export interface IEstate {
 	title: string;
 	description: string;
 	options: {
+		id: number;
 		type: "bedrooms" | "showers" | "type";
 		value: number | string;
 		text: string;

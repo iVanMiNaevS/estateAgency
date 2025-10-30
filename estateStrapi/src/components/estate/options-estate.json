@@ -5,7 +5,7 @@
   },
   "options": {},
   "attributes": {
-    "Type": {
+    "type": {
       "type": "enumeration",
       "enum": [
         "bedrooms",
@@ -19,7 +19,7 @@
     "text": {
       "type": "enumeration",
       "enum": [
-        "Спальни",
+        "Спален",
         "Душевых",
         "Вилла"
       ]
@@ -29,9 +29,7 @@
       "multiple": false,
       "allowedTypes": [
         "images",
-        "files",
-        "videos",
-        "audios"
+        "files"
       ]
     }
   },

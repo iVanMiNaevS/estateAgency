@@ -3,7 +3,7 @@ import React, {FC} from "react";
 import styles from "./cardReview.module.scss";
 import Image from "next/image";
 import star from "@/../public/icons/ratingStar.svg";
-
+import profile from "@/../public/imgs/profile.jpg";
 type props = {
 	review: IReview;
 };
@@ -18,13 +18,35 @@ export const CardReview: FC<props> = ({review}) => {
 			</div>
 			<div className={styles.infoText}>
 				<h4 className="h4">{review.title}</h4>
-				<p>{review.text}</p>
+				<p>{review.review}</p>
 			</div>
 			<div className={styles.authorWrapp}>
-				<Image src={review.author.img} alt="Фото автора" />
+				{review.user.avatar ? (
+					<Image
+						src={
+							process.env.NEXT_PUBLIC_SERVER_URL +
+							(!review.user.avatar.formats
+								? review.user.avatar.url
+								: review.user.avatar.formats.thumbnail.url)
+						}
+						width={
+							review.user.avatar.formats
+								? review.user.avatar.formats.thumbnail.width
+								: review.user.avatar.width
+						}
+						height={
+							review.user.avatar.formats
+								? review.user.avatar.formats.thumbnail.height
+								: review.user.avatar.height
+						}
+						alt="Фото автора"
+					/>
+				) : (
+					<Image src={profile} alt="Фото автора" />
+				)}
 				<div className={styles.authorInfo}>
-					<p>{review.author.name}</p>
-					<p className={styles.city}>{review.author.city}</p>
+					<p>{review.user.name}</p>
+					<p className={styles.city}>{review.user.city}</p>
 				</div>
 			</div>
 		</div>

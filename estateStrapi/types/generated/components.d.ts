@@ -6,15 +6,15 @@ export interface EstateOptionsEstate extends Struct.ComponentSchema {
     displayName: 'optionsEstate';
   };
   attributes: {
-    icon: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    icon: Schema.Attribute.Media<'images' | 'files'>;
     text: Schema.Attribute.Enumeration<
       [
-        '\u0421\u043F\u0430\u043B\u044C\u043D\u0438',
+        '\u0421\u043F\u0430\u043B\u0435\u043D',
         '\u0414\u0443\u0448\u0435\u0432\u044B\u0445',
         '\u0412\u0438\u043B\u043B\u0430',
       ]
     >;
-    Type: Schema.Attribute.Enumeration<['bedrooms', 'showers', 'type']>;
+    type: Schema.Attribute.Enumeration<['bedrooms', 'showers', 'type']>;
     value: Schema.Attribute.String;
   };
 }
