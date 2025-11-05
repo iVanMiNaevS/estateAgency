@@ -1,8 +1,11 @@
 .heroSection {
 	margin-top: 60px;
-	display: flex;
-	height: calc(100vh - 151px);
-	gap: 80px;
+	padding: 0px;
+	> div {
+		display: flex;
+		height: calc(100vh - 151px);
+		gap: 80px;
+	}
 	.left {
 		width: 50%;
 		padding-top: 100px;
@@ -61,13 +64,13 @@
 .cardsTextLogoSection {
 	display: flex;
 	padding: 20px;
+	margin-bottom: var(--sectionPadding);
 	gap: 20px;
 	border-top: 15px solid var(--grey10);
 	border-bottom: 15px solid var(--grey10);
 }
 
 .swiperSection {
-	padding-top: var(--sectionPadding);
 	width: 100%;
 	&__top {
 		padding-bottom: 80px;

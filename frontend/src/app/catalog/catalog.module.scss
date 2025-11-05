@@ -1,0 +1,144 @@
+.searchSection {
+	padding-top: 150px;
+	position: relative;
+	.bg {
+		top: 0;
+		position: absolute;
+		background: #1e1e1e;
+		width: 100%;
+		height: 78%;
+		z-index: -1;
+	}
+	p {
+		padding-top: 14px;
+		padding-bottom: 100px;
+		color: var(--grey60);
+		font-size: 18px;
+		font-weight: 500;
+		width: 80%;
+	}
+	form {
+		max-width: 1300px;
+		margin: 0 auto;
+		display: flex;
+		gap: 30px;
+		box-shadow: 0px 0px 0px 10px #191919;
+		border-radius: 12px 12px 0px 0px;
+		background: var(--grey08);
+		border: 1px solid var(--grey15);
+		padding: 24px 14px;
+		align-items: center;
+		justify-content: space-between;
+		input {
+			background: var(--grey08);
+			font-size: 24px;
+			color: white;
+			width: 70%;
+			border: 0;
+		}
+	}
+}
+
+.swiperSection {
+	width: 100%;
+	&__top {
+		padding-bottom: 80px;
+		h2 {
+			padding-bottom: 14px;
+		}
+		p {
+			line-height: 150%;
+			display: block;
+			color: var(--grey60);
+			font-size: 18px;
+			max-width: 1127px;
+		}
+	}
+}
+
+.connSection {
+	width: 100%;
+	&__top {
+		padding-bottom: 80px;
+		h2 {
+			padding-bottom: 14px;
+		}
+		p {
+			line-height: 150%;
+			display: block;
+			color: var(--grey60);
+			font-size: 18px;
+			max-width: 1297px;
+		}
+	}
+	&__form {
+		border-radius: 12px;
+		padding: 100px;
+		border: 1px solid var(--grey15);
+		display: flex;
+		gap: 50px;
+		flex-wrap: wrap;
+		.inputWrapp {
+			display: flex;
+			flex-direction: column;
+			gap: 16px;
+		}
+
+		.inputWrapp,
+		.inputWrapp > input {
+			flex: calc(25% - 50px);
+		}
+
+		.inputWrappInner {
+			display: flex;
+			gap: 16px;
+			div {
+				position: relative;
+				&::before {
+					cursor: pointer;
+					position: absolute;
+					right: 24px;
+					top: 50%;
+					transform: translateY(-50%);
+					content: "";
+					width: 16px;
+					height: 16px;
+					background: var(--purple60);
+					border-radius: 100%;
+					transition: 0.3s;
+					border: 1px solid var(--purple60);
+				}
+			}
+			div.notActive {
+				&::before {
+					cursor: pointer;
+					background: transparent;
+					border: 1px solid var(--purple60);
+				}
+			}
+			input {
+				padding-left: 60px;
+				padding-right: 52px;
+				background-repeat: no-repeat;
+				background-position: 24px center;
+			}
+
+			input.phone {
+				background-image: url("/icons/phone.svg");
+			}
+			input.email {
+				background-image: url("/icons/email2.svg");
+			}
+		}
+
+		.inputWrappHalf,
+		.inputWrappHalf > input {
+			flex: calc(50% - 50px);
+		}
+		.inputWrappArea,
+		.inputWrappArea > textarea {
+			flex: 100%;
+			min-height: 170px;
+		}
+	}
+}

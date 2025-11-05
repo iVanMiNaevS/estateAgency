@@ -10,7 +10,7 @@
 
 	--white: #ffffff;
 
-	--sectionPadding: 150px;
+	--sectionPadding: 75px;
 }
 
 html,
@@ -26,7 +26,20 @@ body {
 	-moz-osx-font-smoothing: grayscale;
 	color: var(--white);
 }
-
+main {
+	min-height: calc(39.5vh);
+}
+input,
+textarea {
+	outline: none;
+	font-size: 18px;
+	width: 100%;
+	background-color: var(--grey10);
+	color: white;
+	border-radius: 12px;
+	border: 1px solid var(--grey15);
+	padding: 18px;
+}
 * {
 	box-sizing: border-box;
 	padding: 0;
@@ -56,6 +69,9 @@ body {
 	font-size: 18px;
 	border-radius: 10px;
 	height: fit-content;
+}
+section {
+	padding: var(--sectionPadding) 0px;
 }
 a {
 	color: inherit;
