@@ -10,27 +10,25 @@ export const Footer = () => {
 		{
 			page: {text: "Главная", link: AppRouter.home},
 			anchors: [
-				{text: "Встречающая секция", link: "#main-heroSection"},
-				{text: "Рекомендуемые объекты", link: "#main-recomendedEstateSection"},
-				{text: "Отзывы", link: "#main-recomendedEstateSection"},
-				{text: "Часто задаваемые вопросы", link: "#main-faqSection"},
+				{text: "Встречающая секция", link: `${AppRouter.home}#main-heroSection`},
+				{text: "Рекомендуемые объекты", link: `${AppRouter.home}#main-recomendedEstateSection`},
+				{text: "Отзывы", link: `${AppRouter.home}#main-recomendedEstateSection`},
+				{text: "Часто задаваемые вопросы", link: `${AppRouter.home}#main-faqSection`},
 			],
 		},
 		{
 			page: {text: "О нас", link: AppRouter.about},
 			anchors: [
-				{text: "Наш путь", link: "#"},
-				{text: "Наши ценности", link: "#"},
-				{text: "Наши достижения", link: "#"},
-				{text: "Наша команда", link: "#"},
-				{text: "Наши клиенты", link: "#"},
+				{text: "Наш путь", link: `${AppRouter.about}#about-ourWaySection`},
+				{text: "Наши ценности", link: `${AppRouter.about}#about-ourValuesSection`},
+				{text: "Наши достижения", link: `${AppRouter.about}#about-ourAch`},
 			],
 		},
 		{
 			page: {text: "Каталог", link: AppRouter.catalog},
 			anchors: [
-				{text: "Недвижимость", link: "#catalog-catalogSection"},
-				{text: "Связь", link: "#"},
+				{text: "Недвижимость", link: "catalog-catalogSection"},
+				{text: "Связь", link: "#catalog-connSection"},
 			],
 		},
 		{

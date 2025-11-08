@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../../../app/(home)/home.module.scss";
+import styles from "../../../app/(withHeaderFooter)/(home)//home.module.scss";
 import Link from "next/link";
 import {AppRouter} from "@/AppRouter";
 import {UiSwiper} from "@/ui/uiSwiper/uiSwiper";

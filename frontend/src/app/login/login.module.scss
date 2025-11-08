@@ -1,0 +1,90 @@
+.container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 100vh;
+	form {
+		max-width: 700px;
+		width: 100%;
+		padding: 100px 50px 40px;
+		background: #1a1a1a;
+		border: 1px solid var(--grey15);
+		border-radius: 12px;
+		.top {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			font-size: 54px;
+			font-weight: 800;
+			width: 100%;
+			padding-bottom: 50px;
+			img {
+				margin-bottom: -15px;
+			}
+		}
+		.inputs {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 50px;
+			row-gap: 30px;
+			input {
+				background: var(--grey15);
+			}
+			.inputWithIcon {
+				padding-left: 50px;
+				background-repeat: no-repeat;
+				background-position: 20px center;
+			}
+			.inputWithIcon[type="email"] {
+				background-image: url(/icons/email2.svg);
+			}
+
+			.inputWithIcon[type="password"] {
+				background-image: url(/icons/lock.svg);
+			}
+		}
+		.inputWrapp {
+			display: flex;
+			flex-direction: column;
+			gap: 16px;
+			flex: 100%;
+		}
+		.acceptWrapp {
+			display: flex;
+			padding: 25px 0px;
+			align-items: center;
+			padding-bottom: 30px;
+			.checkbox {
+				margin-right: 10px;
+				width: 28px;
+				height: 28px;
+				background: var(--grey15);
+				border-radius: 4px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				color: var(--purple60);
+				font-size: 23px;
+				cursor: pointer;
+			}
+
+			p {
+				color: var(--grey60);
+			}
+		}
+		.bottom {
+			display: flex;
+			gap: 50px;
+			align-items: center;
+			p {
+				font-size: 20px;
+				font-weight: 600;
+				a {
+					color: var(--purple60);
+					text-decoration: underline;
+					margin-left: 7px;
+				}
+			}
+		}
+	}
+}

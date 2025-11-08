@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../../../app/catalog/catalog.module.scss";
+import styles from "../../../app/(withHeaderFooter)/catalog/catalog.module.scss";
 import {IMainScreen} from "@/types/screens/mainScreen.interface";
 import {UiSwiper} from "@/ui/uiSwiper/uiSwiper";
 import {CardEstate} from "@/ui/cardEstate/cardEstate";

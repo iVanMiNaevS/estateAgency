@@ -1,8 +1,12 @@
 "use client";
 import React, {useState} from "react";
-import styles from "../../../app/catalog/catalog.module.scss";
+import styles from "../../../app/(withHeaderFooter)/catalog/catalog.module.scss";
 
-export const ConnSection = () => {
+type props = {
+	sectionId: string;
+};
+
+export const ConnSection = ({sectionId}: props) => {
 	const [activeMethod, setActiveMethod] = useState<"phone" | "email">("phone");
 
 	return (

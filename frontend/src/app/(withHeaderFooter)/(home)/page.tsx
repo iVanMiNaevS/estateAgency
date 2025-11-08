@@ -41,12 +41,12 @@ export default async function Home() {
 		"seo",
 	]);
 	return (
-		<div className="">
+		<main className="">
 			<HeroSection sectionId="main-heroSection" data={data.data} />
 			<CardTextLogoSection sectionId="main-cardTextLogoSection" />
 			<RecomendedEstateSection sectionId="main-recomendedEstateSection" data={data.data} />
 			<ReviewsSection sectionId="main-reviewsSection" data={data.data} />
 			<FaqSection sectionId="main-faqSection" data={data.data} />
-		</div>
+		</main>
 	);
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "@/app/(home)/home.module.scss";
+import styles from "@/app/(withHeaderFooter)/(home)//home.module.scss";
 import Image from "next/image";
 import {IMainScreen} from "@/types/screens/mainScreen.interface";
 

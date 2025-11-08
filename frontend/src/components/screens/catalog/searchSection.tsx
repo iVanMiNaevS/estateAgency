@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../../../app/catalog/catalog.module.scss";
+import styles from "../../../app/(withHeaderFooter)/catalog/catalog.module.scss";
 
 export const SearchSection = () => {
 	return (

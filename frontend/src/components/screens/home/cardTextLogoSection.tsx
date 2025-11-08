@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../../../app/(home)/home.module.scss";
+import styles from "../../../app/(withHeaderFooter)/(home)/home.module.scss";
 import homeLogo from "@/../public/icons/home.svg";
 import buildingLogo from "@/../public/icons/building.svg";
 import sunLogo from "@/../public/icons/sun.svg";
