@@ -33,7 +33,7 @@ export const OurAchSection = ({sectionId}: props) => {
 			<div className={styles.ourAchSection__body}>
 				{achs.map((ach) => {
 					return (
-						<div className={styles.ourAchSection__bodyItem}>
+						<div key={ach.title} className={styles.ourAchSection__bodyItem}>
 							<h3>{ach.title}</h3>
 							<p>{ach.text}</p>
 						</div>
