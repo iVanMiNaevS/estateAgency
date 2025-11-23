@@ -13,5 +13,8 @@ export interface IEstate {
 		text: string;
 		icon: IMediaFormat;
 	}[];
+	images: IMediaFormat[];
+	address: string;
+	slug: string;
 	price: string;
 }

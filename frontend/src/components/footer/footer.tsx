@@ -27,8 +27,16 @@ export const Footer = () => {
 		{
 			page: {text: "Каталог", link: AppRouter.catalog},
 			anchors: [
-				{text: "Недвижимость", link: "catalog-catalogSection"},
-				{text: "Связь", link: "#catalog-connSection"},
+				{text: "Поиск", link: `${AppRouter.catalog}#catalog-catalogSearch`},
+				{text: "Недвижимость", link: `${AppRouter.catalog}#catalog-catalogSection`},
+				{text: "Форма связи", link: `${AppRouter.catalog}#catalog-connSection`},
+			],
+		},
+		{
+			page: {text: "Котнакты", link: AppRouter.contact},
+			anchors: [
+				{text: "Контакты", link: `${AppRouter.contact}#contact-sectionCardText`},
+				{text: "Форма связи", link: `${AppRouter.contact}#contact-sectionForm`},
 			],
 		},
 		{

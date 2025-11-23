@@ -3,7 +3,7 @@ import {CardTextLogoSection} from "@/components/screens/home/cardTextLogoSection
 import {RecomendedEstateSection} from "@/components/screens/home/recomendedEstateSection";
 import {ReviewsSection} from "@/components/screens/home/reviewsSection";
 import {FaqSection} from "@/components/screens/home/faqSection";
-import {getScreenInfo} from "@/services/getScreenInfo";
+import {getScreenInfo} from "@/services/getInfo";
 import {IMainScreen} from "@/types/screens/mainScreen.interface";
 import {Metadata} from "next";
 

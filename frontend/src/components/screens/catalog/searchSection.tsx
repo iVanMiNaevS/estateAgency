@@ -1,9 +1,13 @@
 import React from "react";
 import styles from "../../../app/(withHeaderFooter)/catalog/catalog.module.scss";
 
-export const SearchSection = () => {
+type props = {
+	sectionId: string;
+};
+
+export const SearchSection = ({sectionId}: props) => {
 	return (
-		<section className={styles.searchSection}>
+		<section className={styles.searchSection} id={sectionId}>
 			<div className={styles.bg}></div>
 			<div className="container">
 				<div className={styles.textContainer}>

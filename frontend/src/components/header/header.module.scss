@@ -34,5 +34,8 @@
 		.buttonLink:hover {
 			background: var(--grey10);
 		}
+		.active.buttonLink:hover{
+			background: var(--purple60);
+		}
 	}
 }

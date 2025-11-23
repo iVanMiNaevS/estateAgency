@@ -10,7 +10,7 @@ export const ConnSection = ({sectionId}: props) => {
 	const [activeMethod, setActiveMethod] = useState<"phone" | "email">("phone");
 
 	return (
-		<section className={styles.connSection}>
+		<section className={styles.connSection} id={sectionId}>
 			<div className="container">
 				<div className={styles.connSection__top}>
 					<h2 className="h2">Давайте сделаем так, чтобы это произошло</h2>

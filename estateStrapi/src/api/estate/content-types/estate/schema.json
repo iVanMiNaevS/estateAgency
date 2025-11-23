@@ -40,6 +40,18 @@
     "slug": {
       "type": "uid",
       "targetField": "title"
+    },
+    "address": {
+      "type": "string",
+      "default": "Russia, Moscow"
+    },
+    "images": {
+      "type": "media",
+      "multiple": true,
+      "allowedTypes": [
+        "images",
+        "files"
+      ]
     }
   }
 }
