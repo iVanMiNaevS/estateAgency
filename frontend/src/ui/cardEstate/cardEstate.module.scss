@@ -56,3 +56,11 @@
 		}
 	}
 }
+@media (max-width: 1024px) {
+	.cardContainer{
+		.bottom{
+			flex-direction: column;
+			gap: 20px;
+		}
+	}
+}

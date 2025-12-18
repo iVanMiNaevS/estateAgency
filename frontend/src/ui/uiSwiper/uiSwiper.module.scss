@@ -73,26 +73,38 @@
 .currentRange {
 	font-weight: 600;
 	color: white;
+}.swiperSkeleton {
+  display: flex;
+  gap: 20px;
+  width: 100%;
 }
 
-// Адаптивность
-@media (max-width: 768px) {
-	.controls {
-		flex-direction: column;
-		gap: 16px;
-	}
-
-	.slidesCounter {
-		order: -1; // Перемещаем счетчик вверх на мобильных
-	}
-
-	.navButton {
-		width: 40px;
-		height: 40px;
-
-		svg {
-			width: 16px;
-			height: 16px;
-		}
-	}
+.skeletonSlide {
+  flex: 1;
+  min-height: 200px;
+   background: linear-gradient(90deg, var(--grey10) 25%, var(--grey15) 50%, var(--grey10) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 8px;
+  
+  // Адаптивность скелетона
+  @media (max-width: 768px) {
+    &:nth-child(n+2) {
+      display: none;
+    }
+  }
+  
+  @media (min-width: 769px) and (max-width: 1023px) {
+    &:nth-child(n+3) {
+      display: none;
+    }
+  }
+}
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
 }

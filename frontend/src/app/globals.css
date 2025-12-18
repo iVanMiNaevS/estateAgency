@@ -114,3 +114,20 @@ button {
 .btn-purple:hover {
 	background: var(--purple70);
 }
+
+@media (max-width: 1440px) {
+	.container {
+		max-width: 1024px;
+		margin: 0 auto;
+		width: 100%;
+		padding: 0px 20px;
+	}
+}
+@media (max-width: 1024px){
+	:root{
+		--sectionPadding: 50px;
+	}
+	.container{
+		max-width: 768px;
+	}
+}

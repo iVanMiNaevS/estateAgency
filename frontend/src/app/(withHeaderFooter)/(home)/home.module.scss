@@ -96,3 +96,34 @@
 		}
 	}
 }
+
+@media (max-width:1440px) {
+	.heroSection {
+		.left{
+			width: 100%;
+		}
+		.right {
+			display: none;
+		}
+	}
+}
+@media (max-width:1024px) {
+	.heroSection{
+		margin-top: 0px;
+		height: calc(100vh - 200px);
+		padding: 0px;
+	}
+	.cardsTextLogoSection{
+		flex-wrap: wrap;
+	}
+	.swiperSection{
+		&__top{
+			padding-bottom: 50px;
+			p{
+				flex-direction: column;
+				align-items: flex-start;
+			}
+			
+		}
+	}
+}

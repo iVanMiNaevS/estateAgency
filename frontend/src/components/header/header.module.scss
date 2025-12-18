@@ -23,7 +23,7 @@
 		a.activeBtn {
 			background: var(--purple60);
 		}
-		nav {
+		nav{
 			a:not(.active):hover {
 				color: var(--purple60);
 			}
@@ -31,11 +31,58 @@
 			gap: 30px;
 			align-items: center;
 		}
+		.buttonLink.mob{
+			display: none;
+		}
 		.buttonLink:hover {
 			background: var(--grey10);
 		}
 		.active.buttonLink:hover{
 			background: var(--purple60);
+		}
+	}
+}
+.mobileMenuButton {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--white);
+  font-size: 24px;
+  cursor: pointer;
+  padding: 5px;
+}
+
+@media (max-width:768px) {
+	.mobileMenuButton {
+    	display: block;
+  	}
+	.header{
+		position: relative;
+		&__container{
+			nav {
+				display: none;
+				&.active{
+					z-index: 4;
+					width: 100%;
+					background: var(--grey10);
+					display: flex;
+					flex-direction: column;
+					padding: 20px 0px;
+					position: absolute;
+					bottom: 0;
+					left: 0;
+					transform: translateY(100%);
+				}
+			}
+			.buttonLink{
+				display: none;
+				&.activeMob{
+					display: flex;
+				}
+				&.activeMob.active{
+					background: var(--grey10);
+				}
+			}
 		}
 	}
 }

@@ -1,15 +1,13 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import styles from "./uiSwiper.module.scss";
 import {Swiper, SwiperSlide} from "swiper/react";
 import {Navigation, Autoplay} from "swiper/modules";
-import row from "@/../public/icons/rowWhite.svg";
 
 // Импортируем стили Swiper
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import Image from "next/image";
 
 export interface UiSwiperProps {
 	slides: React.ReactNode[];
@@ -22,7 +20,7 @@ export interface UiSwiperProps {
 	navigation?: boolean;
 	loop?: boolean;
 	className?: string;
-	showCount?: boolean; // Показывать счетчик "3/60"
+	showCount?: boolean;
 }
 
 export const UiSwiper: React.FC<UiSwiperProps> = ({
@@ -35,15 +33,59 @@ export const UiSwiper: React.FC<UiSwiperProps> = ({
 	className = "",
 	showCount = true,
 }) => {
-	const swiperRef = React.useRef<any>(null);
-	const [activeIndex, setActiveIndex] = React.useState(0);
-	const [totalSlides, setTotalSlides] = React.useState(0);
+	const swiperRef = useRef<any>(null);
+	const [activeIndex, setActiveIndex] = useState(0);
+	const [totalSlides, setTotalSlides] = useState(0);
+	const [windowWidth, setWindowWidth] = useState<number | null>(null);
+	const [isMounted, setIsMounted] = useState(false);
 
-	React.useEffect(() => {
-		if (swiperRef.current) {
-			setTotalSlides(swiperRef.current.swiper.slides.length);
-		}
+	// Определяем ширину экрана сразу при монтировании
+	useEffect(() => {
+		setIsMounted(true);
+		// Устанавливаем ширину сразу
+		setWindowWidth(window.innerWidth);
+		
+		const handleResize = () => {
+			setWindowWidth(window.innerWidth);
+		};
+		
+		window.addEventListener('resize', handleResize);
+		
+		return () => {
+			window.removeEventListener('resize', handleResize);
+		};
 	}, []);
+
+	// Обновляем свайпер при изменении ширины
+	useEffect(() => {
+		if (swiperRef.current && windowWidth !== null) {
+			// Немного задержки для стабильности
+			setTimeout(() => {
+				swiperRef.current.swiper.update();
+			}, 10);
+		}
+	}, [windowWidth]);
+
+	const getAdjustedSlidesPerView = useCallback(() => {
+		if (windowWidth === null) {
+			// При первой загрузке показываем дефолтное значение
+			return slidesPerView;
+		}
+		
+		if (windowWidth >= 1440) {
+			return slidesPerView; // На 1440px и больше - 2 слайда
+		} else if (windowWidth >= 1024) {
+			return 2; // На 1024px - 1440px - дефолтное количество
+		} else if (windowWidth >= 768) {
+			return 2; // На 768px - 1024px - 2 слайда
+		} else if (windowWidth >= 480) {
+			return 1; // На маленьких планшетах - 1 слайд
+		} else {
+			return 1; // На мобильных - 1 слайд
+		}
+	}, [windowWidth, slidesPerView]);
+
+	const adjustedSlidesPerView = getAdjustedSlidesPerView();
 
 	const nextSlide = () => {
 		if (swiperRef.current) {
@@ -61,29 +103,47 @@ export const UiSwiper: React.FC<UiSwiperProps> = ({
 		setActiveIndex(swiper.activeIndex);
 	};
 
+	const onInit = (swiper: any) => {
+		setTotalSlides(swiper.slides.length);
+	};
+
 	const getCurrentRange = () => {
 		const start = activeIndex + 1;
-		const end = Math.min(activeIndex + slidesPerView, totalSlides);
+		const end = Math.min(activeIndex + adjustedSlidesPerView, totalSlides);
 		return {start, end};
 	};
 
 	const {start, end} = getCurrentRange();
+
+	// Оптимизация: скрываем свайпер до определения ширины
+	if (!isMounted) {
+		return (
+			<div className={`${styles.swiperContainer} ${className}`}>
+				<div className={styles.swiperSkeleton}>
+					{/* Скелетон для предотвращения мерцания */}
+					{slides.slice(0, 3).map((_, index) => (
+						<div key={index} className={styles.skeletonSlide} />
+					))}
+				</div>
+			</div>
+		);
+	}
 
 	return (
 		<div className={`${styles.swiperContainer} ${className}`}>
 			<Swiper
 				ref={swiperRef}
 				modules={[Navigation, Autoplay]}
-				slidesPerView={slidesPerView}
+				slidesPerView={adjustedSlidesPerView}
 				spaceBetween={spaceBetween}
 				navigation={false}
 				autoplay={autoplay}
 				loop={loop}
 				onSlideChange={onSlideChange}
-				onInit={(swiper) => {
-					setTotalSlides(swiper.slides.length);
-				}}
+				onInit={onInit}
 				className={styles.swiper}
+				// Ключ для принудительного ререндера при изменении настроек
+				key={`swiper-${adjustedSlidesPerView}-${windowWidth}`}
 			>
 				{slides.map((slide, index) => (
 					<SwiperSlide key={index} className={styles.slide}>
@@ -130,7 +190,7 @@ export const UiSwiper: React.FC<UiSwiperProps> = ({
 							onClick={nextSlide}
 							className={`${styles.navButton} ${styles.nextButton}`}
 							aria-label="Следующий слайд"
-							disabled={activeIndex === totalSlides - 3}
+							disabled={activeIndex + adjustedSlidesPerView >= totalSlides}
 						>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"

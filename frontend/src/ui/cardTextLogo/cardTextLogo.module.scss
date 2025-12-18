@@ -9,4 +9,12 @@
 	justify-content: center;
 	border-radius: 20px;
 	font-size: 20px;
+	p{
+		text-align: center;
+	}
+}
+@media (max-width: 1024px) {
+	.container{
+		width: calc(50% - 10px);
+	}
 }
