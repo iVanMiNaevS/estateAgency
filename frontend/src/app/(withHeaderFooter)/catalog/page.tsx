@@ -4,7 +4,7 @@ import {SearchSection} from "@/components/screens/catalog/searchSection";
 import {getObjects} from "@/services/getInfo";
 import {IEstate} from "@/types/estate.interface";
 import React from "react";
-
+import styles from './catalog.module.scss'
 export const Metadata = {
 	title: "ЭлитДом - Каталог",
 };

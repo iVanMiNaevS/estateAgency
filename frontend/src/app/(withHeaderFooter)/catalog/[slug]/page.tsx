@@ -62,8 +62,6 @@ const page = async ({params}: PageProps) => {
 				<UiSwiper slides={slides} />
 			</section>
 			<section className={styles.descSection}>
-				<h4 className="h4">Описание</h4>
-				<p>{estate.description}</p>
 				<div className={styles.descSection__options}>
 					{estate.options.map((option) => {
 						return (
@@ -82,6 +80,8 @@ const page = async ({params}: PageProps) => {
 						);
 					})}
 				</div>
+				<h4 className="h4">Описание</h4>
+				<p>{estate.description}</p>
 			</section>
 		</div>
 	);

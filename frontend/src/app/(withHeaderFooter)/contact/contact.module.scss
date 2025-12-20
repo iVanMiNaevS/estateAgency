@@ -4,6 +4,7 @@
 		color: var(--grey60);
 		font-size: 18px;
 		line-height: 150%;
+		padding-top: 20px;
 		margin-bottom: 80px;
 	}
 }
@@ -22,6 +23,7 @@
 			color: var(--grey60);
 			font-size: 18px;
 			line-height: 150%;
+			margin-top: 20px;
 			margin-bottom: 80px;
 		}
 	}
@@ -79,5 +81,92 @@
 		width: 100%;
 		display: flex;
 		justify-content: space-between;
+	}
+}
+@media (max-width:1024px) {
+	.cardsTextLogoSection {
+		flex-wrap: wrap;
+	}
+	.formSection{
+		form{
+			gap: 30px;
+			.inputWrapp,
+			.inputWrapp > input {
+				flex: calc(50% - 50px);
+			}
+			.inputWrappArea,
+			.inputWrappArea > textarea {
+				flex: 100%;
+				min-height: 170px;
+			}
+			.inputWrappFull,
+			.inputWrappFull > input {
+				flex: 100%;
+			}
+			.acceptWrapp {
+			}
+		}
+		&__bottomWrapp{
+			flex-direction: column;
+		}
+	}
+}
+@media (max-width:768px) {
+	.helloSection{
+		margin-top: 0px;
+		&__desc{
+			margin-bottom: 0px;
+		}
+	}
+	.formSection{
+		form{
+			padding: 40px;
+			.inputWrapp,
+			.inputWrapp > input {
+				flex: calc(100%);
+			}
+			.inputWrappArea,
+			.inputWrappArea > textarea {
+				flex: 100%;
+				min-height: 170px;
+			}
+			.inputWrappFull,
+			.inputWrappFull > input {
+				flex: 100%;
+			}
+		}
+
+	}
+}
+@media (max-width:576px) {
+	.formSection{
+		form{
+			padding: 40px;
+			.inputWrapp,
+			.inputWrapp > input {
+				font-size: 16px;
+				flex: calc(100%);
+			}
+			.inputWrappArea,
+			.inputWrappArea > textarea {
+				flex: 100%;
+				min-height: 170px;
+				font-size: 16px;
+			}
+			.inputWrappFull,
+			.inputWrappFull > input {
+				flex: 100%;
+				font-size: 16px;
+			}
+		}
+
+	}
+	.acceptWrapp {
+		.checkbox {
+			min-width: 28px;
+		}
+		p{
+			font-size: 14px;
+		}
 	}
 }

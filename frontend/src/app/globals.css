@@ -116,6 +116,9 @@ button {
 }
 
 @media (max-width: 1440px) {
+	:root{
+		--sectionPadding: 60px;
+	}
 	.container {
 		max-width: 1024px;
 		margin: 0 auto;
@@ -129,5 +132,27 @@ button {
 	}
 	.container{
 		max-width: 768px;
+	}
+	.h4 {
+		font-size: 20px;
+		font-weight: 600;
+	}
+}
+@media (max-width:768px) {
+	.container{
+		max-width: 576px;
+	}
+}
+@media (max-width:576px) {
+	.btn, .btn-purple {
+		padding: 16px 22px;
+		font-size: 16px;
+	}
+	.h2{
+		font-size: 28px;
+	}
+	.buttonLink {
+		padding: 16px 22px;
+		font-size: 16px;
 	}
 }

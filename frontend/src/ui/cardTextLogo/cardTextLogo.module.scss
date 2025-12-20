@@ -18,3 +18,16 @@
 		width: calc(50% - 10px);
 	}
 }
+@media (max-width:576px) {
+	.container{
+		gap: 10px;
+		p{
+			font-size: 16px;
+		}
+	}
+}
+@media (max-width:400px) {
+	.container{
+		width: 100%;
+	}
+}

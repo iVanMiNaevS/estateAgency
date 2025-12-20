@@ -2,6 +2,7 @@ import React from "react";
 import styles from "@/app/(withHeaderFooter)/(home)//home.module.scss";
 import Image from "next/image";
 import {IMainScreen} from "@/types/screens/mainScreen.interface";
+import Link from "next/link";
 
 type props = {
 	sectionId: string;
@@ -32,7 +33,7 @@ export const HeroSection = ({sectionId, data}: props) => {
 					</div>
 					<div className={styles.heroSection__btns}>
 						<button className="btn">Узнать больше</button>
-						<button className="btn-purple">Посмотреть недвижимость</button>
+						<Link href={'/#main-recomendedEstateSection'} className="btn-purple">Посмотреть недвижимость</Link>
 					</div>
 					<div className={styles.heroSection__stat}>
 						<div className={styles.heroSection__statBlock}>
@@ -49,14 +50,12 @@ export const HeroSection = ({sectionId, data}: props) => {
 						</div>
 					</div>
 				</div>
-				<div className={styles.right}>
 					<Image
 						src={process.env.NEXT_PUBLIC_SERVER_URL + sectionData.image.url}
 						width={sectionData.image.width}
 						height={sectionData.image.height}
 						alt={sectionData.image.alternativeText}
 					/>
-				</div>
 			</div>
 		</section>
 	);

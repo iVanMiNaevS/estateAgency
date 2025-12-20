@@ -5,10 +5,12 @@ import React from "react";
 
 const Page = () => {
 	return (
-		<main className="container">
+		<main>
 			<OurWaySection sectionId="about-ourWaySection" />
-			<OurValuesSection sectionId="about-ourValuesSection" />
-			<OurAchSection sectionId="about-ourAch" />
+			<div className="container">
+				<OurAchSection sectionId="about-ourAch" />
+				<OurValuesSection sectionId="about-ourValuesSection" />
+			</div>
 		</main>
 	);
 };

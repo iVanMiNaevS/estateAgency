@@ -23,7 +23,7 @@ export const OurAchSection = ({sectionId}: props) => {
 	return (
 		<section id={sectionId} className={styles.ourAchSection}>
 			<div className={styles.ourAchSection__top}>
-				<h2 className="h2">Нащи достижения</h2>
+				<h2 className="h2">Наши достижения</h2>
 				<p>
 					За годы работы мы не просто закрывали сделки — мы создавали истории. Но главное наше
 					достижение — не цифры, а ваши эмоции в день, когда ключи наконец оказываются в ваших

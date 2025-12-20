@@ -1,7 +1,10 @@
 .ourWaySection {
-	display: flex;
-	gap: 80px;
-	justify-content: space-between;
+	background: linear-gradient(30deg, var(--grey08) 40%, #99999920 60%,#99999940 100%);
+	>div{
+		display: flex;
+		gap: 80px;
+		justify-content: space-between;
+	}
 	&__text {
 		padding: 54px 0px;
 		h1 {
@@ -111,6 +114,129 @@
 			p {
 				color: var(--grey60);
 				font-size: 18px;
+			}
+		}
+	}
+}
+@media (max-width:1440px) {
+	.ourWaySection{
+		background: none;
+		>div{
+			gap: 40px;
+		}
+		&__text{
+			width: 50%;
+		}
+		img{
+			width: calc(50% - 40px);
+			border-radius: 10px;
+		}
+	}
+	.ourValuesSection{
+		flex-direction: column;
+	}
+}
+@media (max-width: 1024px) {
+	.ourWaySection{
+		>div{
+
+			gap: 40px;
+			flex-direction: column-reverse;
+		}
+		&__text{
+			width: 100%;
+			padding: 0px;
+		}
+		img{
+			background: linear-gradient(-30deg, var(--grey10) 60%, #99999940 100%);
+			border: 1px solid var(--grey15);
+			width: calc(100%);
+			border-radius: 10px;
+		}
+	}
+	.ourAchSection{
+		&__body{
+			flex-wrap: wrap;
+		}
+	}
+}
+@media (max-width: 768px) {
+	.ourValuesSection{
+		&__values{
+			.value{
+				width: 100%;
+				padding: 30px 0px;
+				border-top: 1px solid var(--grey15);
+			}
+			.value:first-child{
+				border-top: none;
+				padding-top: 0px;
+			}
+			.value:last-child{
+				padding-bottom: 0px;
+			}
+			.value.borderRight {
+				padding-left: 0px;
+				border-right: none;
+			}
+			.value.borderTop {
+				padding-top: 30px;
+			}
+		}
+	}
+}
+@media (max-width:576px) {
+	.ourWaySection {
+		&__desc{
+			margin-bottom: 40px;
+			font-size: 16px;
+		}
+		&__stat {
+			flex-direction: column;
+			&Block {
+				width: 100%;
+				flex-direction: row;
+				align-items: center;
+				gap: 20px;
+			}
+		}
+		img{
+			height: 300px;
+		}
+	}
+	.ourValuesSection{
+		&__values{
+			padding: 30px;
+		}
+	}
+	.ourAchSection{
+		&__top {
+			p {
+				font-size: 16px;
+			}
+		}
+		&__body{
+			flex-wrap: wrap;
+			&Item {
+				padding: 30px;
+				gap: 20px;
+				h3 {
+					font-size: 22px;
+				}
+				p{
+					font-size: 16px;
+				}
+			}
+		}
+	}
+}
+@media (max-width:400px){
+	.ourWaySection {
+		&__stat {
+			&Block {
+				gap: 0px;
+				flex-direction: column;
+				text-align: center;
 			}
 		}
 	}

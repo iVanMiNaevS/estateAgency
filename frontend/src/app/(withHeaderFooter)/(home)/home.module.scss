@@ -1,6 +1,7 @@
 .heroSection {
-	margin-top: 60px;
 	padding: 0px;
+	padding-top: 60px;
+	background: linear-gradient(30deg, var(--grey08) 40%, #703bf750 100%);
 	> div {
 		display: flex;
 		height: calc(100vh - 151px);
@@ -13,15 +14,12 @@
 		flex-direction: column;
 		gap: 60px;
 	}
-	.right {
-		position: relative;
-		width: 50%;
 		img {
-			position: absolute;
+			position: relative;
 			bottom: 0px;
-			width: 100%;
+			width: 50%;
+			height: 100%;
 		}
-	}
 	&__mainText {
 		display: flex;
 		flex-direction: column;
@@ -39,6 +37,7 @@
 	&__btns {
 		display: flex;
 		gap: 20px;
+		text-align: center;
 	}
 	&__stat {
 		display: flex;
@@ -99,20 +98,29 @@
 
 @media (max-width:1440px) {
 	.heroSection {
+		margin-bottom: 60px;
+		height:fit-content;
+		background: transparent;
+		>div{
+			gap: 60px;
+			height: fit-content;
+			flex-direction: column-reverse;
+		}
 		.left{
+			padding-top: 0px;
 			width: 100%;
 		}
-		.right {
-			display: none;
+		img{
+			height: auto;
+			width: 100%;
+			background: linear-gradient(30deg, var(--grey08) 40%, #703bf750 100%);
+			border: 1px solid var(--grey15);
+			padding: 20px 10% 0px 10%;
+			border-radius: 20px;
 		}
 	}
 }
 @media (max-width:1024px) {
-	.heroSection{
-		margin-top: 0px;
-		height: calc(100vh - 200px);
-		padding: 0px;
-	}
 	.cardsTextLogoSection{
 		flex-wrap: wrap;
 	}
@@ -124,6 +132,86 @@
 				align-items: flex-start;
 			}
 			
+		}
+	}
+}
+@media (max-width:768px) {
+	.heroSection {
+		margin-top: 60px;
+		padding: 0px;
+		height: auto;
+		&__mainText{
+			h1{
+				font-size: 40px;
+			}
+		}
+		> div {
+			height: auto;
+			gap: 40px;
+		}
+		.left{
+			padding-top: 0px;
+			gap: 40px;
+		}
+		&__stat{
+			padding-bottom: 0px;
+			// flex-direction: column;
+		}
+	}
+}
+@media (max-width:576px) {
+	.heroSection{
+		&__mainText{
+			h1{
+				font-size: 40px;
+			}
+			p{
+				font-size: 16px;
+			}
+		}
+		> div {
+			height: auto;
+			gap: 20px;
+		}
+		.left{
+			gap: 20px;
+		}
+		&__stat{
+			flex-direction: column;
+			padding-bottom: 0px;
+			&Block{
+				width: 100%;
+				flex-direction: row;
+				align-items: center;
+				gap: 20px;
+			}
+		}
+		&__btns {
+			display: flex;
+			gap: 10px;
+		}
+	}
+
+}
+@media (max-width:400px) {
+	.heroSection{
+		&__mainText{
+
+			h1{
+				font-size: 35px;
+			}
+		}
+		&__btns {
+			display: flex;
+			gap: 10px;
+			flex-direction: column;
+		}
+		&__stat{
+			&Block{
+				flex-direction: column;
+				gap: 2px;
+				width: 100%;
+			}
 		}
 	}
 }

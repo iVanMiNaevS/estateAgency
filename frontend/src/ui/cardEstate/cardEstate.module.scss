@@ -58,6 +58,22 @@
 }
 @media (max-width: 1024px) {
 	.cardContainer{
+		gap: 20px;
+		.mainImg {
+			height: 218px;
+		}
+		.textInfo {
+			p {
+				font-size: 14px;
+			}
+		}
+		.options {
+			display: flex;
+			flex-direction: column;
+			.option{
+				gap: 10px;
+			}
+		}
 		.bottom{
 			flex-direction: column;
 			gap: 20px;

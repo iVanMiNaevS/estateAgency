@@ -31,7 +31,7 @@ export const HeaderLinks = ({links, setIsMenuOpen, isMenuOpen}: props) => {
 					onClick={()=>{setIsMenuOpen(false)}}
 					href={AppRouter.contact}
 					className={`${path === AppRouter.contact
-							? styles.active + " " + styles.buttonLink
+							? styles.active + " " + styles.buttonLink + ' ' + styles.mob
 							:   styles.buttonLink + ' ' + styles.mob} ${isMenuOpen && styles.activeMob}`
 					}
 				>

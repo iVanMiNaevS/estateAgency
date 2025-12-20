@@ -25,7 +25,7 @@ export const OurValuesSection = ({sectionId}: props) => {
 		},
 		{
 			icon: team,
-			title: "Клиентоориентированность",
+			title: "Главное - клиент",
 			text: "Ваши мечты и потребности находятся в центре нашей вселенной. Мы слушаем и понимаем.",
 		},
 		{
@@ -37,7 +37,7 @@ export const OurValuesSection = ({sectionId}: props) => {
 	return (
 		<section id={sectionId} className={styles.ourValuesSection}>
 			<div className={styles.ourValuesSection__text}>
-				<h2 className="h2">Наши достижения</h2>
+				<h2 className="h2">Наши ценности</h2>
 				<p className={styles.ourValuesSection__desc}>
 					Мы верим, что недвижимость — это не просто стены и документы. Это место, где рождаются
 					воспоминания, строятся планы и меняются судьбы. Поэтому в основе нашей работы — не

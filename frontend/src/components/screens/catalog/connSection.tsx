@@ -41,7 +41,7 @@ export const ConnSection = ({sectionId}: props) => {
 						<p>Бюджет</p>
 						<input type="text" placeholder="Выберите бюджет" />
 					</div>
-					<div className={styles.inputWrapp + " " + styles.inputWrappHalf}>
+					<div className={styles.inputWrapp + " " + styles.inputWrappHalf + ' ' + styles.mode}>
 						<p>Предпочтительный способ конттакта</p>
 						<div className={styles.inputWrappInner}>
 							<div

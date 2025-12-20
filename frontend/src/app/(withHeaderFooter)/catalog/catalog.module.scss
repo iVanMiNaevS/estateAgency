@@ -142,3 +142,106 @@
 		}
 	}
 }
+@media (max-width: 1440px) {
+	.connSection{
+		&__form{
+			.inputWrapp,
+			.inputWrapp > input {
+				flex: calc(50% - 50px);
+			}
+			.inputWrappHalf,
+			.inputWrappHalf > input {
+				flex: calc(50% - 50px);
+			}
+			.inputWrappArea,
+			.inputWrappArea > textarea {
+				flex: 100%;
+				min-height: 170px;
+			}
+			.mode{
+				flex: 100%;
+			}
+			.inputWrappInner{
+				> div{
+					flex: 50% ;
+
+				}
+			}
+		}
+	}
+}
+@media (max-width: 1024px) {
+	.connSection{
+		&__form{
+			padding: 40px;
+			gap: 20px;
+		}
+	}
+}
+@media (max-width:768px) {
+	.searchSection {
+		padding: var(--sectionPadding) 0px;
+		position: relative;
+		p{
+			font-size: 16px;
+			padding-bottom: 40px;
+		}
+		form {
+			gap: 30px;
+			padding: 15px 15px;
+			flex-direction: column;
+			input {
+				font-size: 24px;
+				padding: 0px;
+				width: 100%;
+			}
+			button{
+				width: 100%;
+			}
+		}
+	}
+	.swiperSection {
+		width: 100%;
+		&__top {
+			padding-bottom: 50px;
+		}
+	}
+	.connSection{
+		&__top{
+			padding-bottom: 50px;
+		}
+		&__form{
+			.inputWrapp,
+			.inputWrapp > input {
+				flex: calc(100%);
+			}
+			.inputWrappHalf,
+			.inputWrappHalf > input {
+				flex: calc(100%);
+			}
+			.inputWrappArea,
+			.inputWrappArea > textarea {
+				flex: 100%;
+				min-height: 170px;
+			}
+			.mode{
+				flex: 100%;
+			}
+			.inputWrappInner{
+				flex-direction: column;
+				> div{
+					flex: 100% ;
+				}
+			}
+		}
+	}
+}
+@media (max-width: 576px) {
+	.searchSection {
+		form {
+			input {
+				font-size: 16px;
+			}
+		}
+	}
+}
