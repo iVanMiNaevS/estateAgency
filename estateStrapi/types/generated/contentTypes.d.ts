@@ -539,6 +539,40 @@ export interface ApiReviewReview extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiUserRequestUserRequest extends Struct.CollectionTypeSchema {
+  collectionName: 'user_requests';
+  info: {
+    displayName: 'userRequest';
+    pluralName: 'user-requests';
+    singularName: 'user-request';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    activeContact: Schema.Attribute.String;
+    budget: Schema.Attribute.Integer;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    email: Schema.Attribute.Email;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::user-request.user-request'
+    > &
+      Schema.Attribute.Private;
+    message: Schema.Attribute.Text;
+    name: Schema.Attribute.String;
+    phone: Schema.Attribute.Integer;
+    publishedAt: Schema.Attribute.DateTime;
+    secondName: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface PluginContentReleasesRelease
   extends Struct.CollectionTypeSchema {
   collectionName: 'strapi_releases';
@@ -1055,6 +1089,7 @@ declare module '@strapi/strapi' {
       'api::estate.estate': ApiEstateEstate;
       'api::main-screen.main-screen': ApiMainScreenMainScreen;
       'api::review.review': ApiReviewReview;
+      'api::user-request.user-request': ApiUserRequestUserRequest;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;

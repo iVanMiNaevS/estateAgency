@@ -1,7 +1,7 @@
 import {IMeta} from "../types/meta.interface";
 
 type typeEndPointScreen = "main-screen";
-type typeEndPointObjects = "estates";
+type typeEndPointObjects = "estates" | "user-requests";
 type typeFilters = "$eq" | "$contains";
 
 export const getScreenInfo = async <T>(
@@ -41,6 +41,7 @@ export const getObjects = async <T>(
 				(filter) => (objQuery[`filters[${filter.field}][${filter.filter}]`] = filter.value)
 			);
 		}
+		console.log(pagination)
 		if (pagination) {
 			pagination.forEach((paginationOne) => {
 				objQuery[`pagination[${paginationOne.params}]`] = paginationOne.value.toString();
@@ -59,21 +60,28 @@ export const getObjects = async <T>(
 	}
 };
 
-async function makeRequest(
-	endPoint: typeEndPointObjects | typeEndPointScreen,
-	queryParams: URLSearchParams,
-	isPrivate: boolean = false
+export async function makeRequest(
+  endPoint: string,
+  queryParams?: URLSearchParams,
+  isPrivate: boolean = false,
+  method: 'POST' | 'GET' = 'GET',
+  body?: Record<string, any>,
 ) {
-	const res = await fetch(
-		`${process.env.NEXT_PUBLIC_API_URL}/${endPoint}?${queryParams.toString()}`,
-		{
-			headers: {
-				Authorization: isPrivate ? `Bearer ${process.env.NEXT_PUBLIC_APITOKEN}` : "",
-			},
-		}
-	);
-	if (!res.ok) {
-		throw new Error("Error fetch, " + res.status);
-	}
-	return res;
+	console.log(body)
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/${endPoint}?${queryParams ? queryParams.toString() : ''}`,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': isPrivate ? `Bearer ${process.env.NEXT_PUBLIC_APITOKEN}` : "",
+      },
+      method,
+      body: body ? JSON.stringify(body) : undefined
+    }
+  );
+  if (!res.ok) {
+    const errorData = await res.json().catch(() => ({}));
+    throw new Error(errorData.error?.message || `Error fetch, ${res.status}`);
+  }
+  return res;
 }

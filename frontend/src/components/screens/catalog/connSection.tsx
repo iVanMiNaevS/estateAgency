@@ -1,13 +1,60 @@
 "use client";
-import React, {useState} from "react";
+import React, { useState } from "react";
 import styles from "../../../app/(withHeaderFooter)/catalog/catalog.module.scss";
+import { makeRequest } from "@/services/getInfo";
 
-type props = {
+type Props = {
 	sectionId: string;
 };
 
-export const ConnSection = ({sectionId}: props) => {
+type FormState = {
+	name: string;
+	secondName: string;
+	budget: string;
+	phone: string | null;
+	email: string | null;
+	message: string;
+};
+
+export const ConnSection = ({ sectionId }: Props) => {
 	const [activeMethod, setActiveMethod] = useState<"phone" | "email">("phone");
+
+	const [form, setForm] = useState<FormState>({
+		name: "",
+		secondName: "",
+		budget: "",
+		phone: null,
+		email: null,
+		message: "",
+	});
+
+	const handleChange = (
+		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+	) => {
+		const { name, value } = e.target;
+		setForm((prev) => ({
+			...prev,
+			[name]: value,
+		}));
+	};
+
+	const handleSubmit = async (e: React.FormEvent) => {
+		e.preventDefault();
+
+		const payload = {
+			...form,
+			activeContact:activeMethod,
+		};
+		const res = await makeRequest('user-requests', undefined, false, "POST", {data:payload})
+		setForm({
+			name: "",
+			secondName: "",
+			budget: "",
+			phone: null,
+			email: null,
+			message: "",
+		})
+	};
 
 	return (
 		<section className={styles.connSection} id={sectionId}>
@@ -15,58 +62,96 @@ export const ConnSection = ({sectionId}: props) => {
 				<div className={styles.connSection__top}>
 					<h2 className="h2">Давайте сделаем так, чтобы это произошло</h2>
 					<p>
-						Готовы сделать первый шаг к приобретению недвижимости вашей мечты? Заполните форму ниже,
-						и наши мастера по недвижимости приложат все усилия, чтобы найти для вас идеальную пару.
-						Не ждите, давайте отправимся в это увлекательное путешествие вместе.
+						Готовы сделать первый шаг к приобретению недвижимости вашей мечты?
 					</p>
 				</div>
-				<form className={styles.connSection__form}>
+
+				<form className={styles.connSection__form} onSubmit={handleSubmit}>
 					<div className={styles.inputWrapp}>
 						<p>Имя</p>
-						<input type="text" placeholder="Введите имя" />
+						<input
+							type="text"
+							name="name"
+							placeholder="Введите имя"
+							value={form.name}
+							onChange={handleChange}
+						/>
 					</div>
+
 					<div className={styles.inputWrapp}>
 						<p>Фамилия</p>
-						<input type="text" placeholder="Введите фамилию" />
+						<input
+							type="text"
+							name="secondName"
+							placeholder="Введите фамилию"
+							value={form.secondName}
+							onChange={handleChange}
+						/>
 					</div>
-					<div className={styles.inputWrapp}>
-						<p>Email</p>
-						<input type="text" placeholder="Введите email" />
-					</div>
-					<div className={styles.inputWrapp}>
-						<p>Телефон</p>
-						<input type="text" placeholder="Введите номер телефона" />
-					</div>
-					<div className={styles.inputWrapp + " " + styles.inputWrappHalf}>
+
+					<div className={`${styles.inputWrapp} ${styles.inputWrappHalf}`}>
 						<p>Бюджет</p>
-						<input type="text" placeholder="Выберите бюджет" />
+						<input
+							type="number"
+							name="budget"
+							placeholder="Выберите бюджет"
+							value={form.budget}
+							onChange={handleChange}
+						/>
 					</div>
-					<div className={styles.inputWrapp + " " + styles.inputWrappHalf + ' ' + styles.mode}>
-						<p>Предпочтительный способ конттакта</p>
+
+					<div
+						className={`${styles.inputWrapp} ${styles.inputWrappHalf} ${styles.mode}`}
+					>
+						<p>Предпочтительный способ контакта</p>
+
 						<div className={styles.inputWrappInner}>
 							<div
-								onClick={() => {
-									setActiveMethod("phone");
-								}}
+								onClick={() => setActiveMethod("phone")}
 								className={activeMethod !== "phone" ? styles.notActive : ""}
 							>
-								<input type="text" className={styles.phone} placeholder="Введите свой телефон" />
+								<input
+									type="tel"
+									name="phone"
+									className={styles.phone}
+									placeholder="Введите свой телефон"
+									value={form.phone ? form.phone : ''}
+									onChange={handleChange}
+									disabled={activeMethod !== "phone"}
+								/>
 							</div>
+
 							<div
-								onClick={() => {
-									setActiveMethod("email");
-								}}
+								onClick={() => setActiveMethod("email")}
 								className={activeMethod !== "email" ? styles.notActive : ""}
 							>
-								<input type="text" className={styles.email} placeholder="Введите свою почту" />
+								<input
+									type="email"
+									name="email"
+									className={styles.email}
+									placeholder="Введите свою почту"
+									value={form.email ? form.email : ''}
+									onChange={handleChange}
+									disabled={activeMethod !== "email"}
+								/>
 							</div>
 						</div>
 					</div>
-					<div className={styles.inputWrapp + " " + styles.inputWrappArea}>
+
+					<div className={`${styles.inputWrapp} ${styles.inputWrappArea}`}>
 						<p>Сообщение</p>
-						<textarea style={{resize: "none"}} placeholder="Введите своё сообщение здесь" />
+						<textarea
+							name="message"
+							placeholder="Введите своё сообщение здесь"
+							style={{ resize: "none" }}
+							value={form.message}
+							onChange={handleChange}
+						/>
 					</div>
-					<button className="btn btn-purple">Отправьте свое сообщение</button>
+
+					<button className="btn btn-purple" type="submit">
+						Отправьте свое сообщение
+					</button>
 				</form>
 			</div>
 		</section>

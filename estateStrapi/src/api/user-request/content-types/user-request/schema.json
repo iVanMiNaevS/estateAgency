@@ -1,0 +1,36 @@
+{
+  "kind": "collectionType",
+  "collectionName": "user_requests",
+  "info": {
+    "singularName": "user-request",
+    "pluralName": "user-requests",
+    "displayName": "userRequest"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "secondName": {
+      "type": "string"
+    },
+    "email": {
+      "type": "email"
+    },
+    "phone": {
+      "type": "integer"
+    },
+    "budget": {
+      "type": "integer"
+    },
+    "message": {
+      "type": "text"
+    },
+    "activeContact": {
+      "type": "string"
+    }
+  }
+}
