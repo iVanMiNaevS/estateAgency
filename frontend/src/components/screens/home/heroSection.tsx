@@ -32,8 +32,7 @@ export const HeroSection = ({sectionId, data}: props) => {
 						<p>{sectionData.description}</p>
 					</div>
 					<div className={styles.heroSection__btns}>
-						<button className="btn">Узнать больше</button>
-						<Link href={'/#main-recomendedEstateSection'} className="btn-purple">Посмотреть недвижимость</Link>
+						<Link href={'/#main-recomendedEstateSection'} className="btn-purple">Посмотреть услуги</Link>
 					</div>
 					<div className={styles.heroSection__stat}>
 						<div className={styles.heroSection__statBlock}>
@@ -41,11 +40,11 @@ export const HeroSection = ({sectionId, data}: props) => {
 							<p>Довольные клиенты</p>
 						</div>
 						<div className={styles.heroSection__statBlock}>
-							<h2>10k+</h2>
-							<p>Недвижимости</p>
+							<h2>2м+</h2>
+							<p>Клиентов</p>
 						</div>
 						<div className={styles.heroSection__statBlock}>
-							<h2>16+</h2>
+							<h2>6+</h2>
 							<p>Опыт работы</p>
 						</div>
 					</div>

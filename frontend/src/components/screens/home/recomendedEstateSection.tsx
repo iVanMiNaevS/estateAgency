@@ -27,7 +27,7 @@ export const RecomendedEstateSection = ({sectionId, data}: props) => {
 					<p>
 						<span>{sectionData.description}</span>
 						<Link className="buttonLink" href={AppRouter.catalog}>
-							Посмотреть все объекты
+							Посмотреть все услуги
 						</Link>
 					</p>
 				</div>

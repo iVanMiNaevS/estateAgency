@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "@/app/(withHeaderFooter)/about/about.module.scss";
 import Image from "next/image";
-import homeInHand from "@/../public/imgs/aboutHomeInHand.png";
+import homeInHand from "@/../public/imgs/about.png";
 
 type props = {
 	sectionId: string;
@@ -14,23 +14,25 @@ export const OurWaySection = ({sectionId}: props) => {
 				<div className={styles.ourWaySection__text}>
 					<h1 className="h2">Наш путь</h1>
 					<p className={styles.ourWaySection__desc}>
-						Наша история - это история постоянного роста и эволюции. Мы начинали как небольшая команда
-						с большими мечтами, полная решимости создать платформу для работы с недвижимостью,
-						выходящую за рамки обычного. С годами мы расширили сферу своей деятельности, наладили
-						ценные партнерские отношения и завоевали доверие бесчисленного количества клиентов.
+						Мы начали свой путь в 2018 году как небольшая команда маркетологов-энтузиастов, 
+						которые верили, что реклама может быть эффективной и прозрачной. За 8 лет работы 
+						мы превратились в полноценное digital-агентство, помогающее бизнесам расти 
+						в интернете. Мы перепробовали десятки стратегий, протестировали сотни гипотез 
+						и накопили экспертизу, которой готовы делиться с каждым клиентом. Сегодня мы — 
+						это команда профессионалов, которые знают, как привести клиента и не слить бюджет.
 					</p>
 					<div className={styles.ourWaySection__stat}>
 						<div className={styles.ourWaySection__statBlock}>
-							<h2>200+</h2>
-							<p>Довольные клиенты</p>
+							<h2>250+</h2>
+							<p>Успешных проектов</p>
 						</div>
 						<div className={styles.ourWaySection__statBlock}>
-							<h2>10k+</h2>
-							<p>Недвижимости</p>
+							<h2>98%</h2>
+							<p>Довольных клиентов</p>
 						</div>
 						<div className={styles.ourWaySection__statBlock}>
-							<h2>16+</h2>
-							<p>Опыт работы</p>
+							<h2>6 лет</h2>
+							<p>На рынке</p>
 						</div>
 					</div>
 				</div>

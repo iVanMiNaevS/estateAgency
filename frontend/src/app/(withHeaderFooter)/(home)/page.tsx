@@ -11,8 +11,7 @@ export async function generateMetadata(): Promise<Metadata> {
 	try {
 		const data = await getScreenInfo<IMainScreen>("main-screen", [
 			"heroSection.image",
-			"recomendedSection.estates.poster",
-			"recomendedSection.estates.options.icon",
+			"recomendedSection.estates",
 			"reviewsSection.reviews.user.avatar",
 			"faqSection.questions",
 			"seo",
@@ -20,13 +19,13 @@ export async function generateMetadata(): Promise<Metadata> {
 		const seoData = data.data.seo;
 
 		return {
-			title: seoData?.title || "ЭлитДом - Недвижимость вашей мечты",
-			description: seoData?.description || "Лучшие предложения на рынке недвижимости",
+			title: seoData?.title || "UpTrend Agency - Приводим клиентов. А вы делаете свой продукт",
+			description: seoData?.description || "Лучшие предложения на рынке маркетинга",
 		};
 	} catch (error) {
 		return {
-			title: "ЭлитДом - Недвижимость вашей мечты",
-			description: "Лучшие предложения на рынке недвижимости",
+			title: "UpTrend Agency - Приводим клиентов. А вы делаете свой продукт",
+			description: "Лучшие предложения на рынке маркетинга",
 		};
 	}
 }
@@ -34,8 +33,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function Home() {
 	const data = await getScreenInfo<IMainScreen>("main-screen", [
 		"heroSection.image",
-		"recomendedSection.estates.poster",
-		"recomendedSection.estates.options.icon",
+		"recomendedSection.estates",
 		"reviewsSection.reviews.user.avatar",
 		"faqSection.questions",
 		"seo",

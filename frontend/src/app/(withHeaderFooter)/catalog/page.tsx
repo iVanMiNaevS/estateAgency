@@ -10,7 +10,7 @@ export const Metadata = {
 };
 
 const Page = async () => {
-	const data = await getObjects<IEstate>("estates", ["poster", "options.icon"]);
+	const data = await getObjects<IEstate>("estates");
 	return (
 		<main>
 			<SearchSection sectionId="catalog-catalogSearch" />

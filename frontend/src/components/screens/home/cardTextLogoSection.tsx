@@ -8,10 +8,10 @@ import {CardTextLogo, typeCardTextLogo} from "@/ui/cardTextLogo/cardTextLogo";
 
 export const CardTextLogoSection = ({sectionId}: {sectionId: string}) => {
 	const cards: typeCardTextLogo[] = [
-		{logo: homeLogo, text: "Найдите дом своей мечты"},
-		{logo: webcamLogo, text: "Разблокируйте  недвижемость"},
-		{logo: buildingLogo, text: "Простое управление недвижимостью"},
-		{logo: sunLogo, text: "Разумные инвестиции"},
+		{logo: homeLogo, text: "Найдем клиентов для вашего бизнеса"},
+		{logo: webcamLogo, text: "Откроем новые каналы продаж"},
+		{logo: buildingLogo, text: "Построим эффективную стратегию"},
+		{logo: sunLogo, text: "Умные вложения в реклам"},
 	];
 	return (
 		<section id={sectionId} className={styles.cardsTextLogoSection}>

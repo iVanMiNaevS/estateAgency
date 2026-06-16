@@ -106,42 +106,42 @@ export const SearchSection = ({ sectionId }: props) => {
   return (
 	<>
     <section className={styles.searchSection} id={sectionId}>
-      <div className={styles.bg}></div>
-      <div className="container">
-        <div className={styles.textContainer}>
-          <h1 className="h2">Найдите недвижимость своей мечты</h1>
-          <p>
-            Добро пожаловать в ЭлитДом, где в каждом уголке нашего прекрасного мира вас ждет
-            недвижимость вашей мечты. Ознакомьтесь с нашей тщательно отобранной подборкой объектов
-            недвижимости, каждый из которых имеет уникальную историю и возможность переосмыслить
-            вашу жизнь. Категории, подходящие для каждого мечтателя, помогут вам в путешествии
-          </p>
-        </div>
-        
-        <form onSubmit={handleSearch}>
-          <input 
-            type="text" 
-            value={searchValue} 
-            onChange={(e) => setSearchValue(e.target.value)} 
-            placeholder="Поиск недвижимости"
-            disabled={loading}
-          />
-          <button 
-            type="submit" 
-            className="btn btn-purple"
-            disabled={loading || !searchValue.trim()}
-          >
-            {loading ? "Поиск..." : "Найти недвижимость"}
-          </button>
-        </form>
-
-        {error && (
-          <div className={styles.errorMessage}>
-            {error}
-          </div>
-        )}
+    <div className={styles.bg}></div>
+    <div className="container">
+      <div className={styles.textContainer}>
+        <h1 className="h2">Найдите идеальный инструмент для роста</h1>
+        <p>
+          Добро пожаловать в UpTrend — ваше маркетинговое агентство, где каждый бизнес находит 
+          свой путь к клиентам. Ознакомьтесь с нашими услугами, каждая из которых создана для 
+          решения конкретных задач: от привлечения трафика до повышения лояльности. Выберите 
+          то, что подходит именно вам, и начните свой путь к росту уже сегодня.
+        </p>
       </div>
-    </section>
+      
+      <form onSubmit={handleSearch}>
+        <input 
+          type="text" 
+          value={searchValue} 
+          onChange={(e) => setSearchValue(e.target.value)} 
+          placeholder="Поиск услуги (например: контекстная реклама)"
+          disabled={loading}
+        />
+        <button 
+          type="submit" 
+          className="btn btn-purple"
+          disabled={loading || !searchValue.trim()}
+        >
+          {loading ? "Поиск..." : "Найти услугу"}
+        </button>
+      </form>
+
+      {error && (
+        <div className={styles.errorMessage}>
+          {error}
+        </div>
+      )}
+    </div>
+  </section>
 	{loading && estates.length === 0 ? (
 		<div className={styles.loading}>Загрузка...</div>
 	) : (

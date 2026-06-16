@@ -10,14 +10,14 @@ export const Header = () => {
 	const nav = [
 		{text: "Главная", link: AppRouter.home},
 		{text: "О нас", link: AppRouter.about},
-		{text: "Каталог", link: AppRouter.catalog},
+		{text: "Услуги", link: AppRouter.catalog},
 	];
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	return (
 		<header className={styles.header}>
 			<div className={styles.header__container + " container"}>
 				<Link href={AppRouter.home} className={styles.logo}>
-					<Image src={logo} alt="Логотип ЭлитДом" />
+					UpTrend Agency
 				</Link>
 				 <button 
 					className={styles.mobileMenuButton}

@@ -11,7 +11,7 @@ export const Footer = () => {
 			page: {text: "Главная", link: AppRouter.home},
 			anchors: [
 				{text: "Встречающая секция", link: `${AppRouter.home}#main-heroSection`},
-				{text: "Рекомендуемые объекты", link: `${AppRouter.home}#main-recomendedEstateSection`},
+				{text: "Рекомендуемые Услуги", link: `${AppRouter.home}#main-recomendedEstateSection`},
 				{text: "Отзывы", link: `${AppRouter.home}#main-recomendedEstateSection`},
 				{text: "Часто задаваемые вопросы", link: `${AppRouter.home}#main-faqSection`},
 			],
@@ -25,10 +25,10 @@ export const Footer = () => {
 			],
 		},
 		{
-			page: {text: "Каталог", link: AppRouter.catalog},
+			page: {text: "Услуги", link: AppRouter.catalog},
 			anchors: [
 				{text: "Поиск", link: `${AppRouter.catalog}#catalog-catalogSearch`},
-				{text: "Недвижимость", link: `${AppRouter.catalog}#catalog-catalogSection`},
+				{text: "Услуги", link: `${AppRouter.catalog}#catalog-catalogSection`},
 				{text: "Форма связи", link: `${AppRouter.catalog}#catalog-connSection`},
 			],
 		},
@@ -50,7 +50,7 @@ export const Footer = () => {
 		<footer className={styles.footer}>
 			<div className="container">
 				<div className={styles.feedback}>
-					<Image src={logo} alt="Логотип ЭлитДом" />
+					UpTrend Agency
 					<FormEmail />
 				</div>
 				<div className={styles.linksWrapp}>

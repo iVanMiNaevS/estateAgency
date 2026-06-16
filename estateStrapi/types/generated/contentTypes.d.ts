@@ -447,16 +447,12 @@ export interface ApiEstateEstate extends Struct.CollectionTypeSchema {
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     description: Schema.Attribute.Text & Schema.Attribute.Required;
-    images: Schema.Attribute.Media<'images' | 'files', true>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
       'api::estate.estate'
     > &
       Schema.Attribute.Private;
-    options: Schema.Attribute.Component<'estate.options-estate', true>;
-    poster: Schema.Attribute.Media<'images' | 'files'> &
-      Schema.Attribute.Required;
     price: Schema.Attribute.Integer & Schema.Attribute.Required;
     publishedAt: Schema.Attribute.DateTime;
     slug: Schema.Attribute.UID<'title'>;

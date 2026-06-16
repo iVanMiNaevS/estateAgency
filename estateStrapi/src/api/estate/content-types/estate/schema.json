@@ -19,23 +19,9 @@
       "type": "text",
       "required": true
     },
-    "poster": {
-      "type": "media",
-      "multiple": false,
-      "required": true,
-      "allowedTypes": [
-        "images",
-        "files"
-      ]
-    },
     "price": {
       "type": "integer",
       "required": true
-    },
-    "options": {
-      "type": "component",
-      "component": "estate.options-estate",
-      "repeatable": true
     },
     "slug": {
       "type": "uid",
@@ -44,14 +30,6 @@
     "address": {
       "type": "string",
       "default": "Russia, Moscow"
-    },
-    "images": {
-      "type": "media",
-      "multiple": true,
-      "allowedTypes": [
-        "images",
-        "files"
-      ]
     }
   }
 }

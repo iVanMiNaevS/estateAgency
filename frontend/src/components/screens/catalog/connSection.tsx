@@ -60,9 +60,10 @@ export const ConnSection = ({ sectionId }: Props) => {
 		<section className={styles.connSection} id={sectionId}>
 			<div className="container">
 				<div className={styles.connSection__top}>
-					<h2 className="h2">Давайте сделаем так, чтобы это произошло</h2>
+					<h2 className="h2">Давайте обсудим ваш проект</h2>
 					<p>
-						Готовы сделать первый шаг к приобретению недвижимости вашей мечты?
+						Заполните форму, и мы бесплатно проконсультируем вас по всем вопросам маркетинга.
+						Подберём стратегию, рассчитаем бюджет и расскажем, как увеличить продажи.
 					</p>
 				</div>
 
@@ -72,29 +73,29 @@ export const ConnSection = ({ sectionId }: Props) => {
 						<input
 							type="text"
 							name="name"
-							placeholder="Введите имя"
+							placeholder="Введите ваше имя"
 							value={form.name}
 							onChange={handleChange}
 						/>
 					</div>
 
 					<div className={styles.inputWrapp}>
-						<p>Фамилия</p>
+						<p>Название компании</p>
 						<input
 							type="text"
 							name="secondName"
-							placeholder="Введите фамилию"
+							placeholder="Введите название компании"
 							value={form.secondName}
 							onChange={handleChange}
 						/>
 					</div>
 
 					<div className={`${styles.inputWrapp} ${styles.inputWrappHalf}`}>
-						<p>Бюджет</p>
+						<p>Бюджет на маркетинг (₽)</p>
 						<input
 							type="number"
 							name="budget"
-							placeholder="Выберите бюджет"
+							placeholder="Укажите примерный бюджет"
 							value={form.budget}
 							onChange={handleChange}
 						/>
@@ -103,7 +104,7 @@ export const ConnSection = ({ sectionId }: Props) => {
 					<div
 						className={`${styles.inputWrapp} ${styles.inputWrappHalf} ${styles.mode}`}
 					>
-						<p>Предпочтительный способ контакта</p>
+						<p>Предпочтительный способ связи</p>
 
 						<div className={styles.inputWrappInner}>
 							<div
@@ -114,7 +115,7 @@ export const ConnSection = ({ sectionId }: Props) => {
 									type="tel"
 									name="phone"
 									className={styles.phone}
-									placeholder="Введите свой телефон"
+									placeholder="Введите номер телефона"
 									value={form.phone ? form.phone : ''}
 									onChange={handleChange}
 									disabled={activeMethod !== "phone"}
@@ -129,7 +130,7 @@ export const ConnSection = ({ sectionId }: Props) => {
 									type="email"
 									name="email"
 									className={styles.email}
-									placeholder="Введите свою почту"
+									placeholder="Введите адрес почты"
 									value={form.email ? form.email : ''}
 									onChange={handleChange}
 									disabled={activeMethod !== "email"}
@@ -142,7 +143,7 @@ export const ConnSection = ({ sectionId }: Props) => {
 						<p>Сообщение</p>
 						<textarea
 							name="message"
-							placeholder="Введите своё сообщение здесь"
+							placeholder="Опишите вашу задачу: что нужно продвинуть, какой бюджет и какие цели"
 							style={{ resize: "none" }}
 							value={form.message}
 							onChange={handleChange}
@@ -150,7 +151,7 @@ export const ConnSection = ({ sectionId }: Props) => {
 					</div>
 
 					<button className="btn btn-purple" type="submit">
-						Отправьте свое сообщение
+						Отправить заявку
 					</button>
 				</form>
 			</div>
