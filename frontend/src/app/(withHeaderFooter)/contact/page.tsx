@@ -18,10 +18,10 @@ type FormState = {
 };
 const page = () => {
 	const cards: typeCardTextLogo[] = [
-		{logo: emaiLogo, text: "info@estatein.com"},
-		{logo: phoneLogo, text: "+7 (930) 653 56-65 "},
-		{logo: geoLogo, text: "г.Рязань"},
-		{logo: logo, text: "Max"},
+		{logo: emaiLogo, text: "info@uptrend.ru"},
+		{logo: phoneLogo, text: "+7 (930) 653 56-65"},
+		{logo: geoLogo, text: "г. Москва, ул. Тверская, д. 7"},
+		{logo: logo, text: "UpTrend"},
 	];
 	const [accept, setAccept] = useState(false);
 
@@ -57,12 +57,13 @@ const page = () => {
 		<div>
 			<section id="contact-sectionHello" className={styles.helloSection}>
 				<div className="container">
-					<h1 className="h2">Свяжитесь с компанией ЭлитДом</h1>
+					<h1 className="h2">Свяжитесь с нами — поможем вырасти вашему бизнесу</h1>
 					<p className={styles.helloSection__desc}>
-						Добро пожаловать на страницу контактов ЭлитДом. Мы здесь, чтобы помочь вам с любыми
-						вопросами, пожеланиями или отзывами, которые у вас могут возникнуть. Хотите ли вы купить
-						или продать недвижимость, изучить инвестиционные возможности или просто хотите связаться
-						с нами, мы всегда готовы помочь. Свяжитесь с нами, и давайте начнем разговор.
+						Добро пожаловать в UpTrend — мы здесь, чтобы помочь вашему бизнесу найти новых клиентов 
+						и увеличить продажи. Хотите узнать, как работает контекстная реклама, нужен ли вам SMM 
+						или вы хотите заказать комплексное продвижение — мы всегда на связи. Заполните форму, 
+						позвоните или напишите нам, и мы бесплатно проконсультируем вас по всем вопросам 
+						интернет-маркетинга.
 					</p>
 				</div>
 			</section>
@@ -74,9 +75,10 @@ const page = () => {
 			<section id="contact-sectionForm" className={styles.formSection}>
 				<div className="container">
 					<div className={styles.formSection__top}>
-						<h2 className="h2">Давайте соединимся</h2>
+						<h2 className="h2">Давайте обсудим ваш проект</h2>
 						<p>
-							Мы будем рады связаться с вами и узнать больше о ваших целях в сфере недвижимости.
+							Заполните форму, и мы подберём маркетинговую стратегию под ваш бюджет и цели. 
+							Первая консультация — бесплатно и без обязательств.
 						</p>
 					</div>
 
@@ -86,18 +88,18 @@ const page = () => {
 							<input
 								type="text"
 								name="name"
-								placeholder="Введите имя"
+								placeholder="Введите ваше имя"
 								value={form.name}
 								onChange={handleChange}
 							/>
 						</div>
 
 						<div className={styles.inputWrapp}>
-							<p>Фамилия</p>
+							<p>Компания</p>
 							<input
 								type="text"
 								name="secondName"
-								placeholder="Введите фамилию"
+								placeholder="Введите название компании"
 								value={form.secondName}
 								onChange={handleChange}
 							/>
@@ -108,7 +110,7 @@ const page = () => {
 							<input
 								type="email"
 								name="email"
-								placeholder="Введите email"
+								placeholder="Введите ваш email"
 								value={form.email}
 								onChange={handleChange}
 							/>
@@ -129,7 +131,7 @@ const page = () => {
 							<p>Сообщение</p>
 							<textarea
 								name="message"
-								placeholder="Введите своё сообщение здесь"
+								placeholder="Опишите вашу задачу: что вы хотите продвинуть, какой у вас бизнес и какие цели"
 								style={{ resize: "none" }}
 								value={form.message}
 								onChange={handleChange}
@@ -150,7 +152,7 @@ const page = () => {
 							</div>
 
 							<button className="btn btn-purple" type="submit">
-								Отправьте свое сообщение
+								Отправить заявку
 							</button>
 						</div>
 					</form>

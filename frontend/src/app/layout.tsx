@@ -8,8 +8,8 @@ const urbanist = Inter({
 });
 
 export const metadata: Metadata = {
-	title: "Estate app",
-	description: "Estate app descriptio",
+	title: "UpTrade app",
+	description: "UpTrade descriptio",
 };
 
 export default function RootLayout({
