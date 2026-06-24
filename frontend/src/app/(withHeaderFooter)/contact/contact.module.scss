@@ -39,6 +39,15 @@
 			flex-direction: column;
 			gap: 16px;
 		}
+		.error {
+			color: #ff4d4d;
+			font-size: 14px;
+		}
+		.success {
+			color: #4caf50;
+			font-size: 18px;
+			font-weight: 600;
+		}
 
 		.inputWrapp,
 		.inputWrapp > input {

@@ -7,7 +7,7 @@ import emaiLogo from "@/../public/icons/email2.svg";
 import phoneLogo from "@/../public/icons/phone.svg";
 import geoLogo from "@/../public/icons/geo.svg";
 import logo from "@/../public/icons/logo2.svg";
-import { makeRequest } from "@/services/getInfo";
+
 
 type FormState = {
 	name: string;
@@ -16,6 +16,9 @@ type FormState = {
 	phone: string;
 	message: string;
 };
+
+type FormErrors = Partial<Record<keyof FormState | "accept", string>>;
+
 const page = () => {
 	const cards: typeCardTextLogo[] = [
 		{logo: emaiLogo, text: "info@uptrend.ru"},
@@ -24,6 +27,8 @@ const page = () => {
 		{logo: logo, text: "UpTrend"},
 	];
 	const [accept, setAccept] = useState(false);
+	const [errors, setErrors] = useState<FormErrors>({});
+	const [success, setSuccess] = useState(false);
 
 	const [form, setForm] = useState<FormState>({
 		name: "",
@@ -41,17 +46,41 @@ const page = () => {
 			...prev,
 			[name]: value,
 		}));
+		if (errors[name as keyof FormErrors]) {
+			setErrors((prev) => ({ ...prev, [name]: undefined }));
+		}
+	};
+
+	const validate = (): boolean => {
+		const newErrors: FormErrors = {};
+		if (!form.name.trim()) newErrors.name = "Имя обязательно";
+		if (!form.secondName.trim()) newErrors.secondName = "Название компании обязательно";
+		if (!form.email.trim()) {
+			newErrors.email = "Email обязателен";
+		} else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+			newErrors.email = "Неверный формат email";
+		}
+		if (!form.phone.trim()) newErrors.phone = "Телефон обязателен";
+		if (!form.message.trim()) newErrors.message = "Сообщение обязательно";
+		if (!accept) newErrors.accept = "Примите условия использования";
+		setErrors(newErrors);
+		return Object.keys(newErrors).length === 0;
 	};
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
+		if (!validate()) return;
 
-		if(accept){
-			const payload = {
-				...form,
-			};
-			const res = await makeRequest('user-requests', undefined, false, "POST", {data:payload})
-		}
+		const payload = {
+			...form,
+		};
+		await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user-requests`, {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({data:payload})
+		})
+		setSuccess(true);
+		setTimeout(() => setSuccess(false), 4000);
 	};
 	return (
 		<div>
@@ -92,6 +121,7 @@ const page = () => {
 								value={form.name}
 								onChange={handleChange}
 							/>
+							{errors.name && <span className={styles.error}>{errors.name}</span>}
 						</div>
 
 						<div className={styles.inputWrapp}>
@@ -103,6 +133,7 @@ const page = () => {
 								value={form.secondName}
 								onChange={handleChange}
 							/>
+							{errors.secondName && <span className={styles.error}>{errors.secondName}</span>}
 						</div>
 
 						<div className={styles.inputWrapp}>
@@ -114,6 +145,7 @@ const page = () => {
 								value={form.email}
 								onChange={handleChange}
 							/>
+							{errors.email && <span className={styles.error}>{errors.email}</span>}
 						</div>
 
 						<div className={`${styles.inputWrapp} ${styles.inputWrappFull}`}>
@@ -125,6 +157,7 @@ const page = () => {
 								value={form.phone}
 								onChange={handleChange}
 							/>
+							{errors.phone && <span className={styles.error}>{errors.phone}</span>}
 						</div>
 
 						<div className={`${styles.inputWrapp} ${styles.inputWrappArea}`}>
@@ -136,12 +169,16 @@ const page = () => {
 								value={form.message}
 								onChange={handleChange}
 							/>
+							{errors.message && <span className={styles.error}>{errors.message}</span>}
 						</div>
 
 						<div className={styles.formSection__bottomWrapp}>
 							<div className={styles.acceptWrapp}>
 								<div
-									onClick={() => setAccept((prev) => !prev)}
+									onClick={() => {
+										setAccept((prev) => !prev);
+										if (errors.accept) setErrors((prev) => ({ ...prev, accept: undefined }));
+									}}
 									className={styles.checkbox}
 								>
 									{accept ? "✓" : ""}
@@ -150,10 +187,12 @@ const page = () => {
 									Я согласен с Условиями использования и Политикой конфиденциальности
 								</p>
 							</div>
+							{errors.accept && <span className={styles.error}>{errors.accept}</span>}
 
 							<button className="btn btn-purple" type="submit">
 								Отправить заявку
 							</button>
+							{success && <span className={styles.success}>Заявка отправлена!</span>}
 						</div>
 					</form>
 				</div>

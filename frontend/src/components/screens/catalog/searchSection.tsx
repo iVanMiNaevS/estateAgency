@@ -30,7 +30,7 @@ export const SearchSection = ({ sectionId }: props) => {
     try {
       const response = await getObjects<IEstate>(
         'estates',
-        ['poster', 'options.icon'], 
+        [], 
         [
           {
             filter: '$contains', // typeFilters

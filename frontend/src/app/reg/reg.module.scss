@@ -51,6 +51,11 @@
 			gap: 16px;
 			flex: 100%;
 		}
+		.error {
+			color: #ff4d4d;
+			font-size: 14px;
+			margin-top: -10px;
+		}
 		.inputWrappHalf,
 		.inputWrappHalf > input {
 			flex: calc(50% - 50px);

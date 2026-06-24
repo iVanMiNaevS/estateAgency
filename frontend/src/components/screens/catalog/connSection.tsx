@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import styles from "../../../app/(withHeaderFooter)/catalog/catalog.module.scss";
-import { makeRequest } from "@/services/getInfo";
+
 
 type Props = {
 	sectionId: string;
@@ -16,8 +16,12 @@ type FormState = {
 	message: string;
 };
 
+type FormErrors = Partial<Record<keyof FormState, string>>;
+
 export const ConnSection = ({ sectionId }: Props) => {
 	const [activeMethod, setActiveMethod] = useState<"phone" | "email">("phone");
+	const [errors, setErrors] = useState<FormErrors>({});
+	const [success, setSuccess] = useState(false);
 
 	const [form, setForm] = useState<FormState>({
 		name: "",
@@ -36,16 +40,40 @@ export const ConnSection = ({ sectionId }: Props) => {
 			...prev,
 			[name]: value,
 		}));
+		if (errors[name as keyof FormErrors]) {
+			setErrors((prev) => ({ ...prev, [name]: undefined }));
+		}
+	};
+
+	const validate = (): boolean => {
+		const newErrors: FormErrors = {};
+		if (!form.name.trim()) newErrors.name = "Имя обязательно";
+		if (!form.secondName.trim()) newErrors.secondName = "Название компании обязательно";
+		if (!form.budget.trim()) newErrors.budget = "Бюджет обязателен";
+		if (activeMethod === "phone" && !form.phone?.trim()) newErrors.phone = "Телефон обязателен";
+		if (activeMethod === "email" && !form.email?.trim()) newErrors.email = "Email обязателен";
+		if (activeMethod === "email" && form.email?.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) newErrors.email = "Неверный формат email";
+		if (!form.message.trim()) newErrors.message = "Сообщение обязательно";
+		setErrors(newErrors);
+		return Object.keys(newErrors).length === 0;
 	};
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
+		if (!validate()) return;
 
 		const payload = {
 			...form,
 			activeContact:activeMethod,
 		};
-		const res = await makeRequest('user-requests', undefined, false, "POST", {data:payload})
+		await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user-requests`, {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({data:payload})
+		})
+		setErrors({});
+		setSuccess(true);
+		setTimeout(() => setSuccess(false), 4000);
 		setForm({
 			name: "",
 			secondName: "",
@@ -77,6 +105,7 @@ export const ConnSection = ({ sectionId }: Props) => {
 							value={form.name}
 							onChange={handleChange}
 						/>
+						{errors.name && <span className={styles.error}>{errors.name}</span>}
 					</div>
 
 					<div className={styles.inputWrapp}>
@@ -88,6 +117,7 @@ export const ConnSection = ({ sectionId }: Props) => {
 							value={form.secondName}
 							onChange={handleChange}
 						/>
+						{errors.secondName && <span className={styles.error}>{errors.secondName}</span>}
 					</div>
 
 					<div className={`${styles.inputWrapp} ${styles.inputWrappHalf}`}>
@@ -99,6 +129,7 @@ export const ConnSection = ({ sectionId }: Props) => {
 							value={form.budget}
 							onChange={handleChange}
 						/>
+						{errors.budget && <span className={styles.error}>{errors.budget}</span>}
 					</div>
 
 					<div
@@ -108,7 +139,10 @@ export const ConnSection = ({ sectionId }: Props) => {
 
 						<div className={styles.inputWrappInner}>
 							<div
-								onClick={() => setActiveMethod("phone")}
+								onClick={() => {
+									setActiveMethod("phone");
+									if (errors.phone) setErrors((prev) => ({ ...prev, phone: undefined }));
+								}}
 								className={activeMethod !== "phone" ? styles.notActive : ""}
 							>
 								<input
@@ -123,7 +157,10 @@ export const ConnSection = ({ sectionId }: Props) => {
 							</div>
 
 							<div
-								onClick={() => setActiveMethod("email")}
+								onClick={() => {
+									setActiveMethod("email");
+									if (errors.email) setErrors((prev) => ({ ...prev, email: undefined }));
+								}}
 								className={activeMethod !== "email" ? styles.notActive : ""}
 							>
 								<input
@@ -137,6 +174,8 @@ export const ConnSection = ({ sectionId }: Props) => {
 								/>
 							</div>
 						</div>
+						{errors.phone && <span className={styles.error}>{errors.phone}</span>}
+						{errors.email && <span className={styles.error}>{errors.email}</span>}
 					</div>
 
 					<div className={`${styles.inputWrapp} ${styles.inputWrappArea}`}>
@@ -148,11 +187,13 @@ export const ConnSection = ({ sectionId }: Props) => {
 							value={form.message}
 							onChange={handleChange}
 						/>
+						{errors.message && <span className={styles.error}>{errors.message}</span>}
 					</div>
 
 					<button className="btn btn-purple" type="submit">
 						Отправить заявку
 					</button>
+					{success && <span className={styles.success}>Заявка отправлена!</span>}
 				</form>
 			</div>
 		</section>

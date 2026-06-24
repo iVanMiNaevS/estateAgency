@@ -1,0 +1,42 @@
+.empty {
+	color: var(--grey60);
+	font-size: 18px;
+	margin-top: 40px;
+}
+
+.cont{
+	margin-top: 50px;
+}
+
+.list {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	margin-top: 40px;
+}
+
+.link{
+	color: var(--purple60);
+}
+.card {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 24px;
+	border: 1px solid var(--grey15);
+	border-radius: 12px;
+	background: var(--grey10);
+	gap: 20px;
+}
+
+.info {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.price {
+	font-size: 20px;
+	font-weight: 700;
+	color: var(--purple60);
+}

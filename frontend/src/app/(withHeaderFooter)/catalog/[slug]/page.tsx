@@ -4,6 +4,7 @@ import {getObjects} from "@/services/getInfo";
 import {IEstate} from "@/types/estate.interface";
 import Image from "next/image";
 import geo from "@/../public/icons/geo.svg";
+import {AddToCartButton} from "@/components/cart/addToCartButton";
 
 interface PageProps {
 	params: {
@@ -25,7 +26,6 @@ const page = async ({params}: PageProps) => {
 		]
 	);
 	const estate = estates.data[0];
-	console.log(estate);
 	return (
 		<div className="container">
 			<div className={styles.top}>
@@ -43,6 +43,9 @@ const page = async ({params}: PageProps) => {
 				<h4 className="h4">Описание</h4>
 				<p>{estate.description}</p>
 			</section>
+			<div className={styles.cartBtn}>
+				<AddToCartButton estateId={estate.id} />
+			</div>
 		</div>
 	);
 };

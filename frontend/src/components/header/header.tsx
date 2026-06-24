@@ -11,6 +11,7 @@ export const Header = () => {
 		{text: "Главная", link: AppRouter.home},
 		{text: "О нас", link: AppRouter.about},
 		{text: "Услуги", link: AppRouter.catalog},
+		{text: "Корзина", link: AppRouter.cart},
 	];
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	return (

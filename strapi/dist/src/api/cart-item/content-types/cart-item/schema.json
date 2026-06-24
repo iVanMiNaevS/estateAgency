@@ -1,0 +1,27 @@
+{
+    "kind": "collectionType",
+    "collectionName": "cart_items",
+    "info": {
+        "singularName": "cart-item",
+        "pluralName": "cart-items",
+        "displayName": "Cart Item"
+    },
+    "options": {
+        "draftAndPublish": false
+    },
+    "attributes": {
+        "userEmail": {
+            "type": "string",
+            "required": true
+        },
+        "estate": {
+            "type": "relation",
+            "relation": "oneToOne",
+            "target": "api::estate.estate"
+        },
+        "quantity": {
+            "type": "integer",
+            "default": 1
+        }
+    }
+}

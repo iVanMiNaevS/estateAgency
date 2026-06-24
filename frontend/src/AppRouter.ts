@@ -5,4 +5,5 @@ export class AppRouter {
 	static contact = "/contact";
 	static login = "/login";
 	static signIn = "/reg";
+	static cart = "/cart";
 }

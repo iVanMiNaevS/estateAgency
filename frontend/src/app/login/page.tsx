@@ -6,16 +6,17 @@ import logo from "@/../public/icons/iconLogo.svg";
 import Link from "next/link";
 import { AppRouter } from "@/AppRouter";
 import { useRouter } from "next/navigation";
-import { makeRequest } from "@/services/getInfo";
-
 type FormState = {
 	email: string;
 	password: string;
 };
 
+type FormErrors = Partial<Record<keyof FormState | "accept", string>>;
+
 const Page = () => {
 	const router = useRouter();
 	const [accept, setAccept] = useState(false);
+	const [errors, setErrors] = useState<FormErrors>({});
 
 	const [form, setForm] = useState<FormState>({
 		email: "",
@@ -28,24 +29,33 @@ const Page = () => {
 			...prev,
 			[name]: value,
 		}));
+		if (errors[name as keyof FormErrors]) {
+			setErrors((prev) => ({ ...prev, [name]: undefined }));
+		}
+	};
+
+	const validate = (): boolean => {
+		const newErrors: FormErrors = {};
+		if (!form.email.trim()) {
+			newErrors.email = "Email обязателен";
+		} else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+			newErrors.email = "Неверный формат email";
+		}
+		if (!form.password) {
+			newErrors.password = "Пароль обязателен";
+		} else if (form.password.length < 6) {
+			newErrors.password = "Пароль должен быть минимум 6 символов";
+		}
+		if (!accept) {
+			newErrors.accept = "Примите условия использования";
+		}
+		setErrors(newErrors);
+		return Object.keys(newErrors).length === 0;
 	};
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
-
-		if (!accept) {
-			const payload = {
-							...form,
-						};
-						try{
-							const res = await makeRequest('auth/local/login', undefined, false, "POST", payload)
-							const data = await res.json();
-							localStorage.setItem('token', data.jwt)
-							router.push('/')
-						}catch(err){
-							console.log('g')
-						}
-		}
+		if (!validate()) return;
 
 		const res = await fetch("http://localhost:1337/api/auth/local", {
 			method: "POST",
@@ -65,10 +75,8 @@ const Page = () => {
 			return;
 		}
 
-		// 👉 JWT можно сохранить
 		localStorage.setItem("jwt", data.jwt);
 
-		// 👉 редирект после входа
 		router.replace(AppRouter.home);
 	};
 
@@ -91,6 +99,7 @@ const Page = () => {
 							value={form.email}
 							onChange={handleChange}
 						/>
+						{errors.email && <span className={styles.error}>{errors.email}</span>}
 					</div>
 
 					<div className={styles.inputWrapp}>
@@ -103,18 +112,23 @@ const Page = () => {
 							value={form.password}
 							onChange={handleChange}
 						/>
+						{errors.password && <span className={styles.error}>{errors.password}</span>}
 					</div>
 				</div>
 
 				<div className={styles.acceptWrapp}>
 					<div
-						onClick={() => setAccept((prev) => !prev)}
+						onClick={() => {
+							setAccept((prev) => !prev);
+							if (errors.accept) setErrors((prev) => ({ ...prev, accept: undefined }));
+						}}
 						className={styles.checkbox}
 					>
 						{accept ? "✓" : ""}
 					</div>
 					<p>Я согласен с Условиями использования и Политикой конфиденциальности</p>
 				</div>
+				{errors.accept && <span className={styles.error}>{errors.accept}</span>}
 
 				<div className={styles.bottom}>
 					<button className="btn-purple btn" type="submit">

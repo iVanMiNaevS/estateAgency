@@ -27,7 +27,7 @@ body {
 	color: var(--white);
 }
 main {
-	min-height: calc(39.5vh);
+	min-height: calc(80vh);
 }
 input,
 textarea {

@@ -63,18 +63,15 @@ export const getObjects = async <T>(
 export async function makeRequest(
 	endPoint: string,
 	queryParams?: URLSearchParams,
-	isPrivate: boolean = false,
 	method: 'POST' | 'GET' = 'GET',
 	body?: Record<string, any>,
 ) {
-	console.log(body)
 	const res = await fetch(
 		`${process.env.NEXT_PUBLIC_API_URL}/${endPoint}?${queryParams ? queryParams.toString() : ''}`,
 		{
 			headers: {
-			'Content-Type': 'application/json',
-			'Authorization': isPrivate ? `Bearer ${process.env.NEXT_PUBLIC_APITOKEN}` : "",
-		},
+				'Content-Type': 'application/json',
+			},
 			method,
 			body: body ? JSON.stringify(body) : undefined
 		}
