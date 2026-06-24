@@ -61,27 +61,27 @@ export const getObjects = async <T>(
 };
 
 export async function makeRequest(
-  endPoint: string,
-  queryParams?: URLSearchParams,
-  isPrivate: boolean = false,
-  method: 'POST' | 'GET' = 'GET',
-  body?: Record<string, any>,
+	endPoint: string,
+	queryParams?: URLSearchParams,
+	isPrivate: boolean = false,
+	method: 'POST' | 'GET' = 'GET',
+	body?: Record<string, any>,
 ) {
 	console.log(body)
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/${endPoint}?${queryParams ? queryParams.toString() : ''}`,
-    {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': isPrivate ? `Bearer ${process.env.NEXT_PUBLIC_APITOKEN}` : "",
-      },
-      method,
-      body: body ? JSON.stringify(body) : undefined
-    }
-  );
-  if (!res.ok) {
-    const errorData = await res.json().catch(() => ({}));
-    throw new Error(errorData.error?.message || `Error fetch, ${res.status}`);
-  }
-  return res;
+	const res = await fetch(
+		`${process.env.NEXT_PUBLIC_API_URL}/${endPoint}?${queryParams ? queryParams.toString() : ''}`,
+		{
+			headers: {
+			'Content-Type': 'application/json',
+			'Authorization': isPrivate ? `Bearer ${process.env.NEXT_PUBLIC_APITOKEN}` : "",
+		},
+			method,
+			body: body ? JSON.stringify(body) : undefined
+		}
+	);
+	if (!res.ok) {
+		const errorData = await res.json().catch(() => ({}));
+		throw new Error(errorData.error?.message || `Error fetch, ${res.status}`);
+	}
+	return res;
 }

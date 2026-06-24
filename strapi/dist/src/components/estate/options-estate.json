@@ -1,0 +1,37 @@
+{
+    "collectionName": "components_estate_options_estates",
+    "info": {
+        "displayName": "optionsEstate"
+    },
+    "options": {},
+    "attributes": {
+        "type": {
+            "type": "enumeration",
+            "enum": [
+                "bedrooms",
+                "showers",
+                "type"
+            ]
+        },
+        "value": {
+            "type": "string"
+        },
+        "text": {
+            "type": "enumeration",
+            "enum": [
+                "Спален",
+                "Душевых",
+                "Вилла"
+            ]
+        },
+        "icon": {
+            "type": "media",
+            "multiple": false,
+            "allowedTypes": [
+                "images",
+                "files"
+            ]
+        }
+    },
+    "config": {}
+}
