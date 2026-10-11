@@ -1,4 +1,5 @@
 import { cookies } from "next/headers";
+import { apiBase } from "@/lib/strapi";
 
 /**
  * Серверная работа с авторизацией.
@@ -25,13 +26,6 @@ export type SessionUser = {
   birthDate: string | null;
 };
 
-/**
- * Адрес Strapi. На сервере берём обычный env без NEXT_PUBLIC_,
- * чтобы можно было держать бэкенд на внутренней сети.
- */
-const strapiUrl = () =>
-  (process.env.STRAPI_URL ?? process.env.NEXT_PUBLIC_API_URL ?? "").replace(/\/$/, "");
-
 type StrapiAuthResponse = {
   jwt: string;
   user: {
@@ -57,7 +51,7 @@ export async function registerUser(input: {
   phone?: string;
 }): Promise<{ ok: true } | { ok: false; error: string }> {
   try {
-    const res = await fetch(`${strapiUrl()}/api/auth/local/register`, {
+    const res = await fetch(`${apiBase()}/auth/local/register`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(input),
@@ -86,7 +80,7 @@ export async function loginUser(input: {
   password: string;
 }): Promise<{ ok: true } | { ok: false; error: string }> {
   try {
-    const res = await fetch(`${strapiUrl()}/api/auth/local`, {
+    const res = await fetch(`${apiBase()}/auth/local`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(input),
@@ -145,7 +139,7 @@ export async function getSessionUser(): Promise<SessionUser | null> {
   if (!token) return null;
 
   try {
-    const res = await fetch(`${strapiUrl()}/api/users/me`, {
+    const res = await fetch(`${apiBase()}/users/me`, {
       headers: { Authorization: `Bearer ${token}` },
       cache: "no-store",
     });
@@ -171,6 +165,7 @@ export async function getSessionUser(): Promise<SessionUser | null> {
 
 /** Запрос к Strapi от имени текущего пользователя. */
 export async function authFetch<T>(
+  /** Путь относительно корня API Strapi: «/bookings/me». */
   path: string,
   init: RequestInit = {}
 ): Promise<{ ok: true; data: T } | { ok: false; error: string; status: number }> {
@@ -181,7 +176,7 @@ export async function authFetch<T>(
   }
 
   try {
-    const res = await fetch(`${strapiUrl()}${path}`, {
+    const res = await fetch(`${apiBase()}${path}`, {
       ...init,
       headers: {
         "Content-Type": "application/json",

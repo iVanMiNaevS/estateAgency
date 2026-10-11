@@ -91,7 +91,7 @@ export async function cancelBookingAction(formData: FormData): Promise<void> {
   const id = String(formData.get("id") ?? "");
   if (!/^\d+$/.test(id)) return;
 
-  await authFetch(`/api/bookings/${id}/cancel`, { method: "POST" });
+  await authFetch(`/bookings/${id}/cancel`, { method: "POST" });
   revalidatePath("/account");
 }
 
@@ -114,7 +114,7 @@ export async function updateProfileAction(
     return { error: "Нет полей для сохранения" };
   }
 
-  const result = await authFetch<{ data: unknown }>("/api/profile", {
+  const result = await authFetch<{ data: unknown }>("/profile", {
     method: "PUT",
     body: JSON.stringify({ data }),
   });

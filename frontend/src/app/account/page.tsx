@@ -78,7 +78,7 @@ const Page = async () => {
     redirect("/login");
   }
 
-  const bookings = await authFetch<BookingListResponse>("/api/bookings/me");
+  const bookings = await authFetch<BookingListResponse>("/bookings/me");
 
   const list: Booking[] = bookings.ok ? bookings.data.data ?? [] : [];
 

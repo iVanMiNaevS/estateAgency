@@ -1,6 +1,6 @@
 import {CatalogSection} from "@/components/screens/catalog/catalogSection";
 import {ConnSection} from "@/components/screens/catalog/connSection";
-import {SearchSection} from "@/components/screens/catalog/searchSection";
+import {CatalogSearch} from "@/components/screens/catalog/connSection";
 import {getObjects} from "@/services/getInfo";
 import {IEstate} from "@/types/estate.interface";
 import React from "react";
@@ -13,7 +13,7 @@ const Page = async () => {
 	const data = await getObjects<IEstate>("estates", ["poster", "options.icon"]);
 	return (
 		<main>
-			<SearchSection sectionId="catalog-catalogSearch" />
+			<CatalogSearch sectionId="catalog-catalogSearch" />
 			<CatalogSection data={data} sectionId="catalog-catalogSection" />
 			<ConnSection sectionId="catalog-connSection" />
 		</main>

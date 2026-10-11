@@ -1,0 +1,84 @@
+.form {
+	display: flex;
+	flex-direction: column;
+	gap: 18px;
+	max-width: 520px;
+}
+
+.field {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+
+	label {
+		font-size: 15px;
+		color: var(--grey60);
+	}
+
+	input,
+	select,
+	textarea {
+		background-color: var(--grey10);
+		color: var(--white);
+		border: 1px solid var(--grey15);
+		border-radius: 12px;
+		padding: 16px;
+		font-size: 16px;
+		font-family: inherit;
+	}
+
+	textarea {
+		resize: vertical;
+		min-height: 110px;
+	}
+
+	input[aria-invalid="true"] {
+		border-color: #8b2e2e;
+	}
+}
+
+.fieldError {
+	font-size: 14px;
+	color: #e08b8b;
+}
+
+.error {
+	padding: 14px 18px;
+	border-radius: 10px;
+	background: rgba(139, 46, 46, 0.18);
+	border: 1px solid #8b2e2e;
+	color: #e08b8b;
+	font-size: 16px;
+}
+
+.success {
+	padding: 18px;
+	border-radius: 10px;
+	background: rgba(46, 139, 87, 0.15);
+	border: 1px solid #2e8b57;
+	color: #6fcf97;
+	max-width: 520px;
+}
+
+.consent {
+	display: flex;
+	align-items: flex-start;
+	gap: 10px;
+	font-size: 14px;
+	color: var(--grey60);
+	line-height: 1.5;
+	cursor: pointer;
+
+	input {
+		width: 20px;
+		height: 20px;
+		min-width: 20px;
+		margin-top: 2px;
+		accent-color: var(--purple60);
+	}
+
+	a {
+		color: var(--purple60);
+		text-decoration: underline;
+	}
+}
