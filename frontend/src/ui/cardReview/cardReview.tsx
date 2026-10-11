@@ -21,23 +21,23 @@ export const CardReview: FC<props> = ({review}) => {
 				<p>{review.review}</p>
 			</div>
 			<div className={styles.authorWrapp}>
-				{review.user.avatar ? (
+				{review.user?.avatar ? (
 					<Image
 						src={
 							process.env.NEXT_PUBLIC_SERVER_URL +
-							(!review.user.avatar.formats
-								? review.user.avatar.url
-								: review.user.avatar.formats.thumbnail.url)
+							(!review.user?.avatar.formats
+								? review.user?.avatar.url
+								: review.user?.avatar.formats.thumbnail.url)
 						}
 						width={
-							review.user.avatar.formats
-								? review.user.avatar.formats.thumbnail.width
-								: review.user.avatar.width
+							review.user?.avatar.formats
+								? review.user?.avatar.formats.thumbnail.width
+								: review.user?.avatar.width
 						}
 						height={
-							review.user.avatar.formats
-								? review.user.avatar.formats.thumbnail.height
-								: review.user.avatar.height
+							review.user?.avatar.formats
+								? review.user?.avatar.formats.thumbnail.height
+								: review.user?.avatar.height
 						}
 						alt="Фото автора"
 					/>
@@ -45,8 +45,8 @@ export const CardReview: FC<props> = ({review}) => {
 					<Image src={profile} alt="Фото автора" />
 				)}
 				<div className={styles.authorInfo}>
-					<p>{review.user.name}</p>
-					<p className={styles.city}>{review.user.city}</p>
+					<p>{review.user?.name ?? "Гость парка"}</p>
+					{review.user?.city && <p className={styles.city}>{review.user.city}</p>}
 				</div>
 			</div>
 		</div>

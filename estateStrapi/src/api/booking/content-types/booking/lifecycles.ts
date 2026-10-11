@@ -11,19 +11,46 @@
  * иначе используется цена места в сеансе.
  */
 
+import { errors } from '@strapi/utils';
+
+/**
+ * Ошибки бизнес-правил отдаём как 400, а не 500: обычный Error Strapi
+ * превращает во внутреннюю ошибку сервера.
+ */
+const badRequest = (message: string) => new errors.ApplicationError(message);
+
 const OCCUPYING_STATUSES = ['pending', 'confirmed', 'paid'];
 
 /** Статусы, из которых бронь ещё можно отменить. */
 const CANCELLABLE_STATUSES = ['pending', 'confirmed', 'paid'];
 
-/** Приводит связь (id / объект / documentId-объект) к числовому id. */
+/**
+ * Приводит связь к числовому id.
+ *
+ * Документный сервис Strapi 5 приводит связи к виду
+ * { set: [{ id }] } или { connect: [{ id }] }, поэтому разбираем
+ * и эти формы, а не только голый id.
+ */
 const readId = (value: any): number | null => {
-  if (typeof value === 'number') return value;
-  if (value && typeof value === 'object') {
-    if ('id' in value) return Number(value.id);
-    if ('documentId' in value) return Number(value.documentId);
+  if (value === null || value === undefined) return null;
+
+  if (typeof value === 'number') return Number.isFinite(value) ? value : null;
+
+  if (Array.isArray(value)) return value.length ? readId(value[0]) : null;
+
+  if (typeof value === 'object') {
+    if ('id' in value) return readId(value.id);
+    if ('set' in value) return readId(value.set);
+    if ('connect' in value) return readId(value.connect);
+    // documentId не является числом: возвращаем null и ждём id.
+    return null;
   }
-  if (typeof value === 'string' && value !== '') return Number(value);
+
+  if (typeof value === 'string' && value !== '') {
+    const parsed = Number(value);
+    return Number.isFinite(parsed) ? parsed : null;
+  }
+
   return null;
 };
 
@@ -67,7 +94,7 @@ const resolvePricing = async (
     .findOne({ where: { id: tariffId }, select: ['id', 'title', 'adultPrice', 'childPrice', 'price'] });
 
   if (!tariff) {
-    throw new Error('Тариф не найден');
+    throw badRequest('Тариф не найден');
   }
 
   const adultPrice = tariff.adultPrice ?? 0;
@@ -97,44 +124,44 @@ export default {
     const userId = readId(data.user);
 
     if (!sessionId || !userId) {
-      throw new Error('Не указаны сеанс или пользователь');
+      throw badRequest('Не указаны сеанс или пользователь');
     }
 
     const adultsCount = readCount(data.adultsCount ?? 1);
     const childrenCount = readCount(data.childrenCount ?? 0);
 
     if (adultsCount === null || childrenCount === null) {
-      throw new Error('Количество взрослых и детей должно быть целым неотрицательным числом');
+      throw badRequest('Количество взрослых и детей должно быть целым неотрицательным числом');
     }
 
     const guestsCount = adultsCount + childrenCount;
     if (guestsCount < 1) {
-      throw new Error('Укажите хотя бы одного взрослого или ребёнка');
+      throw badRequest('Укажите хотя бы одного взрослого или ребёнка');
     }
 
     const session = await strapi.db
       .query('api::session.session')
       .findOne({ where: { id: sessionId } });
 
-    if (!session) throw new Error('Сеанс не найден');
+    if (!session) throw badRequest('Сеанс не найден');
     if (session.status === 'cancelled') {
-      throw new Error('Сеанс отменён, бронирование недоступно');
+      throw badRequest('Сеанс отменён, бронирование недоступно');
     }
 
     // Запрет повторной брони на тот же сеанс (ТЗ п.3.2).
     const existing = await strapi.db.query('api::booking.booking').findOne({
       where: {
-        session: { id: sessionId },
-        user: { id: userId },
+        session: { id: { $eq: sessionId } },
+        user: { id: { $eq: userId } },
         status: { $in: OCCUPYING_STATUSES },
       },
       select: ['id'],
     });
-    if (existing) throw new Error('Вы уже забронировали этот сеанс');
+    if (existing) throw badRequest('Вы уже забронировали этот сеанс');
 
     const freeSeats = Math.max(0, session.capacity - (session.seatsTaken ?? 0));
     if (guestsCount > freeSeats) {
-      throw new Error(
+      throw badRequest(
         `В сеансе осталось ${freeSeats} мест, вы указали ${guestsCount}. Уменьшите количество гостей`
       );
     }
@@ -166,7 +193,9 @@ export default {
       .query('api::booking.booking')
       .findOne({
         where: { id },
-        select: ['id', 'status', 'guestsCount', 'adultsCount', 'childrenCount', 'session', 'tariff'],
+        select: ['id', 'status', 'guestsCount', 'adultsCount', 'childrenCount'],
+        // session и tariff — связи, их нельзя получить через select.
+        populate: { session: true, tariff: true },
       });
     if (!booking) return;
 
@@ -175,7 +204,7 @@ export default {
 
     if (data.status !== undefined && data.status !== booking.status) {
       if (data.status === 'cancelled' && !CANCELLABLE_STATUSES.includes(booking.status)) {
-        throw new Error(`Бронь в статусе «${booking.status}» уже нельзя отменить`);
+        throw badRequest(`Бронь в статусе «${booking.status}» уже нельзя отменить`);
       }
       if (data.status === 'cancelled') {
         data.cancelledAt = new Date().toISOString();
@@ -196,12 +225,12 @@ export default {
           : booking.childrenCount ?? 0;
 
       if (adultsCount === null || childrenCount === null) {
-        throw new Error('Количество взрослых и детей должно быть целым неотрицательным числом');
+        throw badRequest('Количество взрослых и детей должно быть целым неотрицательным числом');
       }
 
       const guestsCount = adultsCount + childrenCount;
       if (guestsCount < 1) {
-        throw new Error('Укажите хотя бы одного взрослого или ребёнка');
+        throw badRequest('Укажите хотя бы одного взрослого или ребёнка');
       }
 
       const tariffId = data.tariff !== undefined ? readId(data.tariff) : readId(booking.tariff);
@@ -217,7 +246,7 @@ export default {
           // Текущая бронь уже учтена в seatsTaken, её места возвращаем в расчёт.
           const available = freeSeats + (booking.guestsCount ?? 0);
           if (guestsCount > available) {
-            throw new Error(
+            throw badRequest(
               `В сеансе можно забронировать не больше ${available} мест`
             );
           }
@@ -267,7 +296,7 @@ export default {
 
     const booking = await strapi.db
       .query('api::booking.booking')
-      .findOne({ where: { id }, select: ['id', 'session'] });
+      .findOne({ where: { id }, select: ['id'], populate: { session: true } });
 
     if (booking) {
       event.state.sessionId = readId(booking.session);

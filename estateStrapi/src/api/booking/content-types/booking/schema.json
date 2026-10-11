@@ -58,7 +58,8 @@
       "type": "integer",
       "required": true,
       "min": 0,
-      "description": "Сумма, рассчитанная сервером по тарифу"
+      "default": 0,
+      "description": "Сумма, рассчитанная сервером по тарифу. Значение по умолчанию нужно только для прохождения валидации до lifecycle, реальную цену ставит beforeCreate"
     },
     "status": {
       "type": "enumeration",

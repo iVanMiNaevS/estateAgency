@@ -1,3 +1,8 @@
+import { errors } from '@strapi/utils';
+
+/** Статусы, из которых клиент ещё может отменить бронь. */
+const CANCELLABLE_STATUSES = ['pending', 'confirmed', 'paid'];
+
 /**
  * booking controller
  *
@@ -14,12 +19,12 @@ export default {
     const { user } = ctx.state;
 
     if (!user) {
-      return ctx.unauthorized();
+      throw new errors.UnauthorizedError();
     }
 
     const filters = {
       ...(ctx.query?.filters ?? {}),
-      user: { id: user.id },
+      user: { id: { $eq: user.id } },
     };
 
     const { results, pagination } = await strapi.service('api::booking.booking').find({
@@ -44,7 +49,7 @@ export default {
     const { user } = ctx.state;
 
     if (!user) {
-      return ctx.unauthorized();
+      throw new errors.UnauthorizedError();
     }
 
     const body = ctx.request.body?.data ?? {};
@@ -77,32 +82,51 @@ export default {
     const { user } = ctx.state;
 
     if (!user) {
-      return ctx.unauthorized();
+      throw new errors.UnauthorizedError();
     }
 
     const id = Number(ctx.params.id);
     if (!Number.isFinite(id)) {
-      return ctx.badRequest('Некорректный идентификатор брони');
+      throw new errors.ApplicationError('Некорректный идентификатор брони');
     }
 
+    // Связь user нельзя выбрать через select: это не колонка, а запись
+    // в таблице связей, поэтому запрашиваем её через populate.
     const booking = await strapi.db.query('api::booking.booking').findOne({
       where: { id },
-      select: ['id', 'user'],
+      select: ['id', 'status'],
+      populate: { user: true, session: true },
     });
 
     if (!booking) {
-      return ctx.notFound('Бронирование не найдено');
+      throw new errors.NotFoundError('Бронирование не найдено');
     }
 
-    if (booking.user !== user.id) {
-      return ctx.forbidden('Можно отменить только своё бронирование');
+    if (booking.user?.id !== user.id) {
+      throw new errors.ForbiddenError('Можно отменить только своё бронирование');
     }
 
-    const updated = await strapi.service('api::booking.booking').update({
-      where: { id },
-      data: { status: 'cancelled' },
-      populate: { session: { populate: { attraction: true } } },
-    });
+    // Отменяем через db.query: документный сервис Strapi некорректно
+    // строит where для этой сущности из-за связей user/session/tariff.
+    // Правила проверяем здесь явно, места пересчитываем через сервис.
+    if (!CANCELLABLE_STATUSES.includes(booking.status)) {
+      throw new errors.ApplicationError(
+        `Бронь в статусе «${booking.status}» уже нельзя отменить`
+      );
+    }
+
+    const updated = await strapi.db
+      .query('api::booking.booking')
+      .update({
+        where: { id },
+        data: { status: 'cancelled', cancelledAt: new Date().toISOString() },
+      });
+
+    // Возвращаем освободившиеся места в сеанс.
+    const sessionId = Number(booking.session?.id);
+    if (Number.isFinite(sessionId)) {
+      await strapi.service('api::session.session').recalcSeats(sessionId);
+    }
 
     ctx.body = { data: updated };
   },

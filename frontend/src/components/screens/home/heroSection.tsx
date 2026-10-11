@@ -50,12 +50,16 @@ export const HeroSection = ({sectionId, data}: props) => {
 						</div>
 					</div>
 				</div>
-					<Image
-						src={process.env.NEXT_PUBLIC_SERVER_URL + sectionData.image.url}
-						width={sectionData.image.width}
-						height={sectionData.image.height}
-						alt={sectionData.image.alternativeText}
-					/>
+					{/* Изображение необязательно: контент заполняется из админки,
+					    поэтому при пустом поле блок просто не рисуется. */}
+					{sectionData?.image?.url && (
+						<Image
+							src={process.env.NEXT_PUBLIC_SERVER_URL + sectionData.image.url}
+							width={sectionData.image.width}
+							height={sectionData.image.height}
+							alt={sectionData.image.alternativeText ?? "Парк развлечений"}
+						/>
+					)}
 			</div>
 		</section>
 	);

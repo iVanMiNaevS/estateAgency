@@ -5,6 +5,14 @@
  * поэтому проверяем их согласованность на сервере.
  */
 
+import { errors } from '@strapi/utils';
+
+/**
+ * Ошибки бизнес-правил отдаём как 400, а не 500: обычный Error Strapi
+ * превращает во внутреннюю ошибку сервера.
+ */
+const badRequest = (message: string) => new errors.ApplicationError(message);
+
 const validateRanges = (data: any) => {
   const ageMin = data.ageMin;
   const ageMax = data.ageMax;
@@ -12,21 +20,21 @@ const validateRanges = (data: any) => {
   const heightMaxCm = data.heightMaxCm;
 
   if (ageMin != null && ageMax != null && Number(ageMax) < Number(ageMin)) {
-    throw new Error('Максимальный возраст не может быть меньше минимального');
+    throw badRequest('Максимальный возраст не может быть меньше минимального');
   }
   if (heightMinCm != null && heightMaxCm != null && Number(heightMaxCm) < Number(heightMinCm)) {
-    throw new Error('Максимальный рост не может быть меньше минимального');
+    throw badRequest('Максимальный рост не может быть меньше минимального');
   }
   for (const [field, value] of Object.entries({ ageMin, ageMax, heightMinCm, heightMaxCm })) {
     if (value != null && (!Number.isInteger(Number(value)) || Number(value) < 0)) {
-      throw new Error(`Поле ${field} должно быть целым неотрицательным числом`);
+      throw badRequest(`Поле ${field} должно быть целым неотрицательным числом`);
     }
   }
   if (data.basePrice != null && Number(data.basePrice) < 0) {
-    throw new Error('Цена не может быть отрицательной');
+    throw badRequest('Цена не может быть отрицательной');
   }
   if (data.durationMinutes != null && Number(data.durationMinutes) < 1) {
-    throw new Error('Длительность должна быть не меньше 1 минуты');
+    throw badRequest('Длительность должна быть не меньше 1 минуты');
   }
 };
 

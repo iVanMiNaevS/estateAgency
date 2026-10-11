@@ -27,7 +27,7 @@ export default factories.createCoreService('api::session.session', ({ strapi }) 
 
     const bookings = await strapi.db.query('api::booking.booking').findMany({
       where: {
-        session: { id },
+        session: { id: { $eq: id } },
         ...(activeSessions ? { status: { $in: [...ACTIVE_BOOKING_STATUSES] } } : {}),
       },
       select: ['id', 'guestsCount', 'status'],
