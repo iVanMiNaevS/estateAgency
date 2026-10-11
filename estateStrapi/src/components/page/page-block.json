@@ -1,0 +1,34 @@
+{
+  "collectionName": "components_page_page_blocks",
+  "info": {
+    "displayName": "pageBlock",
+    "description": "Произвольный блок текстовой страницы: заголовок, текст, картинка"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "text": {
+      "type": "richtext"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images", "files"]
+    },
+    "layout": {
+      "type": "enumeration",
+      "enum": ["text", "text-left", "text-right"],
+      "default": "text",
+      "description": "text — текст по центру, text-left — текст слева от картинки, text-right — справа"
+    },
+    "items": {
+      "type": "component",
+      "component": "page.page-block-item",
+      "repeatable": true,
+      "description": "Список пунктов, например этапы посещения"
+    }
+  },
+  "config": {}
+}

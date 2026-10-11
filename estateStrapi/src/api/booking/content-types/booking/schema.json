@@ -1,0 +1,64 @@
+{
+  "kind": "collectionType",
+  "collectionName": "bookings",
+  "info": {
+    "singularName": "booking",
+    "pluralName": "bookings",
+    "displayName": "booking",
+    "description": "Бронирование посещения парка развлечений"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "bookings",
+      "required": true
+    },
+    "session": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::session.session",
+      "inversedBy": "bookings",
+      "required": true
+    },
+    "guestsCount": {
+      "type": "integer",
+      "required": true,
+      "min": 1,
+      "default": 1
+    },
+    "totalPrice": {
+      "type": "integer",
+      "required": true,
+      "min": 0,
+      "description": "guestsCount * session.price на момент бронирования"
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": ["pending", "confirmed", "completed", "cancelled", "rejected"],
+      "default": "pending",
+      "required": true
+    },
+    "contactName": {
+      "type": "string",
+      "description": "Имя гостя для связи"
+    },
+    "contactPhone": {
+      "type": "string",
+      "description": "Телефон гостя для связи"
+    },
+    "comment": {
+      "type": "text",
+      "description": "Комментарий администратора: причина отказа и т.п."
+    },
+    "cancelledAt": {
+      "type": "datetime",
+      "description": "Когда бронь была отменена"
+    }
+  }
+}

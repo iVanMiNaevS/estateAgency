@@ -1,0 +1,22 @@
+{
+  "collectionName": "components_faq_section_faq_sections",
+  "info": {
+    "displayName": "faqSection",
+    "description": "Блок FAQ с заголовком и списком вопросов"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "text"
+    },
+    "questions": {
+      "type": "component",
+      "component": "faq-section.question",
+      "repeatable": true
+    }
+  },
+  "config": {}
+}

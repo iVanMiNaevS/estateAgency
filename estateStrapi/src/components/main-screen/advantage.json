@@ -1,0 +1,22 @@
+{
+  "collectionName": "components_main_screen_advantage_section_advantages",
+  "info": {
+    "displayName": "advantage"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "text": {
+      "type": "text"
+    },
+    "icon": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images", "files"]
+    }
+  },
+  "config": {}
+}

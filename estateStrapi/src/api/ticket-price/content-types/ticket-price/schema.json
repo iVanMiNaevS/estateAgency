@@ -1,0 +1,52 @@
+{
+  "kind": "collectionType",
+  "collectionName": "ticket_prices",
+  "info": {
+    "singularName": "ticket-price",
+    "pluralName": "ticket-prices",
+    "displayName": "ticketPrice",
+    "description": "Тариф на билет: взрослый, детский, семейный, групповой"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "category": {
+      "type": "enumeration",
+      "enum": ["ticket", "service", "benefit"],
+      "default": "ticket",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    },
+    "price": {
+      "type": "integer",
+      "required": true,
+      "min": 0
+    },
+    "oldPrice": {
+      "type": "integer",
+      "min": 0,
+      "description": "Цена до скидки, для показа перечёркнутой"
+    },
+    "includes": {
+      "type": "component",
+      "component": "ticket-price.price-include",
+      "repeatable": true
+    },
+    "isPopular": {
+      "type": "boolean",
+      "default": false
+    },
+    "sortOrder": {
+      "type": "integer",
+      "default": 0
+    }
+  }
+}

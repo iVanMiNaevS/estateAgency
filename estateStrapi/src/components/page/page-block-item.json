@@ -1,0 +1,22 @@
+{
+  "collectionName": "components_page_page_block_items",
+  "info": {
+    "displayName": "pageBlockItem",
+    "description": "Пункт списка внутри блока страницы"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "text": {
+      "type": "text"
+    },
+    "icon": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images", "files"]
+    }
+  },
+  "config": {}
+}

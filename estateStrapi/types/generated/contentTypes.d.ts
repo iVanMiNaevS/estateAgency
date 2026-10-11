@@ -430,6 +430,158 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiAttractionAttraction extends Struct.CollectionTypeSchema {
+  collectionName: 'attractions';
+  info: {
+    description: '\u0410\u0442\u0442\u0440\u0430\u043A\u0446\u0438\u043E\u043D \u043F\u0430\u0440\u043A\u0430 \u0440\u0430\u0437\u0432\u043B\u0435\u0447\u0435\u043D\u0438\u0439';
+    displayName: 'attraction';
+    pluralName: 'attractions';
+    singularName: 'attraction';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    ageMax: Schema.Attribute.Integer &
+      Schema.Attribute.SetMinMax<
+        {
+          min: 0;
+        },
+        number
+      >;
+    ageMin: Schema.Attribute.Integer &
+      Schema.Attribute.SetMinMax<
+        {
+          min: 0;
+        },
+        number
+      > &
+      Schema.Attribute.DefaultTo<0>;
+    basePrice: Schema.Attribute.Integer &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMax<
+        {
+          min: 0;
+        },
+        number
+      >;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.Text & Schema.Attribute.Required;
+    durationMinutes: Schema.Attribute.Integer &
+      Schema.Attribute.SetMinMax<
+        {
+          min: 1;
+        },
+        number
+      > &
+      Schema.Attribute.DefaultTo<10>;
+    heightMaxCm: Schema.Attribute.Integer &
+      Schema.Attribute.SetMinMax<
+        {
+          min: 0;
+        },
+        number
+      >;
+    heightMinCm: Schema.Attribute.Integer &
+      Schema.Attribute.SetMinMax<
+        {
+          min: 0;
+        },
+        number
+      >;
+    images: Schema.Attribute.Media<'images' | 'files', true>;
+    isActive: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::attraction.attraction'
+    > &
+      Schema.Attribute.Private;
+    options: Schema.Attribute.Component<'attraction.attraction-option', true>;
+    poster: Schema.Attribute.Media<'images' | 'files'> &
+      Schema.Attribute.Required;
+    publishedAt: Schema.Attribute.DateTime;
+    restrictions: Schema.Attribute.Component<
+      'attraction.attraction-restriction',
+      true
+    >;
+    sessions: Schema.Attribute.Relation<'oneToMany', 'api::session.session'>;
+    shortFact: Schema.Attribute.String;
+    slug: Schema.Attribute.UID<'title'> & Schema.Attribute.Required;
+    sortOrder: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    type: Schema.Attribute.Enumeration<['extreme', 'family', 'child']> &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'family'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiBookingBooking extends Struct.CollectionTypeSchema {
+  collectionName: 'bookings';
+  info: {
+    description: '\u0411\u0440\u043E\u043D\u0438\u0440\u043E\u0432\u0430\u043D\u0438\u0435 \u043F\u043E\u0441\u0435\u0449\u0435\u043D\u0438\u044F \u043F\u0430\u0440\u043A\u0430 \u0440\u0430\u0437\u0432\u043B\u0435\u0447\u0435\u043D\u0438\u0439';
+    displayName: 'booking';
+    pluralName: 'bookings';
+    singularName: 'booking';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    cancelledAt: Schema.Attribute.DateTime;
+    comment: Schema.Attribute.Text;
+    contactName: Schema.Attribute.String;
+    contactPhone: Schema.Attribute.String;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    guestsCount: Schema.Attribute.Integer &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMax<
+        {
+          min: 1;
+        },
+        number
+      > &
+      Schema.Attribute.DefaultTo<1>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::booking.booking'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    session: Schema.Attribute.Relation<'manyToOne', 'api::session.session'> &
+      Schema.Attribute.Required;
+    status: Schema.Attribute.Enumeration<
+      ['pending', 'confirmed', 'completed', 'cancelled', 'rejected']
+    > &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'pending'>;
+    totalPrice: Schema.Attribute.Integer &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMax<
+        {
+          min: 0;
+        },
+        number
+      >;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    user: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    > &
+      Schema.Attribute.Required;
+  };
+}
+
 export interface ApiEstateEstate extends Struct.CollectionTypeSchema {
   collectionName: 'estates';
   info: {
@@ -478,6 +630,10 @@ export interface ApiMainScreenMainScreen extends Struct.SingleTypeSchema {
     draftAndPublish: false;
   };
   attributes: {
+    advantagesSection: Schema.Attribute.Component<
+      'main-screen.advantage-section',
+      false
+    >;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -489,6 +645,7 @@ export interface ApiMainScreenMainScreen extends Struct.SingleTypeSchema {
       'api::main-screen.main-screen'
     > &
       Schema.Attribute.Private;
+    newsSection: Schema.Attribute.Component<'main-screen.news-section', false>;
     publishedAt: Schema.Attribute.DateTime;
     recomendedSection: Schema.Attribute.Component<
       'main-screen.recomended-section',
@@ -499,6 +656,76 @@ export interface ApiMainScreenMainScreen extends Struct.SingleTypeSchema {
       false
     >;
     seo: Schema.Attribute.Component<'seo.seo', false>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiNewsItemNewsItem extends Struct.CollectionTypeSchema {
+  collectionName: 'news_items';
+  info: {
+    description: '\u041D\u043E\u0432\u043E\u0441\u0442\u0438 \u043F\u0430\u0440\u043A\u0430 \u0438 \u0430\u043D\u043E\u043D\u0441\u044B \u0441\u043E\u0431\u044B\u0442\u0438\u0439';
+    displayName: 'news-item';
+    pluralName: 'news-items';
+    singularName: 'news-item';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    content: Schema.Attribute.RichText & Schema.Attribute.Required;
+    cover: Schema.Attribute.Media<'images' | 'files'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    eventDate: Schema.Attribute.Date;
+    excerpt: Schema.Attribute.Text;
+    isPinned: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::news-item.news-item'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    seo: Schema.Attribute.Component<'seo.seo', false>;
+    slug: Schema.Attribute.UID<'title'> & Schema.Attribute.Required;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiPagePage extends Struct.CollectionTypeSchema {
+  collectionName: 'pages';
+  info: {
+    description: '\u0422\u0435\u043A\u0441\u0442\u043E\u0432\u0430\u044F \u0441\u0442\u0440\u0430\u043D\u0438\u0446\u0430: \u041E \u043F\u0430\u0440\u043A\u0435, \u041F\u0440\u0430\u0432\u0438\u043B\u0430 \u043F\u043E\u0441\u0435\u0449\u0435\u043D\u0438\u044F, \u0426\u0435\u043D\u044B, \u041F\u043E\u043B\u0438\u0442\u0438\u043A\u0430 \u043A\u043E\u043D\u0444\u0438\u0434\u0435\u043D\u0446\u0438\u0430\u043B\u044C\u043D\u043E\u0441\u0442\u0438';
+    displayName: 'page';
+    pluralName: 'pages';
+    singularName: 'page';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    blocks: Schema.Attribute.Component<'page.page-block', true>;
+    content: Schema.Attribute.RichText;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    faq: Schema.Attribute.Component<'faq-section.faq-section', false>;
+    gallery: Schema.Attribute.Media<'images' | 'files', true>;
+    heroImage: Schema.Attribute.Media<'images' | 'files'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::page.page'> &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    seo: Schema.Attribute.Component<'seo.seo', false>;
+    slug: Schema.Attribute.UID<'title'> & Schema.Attribute.Required;
+    subtitle: Schema.Attribute.String;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -539,6 +766,129 @@ export interface ApiReviewReview extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiSessionSession extends Struct.CollectionTypeSchema {
+  collectionName: 'sessions';
+  info: {
+    description: '\u0421\u0435\u0430\u043D\u0441 (\u0441\u043B\u043E\u0442) \u043F\u043E\u0441\u0435\u0449\u0435\u043D\u0438\u044F \u0430\u0442\u0442\u0440\u0430\u043A\u0446\u0438\u043E\u043D\u0430 \u0441 \u043B\u0438\u043C\u0438\u0442\u043E\u043C \u043C\u0435\u0441\u0442';
+    displayName: 'session';
+    pluralName: 'sessions';
+    singularName: 'session';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    attraction: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::attraction.attraction'
+    > &
+      Schema.Attribute.Required;
+    bookings: Schema.Attribute.Relation<'oneToMany', 'api::booking.booking'>;
+    capacity: Schema.Attribute.Integer &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMax<
+        {
+          min: 1;
+        },
+        number
+      >;
+    comment: Schema.Attribute.Text;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    date: Schema.Attribute.Date & Schema.Attribute.Required;
+    durationMinutes: Schema.Attribute.Integer &
+      Schema.Attribute.SetMinMax<
+        {
+          min: 1;
+        },
+        number
+      > &
+      Schema.Attribute.DefaultTo<10>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::session.session'
+    > &
+      Schema.Attribute.Private;
+    price: Schema.Attribute.Integer &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMax<
+        {
+          min: 0;
+        },
+        number
+      >;
+    publishedAt: Schema.Attribute.DateTime;
+    seatsTaken: Schema.Attribute.Integer &
+      Schema.Attribute.SetMinMax<
+        {
+          min: 0;
+        },
+        number
+      > &
+      Schema.Attribute.DefaultTo<0>;
+    startTime: Schema.Attribute.Time & Schema.Attribute.Required;
+    status: Schema.Attribute.Enumeration<['open', 'full', 'cancelled']> &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'open'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiTicketPriceTicketPrice extends Struct.CollectionTypeSchema {
+  collectionName: 'ticket_prices';
+  info: {
+    description: '\u0422\u0430\u0440\u0438\u0444 \u043D\u0430 \u0431\u0438\u043B\u0435\u0442: \u0432\u0437\u0440\u043E\u0441\u043B\u044B\u0439, \u0434\u0435\u0442\u0441\u043A\u0438\u0439, \u0441\u0435\u043C\u0435\u0439\u043D\u044B\u0439, \u0433\u0440\u0443\u043F\u043F\u043E\u0432\u043E\u0439';
+    displayName: 'ticketPrice';
+    pluralName: 'ticket-prices';
+    singularName: 'ticket-price';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    category: Schema.Attribute.Enumeration<['ticket', 'service', 'benefit']> &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'ticket'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.Text;
+    includes: Schema.Attribute.Component<'ticket-price.price-include', true>;
+    isPopular: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::ticket-price.ticket-price'
+    > &
+      Schema.Attribute.Private;
+    oldPrice: Schema.Attribute.Integer &
+      Schema.Attribute.SetMinMax<
+        {
+          min: 0;
+        },
+        number
+      >;
+    price: Schema.Attribute.Integer &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMax<
+        {
+          min: 0;
+        },
+        number
+      >;
+    publishedAt: Schema.Attribute.DateTime;
+    sortOrder: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiUserRequestUserRequest extends Struct.CollectionTypeSchema {
   collectionName: 'user_requests';
   info: {
@@ -551,7 +901,7 @@ export interface ApiUserRequestUserRequest extends Struct.CollectionTypeSchema {
   };
   attributes: {
     activeContact: Schema.Attribute.String;
-    budget: Schema.Attribute.Integer;
+    adminComment: Schema.Attribute.Text;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -564,9 +914,13 @@ export interface ApiUserRequestUserRequest extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     message: Schema.Attribute.Text;
     name: Schema.Attribute.String;
-    phone: Schema.Attribute.Integer;
+    phone: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
     secondName: Schema.Attribute.String;
+    status: Schema.Attribute.Enumeration<
+      ['new', 'in_progress', 'done', 'rejected']
+    > &
+      Schema.Attribute.DefaultTo<'new'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1031,8 +1385,10 @@ export interface PluginUsersPermissionsUser
   };
   attributes: {
     avatar: Schema.Attribute.Media<'images' | 'files'>;
+    birthDate: Schema.Attribute.Date;
     blocked: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
-    city: Schema.Attribute.String & Schema.Attribute.Required;
+    bookings: Schema.Attribute.Relation<'oneToMany', 'api::booking.booking'>;
+    city: Schema.Attribute.String;
     confirmationToken: Schema.Attribute.String & Schema.Attribute.Private;
     confirmed: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     createdAt: Schema.Attribute.DateTime;
@@ -1044,6 +1400,7 @@ export interface PluginUsersPermissionsUser
       Schema.Attribute.SetMinMaxLength<{
         minLength: 6;
       }>;
+    lastName: Schema.Attribute.String;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -1056,6 +1413,7 @@ export interface PluginUsersPermissionsUser
       Schema.Attribute.SetMinMaxLength<{
         minLength: 6;
       }>;
+    phone: Schema.Attribute.String;
     provider: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
     resetPasswordToken: Schema.Attribute.String & Schema.Attribute.Private;
@@ -1086,9 +1444,15 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
+      'api::attraction.attraction': ApiAttractionAttraction;
+      'api::booking.booking': ApiBookingBooking;
       'api::estate.estate': ApiEstateEstate;
       'api::main-screen.main-screen': ApiMainScreenMainScreen;
+      'api::news-item.news-item': ApiNewsItemNewsItem;
+      'api::page.page': ApiPagePage;
       'api::review.review': ApiReviewReview;
+      'api::session.session': ApiSessionSession;
+      'api::ticket-price.ticket-price': ApiTicketPriceTicketPrice;
       'api::user-request.user-request': ApiUserRequestUserRequest;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;

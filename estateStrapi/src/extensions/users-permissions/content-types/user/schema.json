@@ -68,12 +68,22 @@
       "configurable": false
     },
     "city": {
-      "type": "string",
-      "required": true
+      "type": "string"
     },
     "name": {
       "type": "string",
       "required": true
+    },
+    "phone": {
+      "type": "string",
+      "description": "Контактный телефон для связи по бронированию"
+    },
+    "lastName": {
+      "type": "string"
+    },
+    "birthDate": {
+      "type": "date",
+      "description": "Дата рождения — нужна для проверки возрастных ограничений"
     },
     "avatar": {
       "type": "media",
@@ -82,6 +92,12 @@
         "images",
         "files"
       ]
+    },
+    "bookings": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::booking.booking",
+      "mappedBy": "user"
     }
   }
 }

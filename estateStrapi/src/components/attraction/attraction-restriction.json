@@ -1,0 +1,23 @@
+{
+  "collectionName": "components_attraction_attraction_restrictions",
+  "info": {
+    "displayName": "attractionRestriction",
+    "description": "Одно ограничение по здоровью или безопасности"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "text": {
+      "type": "text"
+    },
+    "isCritical": {
+      "type": "boolean",
+      "default": false,
+      "description": "Показывать prominently в карточке аттракциона"
+    }
+  },
+  "config": {}
+}

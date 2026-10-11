@@ -1,0 +1,23 @@
+{
+  "collectionName": "components_attraction_attraction_options",
+  "info": {
+    "displayName": "attractionOption",
+    "description": "Пара характеристика/значение, например Длительность / 10 минут"
+  },
+  "options": {},
+  "attributes": {
+    "label": {
+      "type": "string",
+      "required": true
+    },
+    "value": {
+      "type": "string"
+    },
+    "icon": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images", "files"]
+    }
+  },
+  "config": {}
+}

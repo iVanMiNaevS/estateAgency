@@ -1,0 +1,15 @@
+{
+  "collectionName": "components_ticket_price_price_includes",
+  "info": {
+    "displayName": "priceInclude",
+    "description": "Пункт, входящий в тариф"
+  },
+  "options": {},
+  "attributes": {
+    "text": {
+      "type": "string",
+      "required": true
+    }
+  },
+  "config": {}
+}

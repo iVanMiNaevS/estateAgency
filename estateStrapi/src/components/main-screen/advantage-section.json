@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_main_screen_advantage_sections",
+  "info": {
+    "displayName": "advantageSection",
+    "description": "Блок преимуществ парка на главной странице"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "advantages": {
+      "type": "component",
+      "component": "main-screen.advantage",
+      "repeatable": true
+    }
+  },
+  "config": {}
+}

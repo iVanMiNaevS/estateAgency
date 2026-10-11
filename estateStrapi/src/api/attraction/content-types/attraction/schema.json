@@ -1,0 +1,103 @@
+{
+  "kind": "collectionType",
+  "collectionName": "attractions",
+  "info": {
+    "singularName": "attraction",
+    "pluralName": "attractions",
+    "displayName": "attraction",
+    "description": "Аттракцион парка развлечений"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "title",
+      "required": true
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": ["extreme", "family", "child"],
+      "default": "family",
+      "required": true
+    },
+    "shortFact": {
+      "type": "string",
+      "description": "Короткий факт для карточки в сетке"
+    },
+    "description": {
+      "type": "text",
+      "required": true
+    },
+    "poster": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": ["images", "files"]
+    },
+    "images": {
+      "type": "media",
+      "multiple": true,
+      "allowedTypes": ["images", "files"]
+    },
+    "durationMinutes": {
+      "type": "integer",
+      "default": 10,
+      "min": 1
+    },
+    "basePrice": {
+      "type": "integer",
+      "required": true,
+      "min": 0
+    },
+    "ageMin": {
+      "type": "integer",
+      "default": 0,
+      "min": 0
+    },
+    "ageMax": {
+      "type": "integer",
+      "min": 0
+    },
+    "heightMinCm": {
+      "type": "integer",
+      "description": "Минимальный рост посетителя в см",
+      "min": 0
+    },
+    "heightMaxCm": {
+      "type": "integer",
+      "description": "Максимальный рост посетителя в см",
+      "min": 0
+    },
+    "restrictions": {
+      "type": "component",
+      "component": "attraction.attraction-restriction",
+      "repeatable": true
+    },
+    "options": {
+      "type": "component",
+      "component": "attraction.attraction-option",
+      "repeatable": true
+    },
+    "sessions": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::session.session",
+      "mappedBy": "attraction"
+    },
+    "isActive": {
+      "type": "boolean",
+      "default": true
+    },
+    "sortOrder": {
+      "type": "integer",
+      "default": 0
+    }
+  }
+}

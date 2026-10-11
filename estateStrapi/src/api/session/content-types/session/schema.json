@@ -1,0 +1,70 @@
+{
+  "kind": "collectionType",
+  "collectionName": "sessions",
+  "info": {
+    "singularName": "session",
+    "pluralName": "sessions",
+    "displayName": "session",
+    "description": "Сеанс (слот) посещения аттракциона с лимитом мест"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "attraction": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::attraction.attraction",
+      "inversedBy": "sessions",
+      "required": true
+    },
+    "date": {
+      "type": "date",
+      "required": true
+    },
+    "startTime": {
+      "type": "time",
+      "required": true
+    },
+    "durationMinutes": {
+      "type": "integer",
+      "default": 10,
+      "min": 1
+    },
+    "capacity": {
+      "type": "integer",
+      "required": true,
+      "min": 1,
+      "description": "Лимит мест (включает оператора), не может быть меньше 1"
+    },
+    "seatsTaken": {
+      "type": "integer",
+      "default": 0,
+      "min": 0,
+      "description": "Сколько мест занято. Пересчитывается автоматически из активных бронирований"
+    },
+    "price": {
+      "type": "integer",
+      "required": true,
+      "min": 0,
+      "description": "Цена за одно место в этом сеансе"
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": ["open", "full", "cancelled"],
+      "default": "open",
+      "required": true
+    },
+    "comment": {
+      "type": "text",
+      "description": "Внутренний комментарий администратора к сеансу"
+    },
+    "bookings": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::booking.booking",
+      "mappedBy": "session"
+    }
+  }
+}

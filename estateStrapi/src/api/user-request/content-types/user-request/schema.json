@@ -21,16 +21,23 @@
       "type": "email"
     },
     "phone": {
-      "type": "integer"
-    },
-    "budget": {
-      "type": "integer"
+      "type": "string",
+      "description": "Телефон гостя, в т.ч. с кодом города или в формате +7"
     },
     "message": {
       "type": "text"
     },
     "activeContact": {
       "type": "string"
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": ["new", "in_progress", "done", "rejected"],
+      "default": "new"
+    },
+    "adminComment": {
+      "type": "text",
+      "description": "Комментарий администратора по заявке"
     }
   }
 }

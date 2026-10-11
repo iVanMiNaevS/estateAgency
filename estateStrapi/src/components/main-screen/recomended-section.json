@@ -1,7 +1,8 @@
 {
   "collectionName": "components_main_screen_recomended_sections",
   "info": {
-    "displayName": "recomendedSection"
+    "displayName": "recomendedSection",
+    "description": "Блок популярных аттракционов"
   },
   "options": {},
   "attributes": {
@@ -11,10 +12,10 @@
     "description": {
       "type": "string"
     },
-    "estates": {
+    "attractions": {
       "type": "relation",
       "relation": "oneToMany",
-      "target": "api::estate.estate"
+      "target": "api::attraction.attraction"
     }
   },
   "config": {}

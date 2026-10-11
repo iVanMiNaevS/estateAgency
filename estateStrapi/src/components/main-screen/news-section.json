@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_main_screen_news_sections",
+  "info": {
+    "displayName": "newsSection",
+    "description": "Блок последних новостей парка"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "text"
+    }
+  },
+  "config": {}
+}

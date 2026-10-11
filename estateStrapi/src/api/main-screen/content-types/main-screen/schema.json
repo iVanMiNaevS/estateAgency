@@ -16,9 +16,19 @@
       "component": "main-screen.hero-section",
       "repeatable": false
     },
+    "advantagesSection": {
+      "type": "component",
+      "component": "main-screen.advantage-section",
+      "repeatable": false
+    },
     "recomendedSection": {
       "type": "component",
       "component": "main-screen.recomended-section",
+      "repeatable": false
+    },
+    "newsSection": {
+      "type": "component",
+      "component": "main-screen.news-section",
       "repeatable": false
     },
     "reviewsSection": {
