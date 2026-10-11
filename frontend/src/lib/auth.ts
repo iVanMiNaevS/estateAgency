@@ -146,17 +146,24 @@ export async function getSessionUser(): Promise<SessionUser | null> {
 
     if (!res.ok) return null;
 
-    const { data } = await res.json();
+    const payload = await res.json();
+
+    // Плагин users-permissions отдаёт /users/me «как есть», без обёртки
+    // { data: … }, в отличие от обычных эндпоинтов Strapi. Поэтому
+    // поддерживаем оба вида ответа.
+    const user = (payload?.data ?? payload) as Record<string, unknown>;
+
+    if (!user || typeof user.id !== "number") return null;
 
     return {
-      id: data.id,
-      username: data.username,
-      email: data.email,
-      name: data.name ?? null,
-      lastName: data.lastName ?? null,
-      phone: data.phone ?? null,
-      city: data.city ?? null,
-      birthDate: data.birthDate ?? null,
+      id: user.id as number,
+      username: (user.username as string) ?? "",
+      email: (user.email as string) ?? "",
+      name: (user.name as string) ?? null,
+      lastName: (user.lastName as string) ?? null,
+      phone: (user.phone as string) ?? null,
+      city: (user.city as string) ?? null,
+      birthDate: (user.birthDate as string) ?? null,
     };
   } catch {
     return null;

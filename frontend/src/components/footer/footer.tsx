@@ -5,7 +5,12 @@ import Image from "next/image";
 import logo from "@/../public/imgs/Logo.svg";
 import {FormEmail} from "./formEmail";
 import {AppRouter} from "@/AppRouter";
-export const Footer = () => {
+type Props = {
+	/** Признак входа из серверного layout. */
+	isAuthenticated?: boolean;
+};
+
+export const Footer = ({isAuthenticated = false}: Props) => {
 	const footerLinks = [
 		{
 			page: { text: "Главная", link: AppRouter.home },
@@ -42,7 +47,9 @@ export const Footer = () => {
 			],
 		},
 		{
-			page: { text: "Личный кабинет", link: AppRouter.account },
+			page: isAuthenticated
+				? { text: "Личный кабинет", link: AppRouter.account }
+				: { text: "Войти", link: AppRouter.login },
 		},
 		{
 			page: { text: "Политика конфиденциальности", link: AppRouter.privacy },

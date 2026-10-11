@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import type { Metadata } from "next";
 import { getSessionUser, authFetch } from "@/lib/auth";
 import { cancelBookingAction, logoutAction } from "@/app/actions/auth";
+import { ProfileForm } from "./profile-form";
 import styles from "./account.module.scss";
 
 export const metadata: Metadata = {
@@ -163,6 +164,25 @@ const Page = async () => {
             </button>
           </form>
         </header>
+
+        <section>
+          <h2>Мои данные</h2>
+          <p className={styles.sectionLead}>
+            Телефон и дата рождения нужны администратору для связи и проверки
+            возрастных ограничений. Роль назначает администратор — изменить её
+            из кабинета нельзя.
+          </p>
+          <ProfileForm
+            user={{
+              name: user.name,
+              lastName: user.lastName,
+              phone: user.phone,
+              city: user.city,
+              birthDate: user.birthDate,
+              email: user.email,
+            }}
+          />
+        </section>
 
         <section>
           <h2>Активные записи</h2>
