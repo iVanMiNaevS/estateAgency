@@ -52,15 +52,18 @@ export default {
     const booking = await strapi.service('api::booking.booking').create({
       data: {
         session: body.session,
-        guestsCount: body.guestsCount ?? 1,
+        tariff: body.tariff,
+        adultsCount: body.adultsCount ?? 1,
+        childrenCount: body.childrenCount ?? 0,
         contactName: body.contactName ?? user.name,
         contactPhone: body.contactPhone ?? user.phone,
-        comment: body.comment,
-        // user и totalPrice проставляются в lifecycles, статус всегда «pending».
+        wishes: body.wishes,
+        // user, guestsCount и totalPrice проставляются в lifecycles,
+        // статус всегда «pending».
         user: user.id,
         status: 'pending',
       },
-      populate: { session: { populate: { attraction: true } } },
+      populate: { session: { populate: { attraction: true } }, tariff: true },
     });
 
     ctx.body = { data: booking };

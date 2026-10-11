@@ -533,7 +533,25 @@ export interface ApiBookingBooking extends Struct.CollectionTypeSchema {
     draftAndPublish: false;
   };
   attributes: {
+    adultsCount: Schema.Attribute.Integer &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMax<
+        {
+          min: 0;
+        },
+        number
+      > &
+      Schema.Attribute.DefaultTo<1>;
     cancelledAt: Schema.Attribute.DateTime;
+    childrenCount: Schema.Attribute.Integer &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMax<
+        {
+          min: 0;
+        },
+        number
+      > &
+      Schema.Attribute.DefaultTo<0>;
     comment: Schema.Attribute.Text;
     contactName: Schema.Attribute.String;
     contactPhone: Schema.Attribute.String;
@@ -559,10 +577,14 @@ export interface ApiBookingBooking extends Struct.CollectionTypeSchema {
     session: Schema.Attribute.Relation<'manyToOne', 'api::session.session'> &
       Schema.Attribute.Required;
     status: Schema.Attribute.Enumeration<
-      ['pending', 'confirmed', 'completed', 'cancelled', 'rejected']
+      ['pending', 'confirmed', 'paid', 'completed', 'cancelled', 'rejected']
     > &
       Schema.Attribute.Required &
       Schema.Attribute.DefaultTo<'pending'>;
+    tariff: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::ticket-price.ticket-price'
+    >;
     totalPrice: Schema.Attribute.Integer &
       Schema.Attribute.Required &
       Schema.Attribute.SetMinMax<
@@ -579,6 +601,7 @@ export interface ApiBookingBooking extends Struct.CollectionTypeSchema {
       'plugin::users-permissions.user'
     > &
       Schema.Attribute.Required;
+    wishes: Schema.Attribute.Text;
   };
 }
 
@@ -613,6 +636,82 @@ export interface ApiEstateEstate extends Struct.CollectionTypeSchema {
     publishedAt: Schema.Attribute.DateTime;
     slug: Schema.Attribute.UID<'title'>;
     title: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiGalleryAlbumAlbum extends Struct.CollectionTypeSchema {
+  collectionName: 'gallery_albums';
+  info: {
+    description: '\u0410\u043B\u044C\u0431\u043E\u043C \u0433\u0430\u043B\u0435\u0440\u0435\u0438: \u043F\u043E\u0434\u0431\u043E\u0440\u043A\u0430 \u0444\u043E\u0442\u043E\u0433\u0440\u0430\u0444\u0438\u0439 \u0438\u043B\u0438 \u0432\u0438\u0434\u0435\u043E';
+    displayName: 'album';
+    pluralName: 'albums';
+    singularName: 'album';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    cover: Schema.Attribute.Media<'images' | 'files'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.Text;
+    items: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::gallery-item.gallery-item'
+    >;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::gallery-album.album'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    seo: Schema.Attribute.Component<'seo.seo', false>;
+    slug: Schema.Attribute.UID<'title'> & Schema.Attribute.Required;
+    sortOrder: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiGalleryItemGalleryItem extends Struct.CollectionTypeSchema {
+  collectionName: 'gallery_items';
+  info: {
+    description: '\u042D\u043B\u0435\u043C\u0435\u043D\u0442 \u0433\u0430\u043B\u0435\u0440\u0435\u0438: \u0444\u043E\u0442\u043E\u0433\u0440\u0430\u0444\u0438\u044F \u0438\u043B\u0438 \u0432\u0438\u0434\u0435\u043E';
+    displayName: 'galleryItem';
+    pluralName: 'gallery-items';
+    singularName: 'gallery-item';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    album: Schema.Attribute.Relation<'manyToOne', 'api::gallery-album.album'>;
+    caption: Schema.Attribute.Text;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    file: Schema.Attribute.Media<'images' | 'files' | 'videos'> &
+      Schema.Attribute.Required;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::gallery-item.gallery-item'
+    > &
+      Schema.Attribute.Private;
+    mediaType: Schema.Attribute.Enumeration<['image', 'video']> &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'image'>;
+    preview: Schema.Attribute.Media<'images' | 'files'>;
+    publishedAt: Schema.Attribute.DateTime;
+    sortOrder: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+    title: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -850,13 +949,36 @@ export interface ApiTicketPriceTicketPrice extends Struct.CollectionTypeSchema {
     draftAndPublish: false;
   };
   attributes: {
+    adultPrice: Schema.Attribute.Integer &
+      Schema.Attribute.SetMinMax<
+        {
+          min: 0;
+        },
+        number
+      >;
+    bookings: Schema.Attribute.Relation<'oneToMany', 'api::booking.booking'>;
+    cancelPolicy: Schema.Attribute.Text;
     category: Schema.Attribute.Enumeration<['ticket', 'service', 'benefit']> &
       Schema.Attribute.Required &
       Schema.Attribute.DefaultTo<'ticket'>;
+    childPrice: Schema.Attribute.Integer &
+      Schema.Attribute.SetMinMax<
+        {
+          min: 0;
+        },
+        number
+      >;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     description: Schema.Attribute.Text;
+    durationMinutes: Schema.Attribute.Integer &
+      Schema.Attribute.SetMinMax<
+        {
+          min: 0;
+        },
+        number
+      >;
     includes: Schema.Attribute.Component<'ticket-price.price-include', true>;
     isPopular: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
@@ -1447,6 +1569,8 @@ declare module '@strapi/strapi' {
       'api::attraction.attraction': ApiAttractionAttraction;
       'api::booking.booking': ApiBookingBooking;
       'api::estate.estate': ApiEstateEstate;
+      'api::gallery-album.album': ApiGalleryAlbumAlbum;
+      'api::gallery-item.gallery-item': ApiGalleryItemGalleryItem;
       'api::main-screen.main-screen': ApiMainScreenMainScreen;
       'api::news-item.news-item': ApiNewsItemNewsItem;
       'api::page.page': ApiPagePage;

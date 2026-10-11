@@ -8,7 +8,7 @@
 
 import { factories } from '@strapi/strapi';
 
-const ACTIVE_BOOKING_STATUSES = ['pending', 'confirmed'] as const;
+const ACTIVE_BOOKING_STATUSES = ['pending', 'confirmed', 'paid'] as const;
 
 export default factories.createCoreService('api::session.session', ({ strapi }) => ({
   /**

@@ -5,13 +5,16 @@
  *  - автопересчёт свободных мест при подтверждении и отмене брони;
  *  - перевод сеанса в статус «мест нет» при исчерпании лимита;
  *  - запрет повторной брони на тот же сеанс;
- *  - отмена доступна только пока статус «ожидает» или «подтверждено».
+ *  - отмена доступна только пока статус «ожидает», «подтверждено» или «оплачено».
+ *
+ * Цена считается на сервере: тариф разделяет взрослых и детей,
+ * иначе используется цена места в сеансе.
  */
 
-const OCCUPYING_STATUSES = ['pending', 'confirmed'];
+const OCCUPYING_STATUSES = ['pending', 'confirmed', 'paid'];
 
 /** Статусы, из которых бронь ещё можно отменить. */
-const CANCELLABLE_STATUSES = ['pending', 'confirmed'];
+const CANCELLABLE_STATUSES = ['pending', 'confirmed', 'paid'];
 
 /** Приводит связь (id / объект / documentId-объект) к числовому id. */
 const readId = (value: any): number | null => {
@@ -27,6 +30,64 @@ const readId = (value: any): number | null => {
 /** Занимает ли статус места в сеансе. */
 const occupiesSeats = (status: string) => OCCUPYING_STATUSES.includes(status);
 
+/**
+ * Приводит количество гостей к неотрицательному целому.
+ * Значение по умолчанию — 0, чтобы «0 гостей» отсекалось проверкой,
+ * а не молча превращалось в одного гостя.
+ */
+const readCount = (value: unknown): number | null => {
+  if (value === undefined || value === null || value === '') return 0;
+  const number = Number(value);
+  if (!Number.isInteger(number) || number < 0) return null;
+  return number;
+};
+
+/**
+ * Считает состав гостей и итоговую сумму.
+ *
+ * Цена зависит от тарифа: если у него заданы отдельные цены для взрослого
+ * и ребёнка, считаем по ним, иначеFallback на цену места в сеансе.
+ * Сумму считает сервер — клиентскому значению не доверяем.
+ */
+const resolvePricing = async (
+  adultsCount: number,
+  childrenCount: number,
+  tariffId: number | null,
+  sessionPrice: number
+): Promise<{ totalPrice: number; tariffName: string | null }> => {
+  if (!tariffId) {
+    return {
+      totalPrice: (adultsCount + childrenCount) * sessionPrice,
+      tariffName: null,
+    };
+  }
+
+  const tariff = await strapi.db
+    .query('api::ticket-price.ticket-price')
+    .findOne({ where: { id: tariffId }, select: ['id', 'title', 'adultPrice', 'childPrice', 'price'] });
+
+  if (!tariff) {
+    throw new Error('Тариф не найден');
+  }
+
+  const adultPrice = tariff.adultPrice ?? 0;
+  const childPrice = tariff.childPrice ?? 0;
+
+  // Если тариф не разделяет категории, берём его общую цену.
+  const usesSplit = adultPrice > 0 || childPrice > 0;
+  if (!usesSplit) {
+    return {
+      totalPrice: (adultsCount + childrenCount) * (tariff.price || sessionPrice),
+      tariffName: tariff.title,
+    };
+  }
+
+  return {
+    totalPrice: adultsCount * adultPrice + childrenCount * childPrice,
+    tariffName: tariff.title,
+  };
+};
+
 export default {
   async beforeCreate(event: any) {
     const data = event.params?.data;
@@ -39,9 +100,16 @@ export default {
       throw new Error('Не указаны сеанс или пользователь');
     }
 
-    const guestsCount = Number(data.guestsCount ?? 1);
-    if (!Number.isInteger(guestsCount) || guestsCount < 1) {
-      throw new Error('Количество гостей должно быть целым числом не меньше 1');
+    const adultsCount = readCount(data.adultsCount ?? 1);
+    const childrenCount = readCount(data.childrenCount ?? 0);
+
+    if (adultsCount === null || childrenCount === null) {
+      throw new Error('Количество взрослых и детей должно быть целым неотрицательным числом');
+    }
+
+    const guestsCount = adultsCount + childrenCount;
+    if (guestsCount < 1) {
+      throw new Error('Укажите хотя бы одного взрослого или ребёнка');
     }
 
     const session = await strapi.db
@@ -72,8 +140,18 @@ export default {
     }
 
     // Стоимость считает сервер — клиентскому знанию не доверяем.
+    const { totalPrice } = await resolvePricing(
+      adultsCount,
+      childrenCount,
+      readId(data.tariff),
+      session.price
+    );
+
+    data.adultsCount = adultsCount;
+    data.childrenCount = childrenCount;
     data.guestsCount = guestsCount;
-    data.totalPrice = guestsCount * session.price;
+    data.totalPrice = totalPrice;
+
     // Статус приходит только от администратора; пользователь может лишь
     // создать бронь в статусе «ожидает».
     if (!data.status) data.status = 'pending';
@@ -88,7 +166,7 @@ export default {
       .query('api::booking.booking')
       .findOne({
         where: { id },
-        select: ['id', 'status', 'guestsCount', 'session'],
+        select: ['id', 'status', 'guestsCount', 'adultsCount', 'childrenCount', 'session', 'tariff'],
       });
     if (!booking) return;
 
@@ -104,11 +182,29 @@ export default {
       }
     }
 
-    if (data.guestsCount !== undefined && data.status === undefined) {
-      const guestsCount = Number(data.guestsCount);
-      if (!Number.isInteger(guestsCount) || guestsCount < 1) {
-        throw new Error('Количество гостей должно быть целым числом не меньше 1');
+    // Состав гостей меняется только когда статус не трогают:
+    // смена статуса администратором не должна пересчитывать цену.
+    const compositionChanged =
+      data.adultsCount !== undefined || data.childrenCount !== undefined || data.tariff !== undefined;
+
+    if (compositionChanged && data.status === undefined) {
+      const adultsCount =
+        data.adultsCount !== undefined ? readCount(data.adultsCount) : booking.adultsCount ?? 0;
+      const childrenCount =
+        data.childrenCount !== undefined
+          ? readCount(data.childrenCount)
+          : booking.childrenCount ?? 0;
+
+      if (adultsCount === null || childrenCount === null) {
+        throw new Error('Количество взрослых и детей должно быть целым неотрицательным числом');
       }
+
+      const guestsCount = adultsCount + childrenCount;
+      if (guestsCount < 1) {
+        throw new Error('Укажите хотя бы одного взрослого или ребёнка');
+      }
+
+      const tariffId = data.tariff !== undefined ? readId(data.tariff) : readId(booking.tariff);
 
       const session = await strapi.db
         .query('api::session.session')
@@ -126,7 +222,18 @@ export default {
             );
           }
         }
-        data.totalPrice = guestsCount * session.price;
+
+        const { totalPrice } = await resolvePricing(
+          adultsCount,
+          childrenCount,
+          tariffId,
+          session.price
+        );
+
+        data.adultsCount = adultsCount;
+        data.childrenCount = childrenCount;
+        data.guestsCount = guestsCount;
+        data.totalPrice = totalPrice;
       }
     }
 

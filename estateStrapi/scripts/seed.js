@@ -103,6 +103,10 @@ const TABLES_TO_CLEAR = [
   'bookings',
   'ticket_prices_cmps',
   'ticket_prices',
+  'bookings_tariff_lnk',
+  'gallery_albums_items_lnk',
+  'gallery_items',
+  'gallery_albums',
   'news_items_cmps',
   'news_items',
   'pages_cmps',
@@ -317,6 +321,76 @@ seedAttractions();
 log(`  аттракционов: ${attractionIds.length}`);
 
 /* ------------------------------------------------------------------ */
+/*  Тарифы                                                             */
+/* ------------------------------------------------------------------ */
+
+const insertPrice = db.prepare(`
+  insert into ticket_prices
+    (document_id, title, category, description, price, old_price,
+     duration_minutes, adult_price, child_price, cancel_policy, is_popular,
+     sort_order, created_at, updated_at, published_at)
+  values
+    (@document_id, @title, @category, @description, @price, @old_price,
+     @duration_minutes, @adult_price, @child_price, @cancel_policy, @is_popular,
+     @sort_order, @created_at, @updated_at, @published_at)
+`);
+
+const insertInclude = db.prepare(`
+  insert into components_ticket_price_price_includes
+    (text)
+  values (@text)
+`);
+
+let priceCount = 0;
+
+/** id и цены тарифов — на них ссылаются бронирования. */
+const ticketPrices = [];
+
+const seedPrices = () => {
+  db.transaction(() => {
+    for (const item of DATA.TICKET_PRICES) {
+      const ts = now();
+      const info = insertPrice.run({
+        document_id: documentId(),
+        title: item.title,
+        category: item.category,
+        description: item.description,
+        price: item.price,
+        old_price: item.oldPrice || null,
+        duration_minutes: item.durationMinutes || null,
+        adult_price: item.adultPrice || null,
+        child_price: item.childPrice || null,
+        cancel_policy: item.cancelPolicy || null,
+        is_popular: item.isPopular ? 1 : 0,
+        sort_order: item.sortOrder,
+        created_at: ts,
+        updated_at: ts,
+        published_at: ts,
+      });
+
+      (item.includes || []).forEach((include, index) => {
+        const cmp = insertInclude.run({ text: include.text });
+        db.prepare(
+          'insert into ticket_prices_cmps (entity_id, cmp_id, component_type, field, "order") values (?, ?, ?, ?, ?)'
+        ).run(info.lastInsertRowid, cmp.lastInsertRowid, 'ticket-price.price-include', 'includes', index);
+      });
+
+      ticketPrices.push({
+        id: info.lastInsertRowid,
+        price: item.price,
+        adultPrice: item.adultPrice || null,
+        childPrice: item.childPrice || null,
+      });
+      priceCount += 1;
+    }
+  })();
+};
+
+seedPrices();
+
+log(`  тарифов: ${priceCount}`);
+
+/* ------------------------------------------------------------------ */
 /*  Сеансы                                                             */
 /* ------------------------------------------------------------------ */
 
@@ -396,18 +470,25 @@ log(`  сеансов: ${sessionIds.length}`);
  * После вставки пересчитываем seats_taken и статус сеанса —
  * теми же правилами, что и в session/lifecycles.ts.
  */
-const STATUSES = ['pending', 'confirmed', 'completed', 'cancelled', 'rejected'];
+const STATUSES = ['pending', 'confirmed', 'paid', 'completed', 'cancelled', 'rejected'];
 /** Статусы, которые занимают места в сеансе. */
-const OCCUPYING = ['pending', 'confirmed'];
+const OCCUPYING = ['pending', 'confirmed', 'paid'];
 
 const insertBooking = db.prepare(`
   insert into bookings
-    (document_id, guests_count, total_price, status, contact_name, contact_phone,
-     comment, cancelled_at, created_at, updated_at, published_at)
+    (document_id, guests_count, adults_count, children_count, total_price, status,
+     contact_name, contact_phone, wishes, comment, cancelled_at,
+     created_at, updated_at, published_at)
   values
-    (@document_id, @guests_count, @total_price, @status, @contact_name, @contact_phone,
-     @comment, @cancelled_at, @created_at, @updated_at, @published_at)
+    (@document_id, @guests_count, @adults_count, @children_count, @total_price, @status,
+     @contact_name, @contact_phone, @wishes, @comment, @cancelled_at,
+     @created_at, @updated_at, @published_at)
 `);
+
+/** Тариф хранится в отдельной таблице связей — как это делает Strapi. */
+const linkBookingTariff = db.prepare(
+  'insert into bookings_tariff_lnk (booking_id, tariff_id, booking_ord) values (?, ?, 1)'
+);
 
 const linkBookingUser = db.prepare(
   'insert into bookings_user_lnk (booking_id, user_id, booking_ord) values (?, ?, 1)'
@@ -421,6 +502,17 @@ const COMMENTS = {
   rejected: 'Отказано: нет свободных мест на это время.',
 };
 
+const WISHES = [
+  'Хотим место у окна в колесе обозрения.',
+  'Едем с двумя детьми 6 и 9 лет, нужна помощь с шкафчиком.',
+  'Пожелаем припарковаться ближе к входу.',
+  'Дети боятся высоты — если можно, подберите маршрут спокойнее.',
+  'Будем отмечать день рождения, есть ли где оставить торт.',
+  'Нужна помощь сотрудника для гостя на инвалидной коляске.',
+  'Пожалуйста, напомните про камеру хранения вещей.',
+  null,
+];
+
 let bookingCount = 0;
 
 db.transaction(() => {
@@ -432,7 +524,10 @@ db.transaction(() => {
     userIndex += 1;
 
     const status = STATUSES[i % STATUSES.length];
+    // Состав гостей: от 1 до 4 человек, взрослые и дети чередуются.
     const guestsCount = 1 + ((i * 3) % Math.min(4, session.capacity));
+    const adultsCount = i % 3 === 2 ? 0 : Math.min(guestsCount, 1 + (i % 2));
+    const childrenCount = guestsCount - adultsCount;
 
     // Не более одной брони на пользователя в одном сеансе.
     const alreadyBooked = db
@@ -440,14 +535,27 @@ db.transaction(() => {
       .get(session.id);
     if (alreadyBooked) continue;
 
+    // Тариф подбираем так, чтобы тарифы с ценой ребёнка тоже использовались.
+    const tariff = ticketPrices[i % ticketPrices.length];
+
+    // Считаем так же, как lifecycles: если у тарифа есть раздельные цены —
+    // по ним, иначе по цене места в сеансе.
+    const usesSplit = (tariff.adultPrice || 0) > 0 || (tariff.childPrice || 0) > 0;
+    const pricePerAdult = usesSplit ? tariff.adultPrice || 0 : tariff.price || session.price;
+    const pricePerChild = usesSplit ? tariff.childPrice || 0 : tariff.price || session.price;
+    const totalPrice = adultsCount * pricePerAdult + childrenCount * pricePerChild;
+
     const ts = now();
     const info = insertBooking.run({
       document_id: documentId(),
       guests_count: guestsCount,
-      total_price: guestsCount * session.price,
+      adults_count: adultsCount,
+      children_count: childrenCount,
+      total_price: totalPrice,
       status,
       contact_name: DATA.PARK.name,
       contact_phone: DATA.PARK.phone,
+      wishes: WISHES[i % WISHES.length],
       comment: COMMENTS[status] || null,
       cancelled_at: status === 'cancelled' ? ts : null,
       created_at: ts,
@@ -457,6 +565,7 @@ db.transaction(() => {
 
     linkBookingUser.run(info.lastInsertRowid, userId);
     linkBookingSession.run(info.lastInsertRowid, session.id);
+    if (tariff) linkBookingTariff.run(info.lastInsertRowid, tariff.id);
     bookingCount += 1;
   }
 })();
@@ -475,7 +584,7 @@ db.transaction(() => {
     select sum(b.guests_count) as seats
     from bookings b
     join bookings_session_lnk lnk on lnk.booking_id = b.id
-    where lnk.session_id = ? and b.status in ('pending', 'confirmed')
+    where lnk.session_id = ? and b.status in ('pending', 'confirmed', 'paid')
   `);
 
   const updateSession = db.prepare(
@@ -494,56 +603,7 @@ db.transaction(() => {
 
 log(`  бронирований: ${bookingCount}`);
 
-/* ------------------------------------------------------------------ */
-/*  Тарифы                                                             */
-/* ------------------------------------------------------------------ */
 
-const insertPrice = db.prepare(`
-  insert into ticket_prices
-    (document_id, title, category, description, price, old_price, is_popular,
-     sort_order, created_at, updated_at, published_at)
-  values
-    (@document_id, @title, @category, @description, @price, @old_price, @is_popular,
-     @sort_order, @created_at, @updated_at, @published_at)
-`);
-
-const insertInclude = db.prepare(`
-  insert into components_ticket_price_price_includes
-    (text)
-  values (@text)
-`);
-
-let priceCount = 0;
-
-db.transaction(() => {
-  for (const item of DATA.TICKET_PRICES) {
-    const ts = now();
-    const info = insertPrice.run({
-      document_id: documentId(),
-      title: item.title,
-      category: item.category,
-      description: item.description,
-      price: item.price,
-      old_price: item.oldPrice || null,
-      is_popular: item.isPopular ? 1 : 0,
-      sort_order: item.sortOrder,
-      created_at: ts,
-      updated_at: ts,
-      published_at: ts,
-    });
-
-    (item.includes || []).forEach((include, index) => {
-      const cmp = insertInclude.run({ text: include.text });
-      db.prepare(
-        'insert into ticket_prices_cmps (entity_id, cmp_id, component_type, field, "order") values (?, ?, ?, ?, ?)'
-      ).run(info.lastInsertRowid, cmp.lastInsertRowid, 'ticket-price.price-include', 'includes', index);
-    });
-
-    priceCount += 1;
-  }
-})();
-
-log(`  тарифов: ${priceCount}`);
 
 /* ------------------------------------------------------------------ */
 /*  Новости                                                            */
@@ -652,11 +712,11 @@ const FAQ = {
 };
 
 const PAGE_SEO = {
-  about: ['Парк развлечений «Гравитрон» в Рязани', 'Семейный парк с 14 аттракционами для любого возраста. История, миссия и правила посещения.'],
-  rules: ['Правила посещения — Парк «Гравитрон»', 'Ограничения по возрасту, росту и здоровью. Что можно и нельзя брать на территорию парка.'],
-  prices: ['Цены на билеты — Парк «Гравитрон»', 'Стоимость взрослых, детских, семейных и групповых билетов, дополнительные услуги и льготы.'],
-  contacts: ['Контакты — Парк «Гравитрон»', 'Адрес, телефон, часы работы и схема проезда парка развлечений в Рязани.'],
-  privacy: ['Политика конфиденциальности — Парк «Гравитрон»', 'Порядок обработки персональных данных посетителей в соответствии с 152-ФЗ.'],
+  about: ['Парк Чудес в Рязани', 'Семейный парк с 14 аттракционами для любого возраста. История, миссия и правила посещения.'],
+  rules: ['Правила посещения — Парк Чудес', 'Ограничения по возрасту, росту и здоровью. Что можно и нельзя брать на территорию парка.'],
+  prices: ['Цены на билеты — Парк Чудес', 'Стоимость взрослых, детских, семейных и групповых билетов, дополнительные услуги и льготы.'],
+  contacts: ['Контакты — Парк Чудес', 'Адрес, телефон, часы работы и схема проезда парка развлечений в Рязани.'],
+  privacy: ['Политика конфиденциальности — Парк Чудес', 'Порядок обработки персональных данных посетителей в соответствии с 152-ФЗ.'],
 };
 
 let pageCount = 0;
@@ -782,7 +842,7 @@ if (mainScreen) {
   db.transaction(() => {
     /* Hero */
     const hero = insertHeroSection.run({
-      title: 'Парк развлечений «Гравитрон»',
+      title: 'Парк Чудес',
       description: '14 аттракционов для детей, подростков и взрослых. Записывайтесь на сеанс онлайн — без очередей.',
     });
     mainScreenCmp.run(mainScreen.id, hero.lastInsertRowid, 'main-screen.hero-section', 'heroSection', null);
@@ -917,12 +977,89 @@ db.transaction(() => {
 log(`  заявок: ${DATA.USER_REQUESTS.length}`);
 
 /* ------------------------------------------------------------------ */
+/*  Галерея                                                            */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Заполняются только альбомы и структура записей: сами изображения
+ * и видео загружаются через админку Strapi (Upload plugin),
+ * поэтому file_id у элементов остаётся пустым.
+ */
+
+const insertAlbum = db.prepare(`
+  insert into gallery_albums
+    (document_id, title, slug, description, sort_order,
+     created_at, updated_at, published_at)
+  values
+    (@document_id, @title, @slug, @description, @sort_order,
+     @created_at, @updated_at, @published_at)
+`);
+
+const insertGalleryItem = db.prepare(`
+  insert into gallery_items
+    (document_id, title, media_type, caption, sort_order,
+     created_at, updated_at, published_at)
+  values
+    (@document_id, @title, @media_type, @caption, @sort_order,
+     @created_at, @updated_at, @published_at)
+`);
+
+const linkAlbumItem = db.prepare(
+  'insert into gallery_albums_items_lnk (album_id, gallery_item_id, album_ord) values (?, ?, ?)'
+);
+
+let albumCount = 0;
+let galleryItemCount = 0;
+
+const seedGallery = () => {
+  db.transaction(() => {
+    for (const album of DATA.GALLERY_ALBUMS) {
+      const ts = now();
+      const albumInfo = insertAlbum.run({
+        document_id: documentId(),
+        title: album.title,
+        slug: album.slug,
+        description: album.description,
+        sort_order: album.sortOrder,
+        created_at: ts,
+        updated_at: ts,
+        published_at: ts,
+      });
+
+      const albumId = albumInfo.lastInsertRowid;
+      albumCount += 1;
+
+      (album.items || []).forEach((item, index) => {
+        const itemInfo = insertGalleryItem.run({
+          document_id: documentId(),
+          title: item.title,
+          media_type: item.mediaType,
+          caption: item.caption,
+          sort_order: index + 1,
+          created_at: ts,
+          updated_at: ts,
+          published_at: ts,
+        });
+
+        linkAlbumItem.run(albumId, itemInfo.lastInsertRowid, index + 1);
+        galleryItemCount += 1;
+      });
+    }
+  })();
+};
+
+seedGallery();
+
+log(`  альбомов галереи: ${albumCount}, элементов: ${galleryItemCount}`);
+
+
+/* ------------------------------------------------------------------ */
 /*  Итог                                                               */
 /* ------------------------------------------------------------------ */
 
 console.log('');
 console.log('Готово:');
-for (const table of ['attractions', 'sessions', 'bookings', 'ticket_prices', 'news_items', 'pages', 'user_requests']) {
+for (const table of ['attractions', 'sessions', 'bookings', 'ticket_prices', 'news_items', 'pages', 'user_requests', 'gallery_albums', 'gallery_items']) {
   const count = db.prepare(`select count(*) as c from ${table}`).get().c;
   console.log(`  ${table.padEnd(16)} ${count}`);
 }

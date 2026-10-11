@@ -26,23 +26,46 @@
       "inversedBy": "bookings",
       "required": true
     },
+    "tariff": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::ticket-price.ticket-price",
+      "inversedBy": "bookings",
+      "description": "Выбранный тариф. Взрослых и детей считаем по нему, если он задан"
+    },
+    "adultsCount": {
+      "type": "integer",
+      "required": true,
+      "min": 0,
+      "default": 1,
+      "description": "Количество взрослых"
+    },
+    "childrenCount": {
+      "type": "integer",
+      "required": true,
+      "min": 0,
+      "default": 0,
+      "description": "Количество детей"
+    },
     "guestsCount": {
       "type": "integer",
       "required": true,
       "min": 1,
-      "default": 1
+      "default": 1,
+      "description": "Всего гостей = взрослые + дети. Заполняется автоматически"
     },
     "totalPrice": {
       "type": "integer",
       "required": true,
       "min": 0,
-      "description": "guestsCount * session.price на момент бронирования"
+      "description": "Сумма, рассчитанная сервером по тарифу"
     },
     "status": {
       "type": "enumeration",
-      "enum": ["pending", "confirmed", "completed", "cancelled", "rejected"],
+      "enum": ["pending", "confirmed", "paid", "completed", "cancelled", "rejected"],
       "default": "pending",
-      "required": true
+      "required": true,
+      "description": "Новая, подтверждена, оплачена, завершена, отменена, отказ"
     },
     "contactName": {
       "type": "string",
@@ -51,6 +74,10 @@
     "contactPhone": {
       "type": "string",
       "description": "Телефон гостя для связи"
+    },
+    "wishes": {
+      "type": "text",
+      "description": "Особые пожелания клиента к посещению"
     },
     "comment": {
       "type": "text",

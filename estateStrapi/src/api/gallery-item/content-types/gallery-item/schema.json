@@ -1,0 +1,50 @@
+{
+  "kind": "collectionType",
+  "collectionName": "gallery_items",
+  "info": {
+    "singularName": "gallery-item",
+    "pluralName": "gallery-items",
+    "displayName": "galleryItem",
+    "description": "Элемент галереи: фотография или видео"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "mediaType": {
+      "type": "enumeration",
+      "enum": ["image", "video"],
+      "default": "image",
+      "required": true
+    },
+    "file": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": ["images", "files", "videos"]
+    },
+    "preview": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images", "files"],
+      "description": "Кадр-превью для видео"
+    },
+    "caption": {
+      "type": "text"
+    },
+    "album": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::gallery-album.album",
+      "inversedBy": "items"
+    },
+    "sortOrder": {
+      "type": "integer",
+      "default": 0
+    }
+  }
+}

@@ -35,6 +35,25 @@
       "min": 0,
       "description": "Цена до скидки, для показа перечёркнутой"
     },
+    "durationMinutes": {
+      "type": "integer",
+      "min": 0,
+      "description": "Длительность действия тарифа в минутах, если применимо"
+    },
+    "adultPrice": {
+      "type": "integer",
+      "min": 0,
+      "description": "Цена за взрослого по этому тарифу. 0 — тариф не разделяет по категориям"
+    },
+    "childPrice": {
+      "type": "integer",
+      "min": 0,
+      "description": "Цена за ребёнка по этому тарифу. 0 — тариф не разделяет по категориям"
+    },
+    "cancelPolicy": {
+      "type": "text",
+      "description": "Условия отмены по этому тарифу"
+    },
     "includes": {
       "type": "component",
       "component": "ticket-price.price-include",
@@ -47,6 +66,12 @@
     "sortOrder": {
       "type": "integer",
       "default": 0
+    },
+    "bookings": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::booking.booking",
+      "mappedBy": "tariff"
     }
   }
 }
