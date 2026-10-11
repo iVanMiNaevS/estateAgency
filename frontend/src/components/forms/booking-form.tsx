@@ -2,7 +2,7 @@
 
 import React, { useActionState, useMemo, useState } from "react";
 import Link from "next/link";
-import type { IAttraction, ISession } from "@/types/park.interface";
+import type { ISession, ITicketPrice } from "@/types/park.interface";
 import { createBooking, type ActionState } from "@/app/actions/public";
 import { formatSessionDate, formatTime } from "@/constants/park";
 import styles from "./booking-form.module.scss";
@@ -11,7 +11,8 @@ const initialState: ActionState = {};
 
 interface Props {
 	sessions: ISession[];
-	attractions: IAttraction[];
+	/** Тарифы выбираются из списка, id уходит в server action. */
+	tariffs: ITicketPrice[];
 }
 
 /**
@@ -22,7 +23,7 @@ interface Props {
  * ответу Strapi. Форма отправляется через server action, где проверяется
  * авторизация и количество гостей.
  */
-export const BookingForm = ({ sessions, attractions }: Props) => {
+export const BookingForm = ({ sessions, tariffs }: Props) => {
 	const [state, formAction, isPending] = useActionState(createBooking, initialState);
 	const [sessionId, setSessionId] = useState<string>("");
 	const [adults, setAdults] = useState(2);
@@ -44,8 +45,6 @@ export const BookingForm = ({ sessions, attractions }: Props) => {
 	// Ориентировочная сумма по цене места: тариф может разделить
 	// взрослых и детей, тогда итог посчитает сервер.
 	const estimate = selected ? (adults + children) * selected.price : 0;
-
-	const attractionBySlug = new Map(attractions.map((item) => [item.slug, item]));
 
 	const fieldError = (field: string) => state.fieldErrors?.[field];
 
@@ -138,12 +137,15 @@ export const BookingForm = ({ sessions, attractions }: Props) => {
 				<label htmlFor="booking-tariff">Тариф</label>
 				<select id="booking-tariff" name="tariff" defaultValue="">
 					<option value="">Без тарифа — цена места</option>
-					{attractions.map((attraction) => (
-						<option key={attraction.slug} value="">
-							{attractionBySlug.get(attraction.slug)?.title ?? attraction.title}
+					{tariffs.map((tariff) => (
+						<option key={tariff.id} value={tariff.id}>
+							{tariff.title} — {tariff.price.toLocaleString("ru-RU")} ₽
 						</option>
 					))}
 				</select>
+				<span className={styles.hint}>
+					Тарифы с раздельными ценами для взрослых и детей считаются отдельно.
+				</span>
 			</div>
 
 			<div className={styles.field}>

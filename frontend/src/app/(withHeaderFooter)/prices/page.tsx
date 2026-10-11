@@ -118,7 +118,7 @@ const Page = async () => {
 						<h2 className="h2">Уже выбрали тариф?</h2>
 						<p className={styles.lead}>Запишитесь на сеанс — бронь бесплатная.</p>
 					</div>
-					<BookingForm sessions={sessions.data ?? []} attractions={[]} />
+					<BookingForm sessions={sessions.data ?? []} tariffs={tariffs.filter((t) => t.category === "ticket")} />
 				</div>
 			</section>
 		</main>

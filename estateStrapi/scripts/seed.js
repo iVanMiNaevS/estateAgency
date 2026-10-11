@@ -873,11 +873,10 @@ if (mainScreen) {
     mainScreenCmp.run(mainScreen.id, recomendedId, 'main-screen.recomended-section', 'recomendedSection', null);
 
     // По одному аттракциону каждого типа.
-    ['extreme', 'family', 'child'].forEach((type, index) => {
-      const attraction = attractionIds.find((a) => a.type === type);
-      if (attraction) {
-        linkRecomendedAttraction.run(recomendedId, attraction.id, index + 1);
-      }
+    // На главной блок показывается слайдером, поэтому берём все
+    // аттракционы, а не по одному на тип.
+    attractionIds.forEach((attraction, index) => {
+      linkRecomendedAttraction.run(recomendedId, attraction.id, index + 1);
     });
 
     /* Новости */

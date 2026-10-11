@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getObjects } from "@/services/getInfo";
-import type { IAttraction, ISession } from "@/types/park.interface";
+import type { ISession, ITicketPrice } from "@/types/park.interface";
 import { BookingForm } from "@/components/forms/booking-form";
 import { SiteSearch } from "@/components/forms/site-search";
 import {
@@ -47,10 +47,9 @@ const Page = async ({
 
 	const sessions = result.data ?? [];
 
-	const attractions = await getObjects<IAttraction>("attractions", ["poster"], [
-		{ filter: "$eq", field: "isActive", value: "true" },
-	]);
-	const attractionList = attractions.data ?? [];
+	// Тарифы нужны форме бронирования, картинки здесь не выводятся.
+	const tariffs = await getObjects<ITicketPrice>("ticket-prices");
+	const tariffList = (tariffs.data ?? []).filter((tariff) => tariff.category === "ticket");
 
 	const dates = [
 		...new Set(sessions.map((session) => session.date)),
@@ -169,7 +168,7 @@ const Page = async ({
 						</p>
 					</div>
 
-					<BookingForm sessions={sessions} attractions={attractionList} />
+					<BookingForm sessions={sessions} tariffs={tariffList} />
 				</div>
 			</section>
 

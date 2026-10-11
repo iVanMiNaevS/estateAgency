@@ -1,9 +1,9 @@
 import React from "react";
-import Image from "next/image";
-import Link from "next/link";
-import styles from "./recomendedAttractionSection.module.scss";
-import { IAttraction } from "@/types/park.interface";
+import { UiSwiper } from "@/ui/uiSwiper/uiSwiper";
+import { CardAttraction } from "@/ui/card-attraction/card-attraction";
 import { AppRouter } from "@/AppRouter";
+import type { IAttraction } from "@/types/park.interface";
+import styles from "./recomendedAttractionSection.module.scss";
 
 interface Props {
 	sectionId?: string;
@@ -12,18 +12,11 @@ interface Props {
 	description?: string | null;
 }
 
-const TYPE_LABELS: Record<string, string> = {
-	extreme: "Экстремальный",
-	family: "Семейный",
-	child: "Детский",
-};
-
 /**
  * Блок популярных аттракционов на главной.
  *
- * Раньше здесь был каталог объектов недвижимости; после перехода
- * на модель парка блок показывает аттракционы из
- * recomendedSection.attractions.
+ * Карточки показываются слайдером, как блок отзывов: аттракционов
+ * может быть больше, чем помещается в первый экран.
  */
 export const RecomendedAttractionSection = ({
 	sectionId,
@@ -37,67 +30,33 @@ export const RecomendedAttractionSection = ({
 		return null;
 	}
 
-	const cards = list.map((attraction) => {
-		const limits: string[] = [];
-		if (attraction.heightMinCm) {
-			limits.push(`рост от ${attraction.heightMinCm} см`);
-		}
-		if (attraction.ageMin) {
-			limits.push(
-				attraction.ageMax
-					? `${attraction.ageMin}–${attraction.ageMax} лет`
-					: `от ${attraction.ageMin} лет`
-			);
-		}
-
-		return (
-			<article key={attraction.id} className={styles.card}>
-				<Link href={`${AppRouter.attractions}/${attraction.slug}`}>
-					{attraction.poster?.url && (
-						<Image
-							src={attraction.poster.url}
-							alt={attraction.title}
-							width={400}
-							height={300}
-							className={styles.image}
-						/>
-					)}
-
-					<div className={styles.body}>
-						<span className={styles.type}>
-							{TYPE_LABELS[attraction.type] ?? attraction.type}
-						</span>
-
-						<h3 className={styles.title}>{attraction.title}</h3>
-
-						{attraction.shortFact && (
-							<p className={styles.fact}>{attraction.shortFact}</p>
-						)}
-
-						<ul className={styles.limits}>
-							{limits.map((limit) => (
-								<li key={limit}>{limit}</li>
-							))}
-						</ul>
-
-						<p className={styles.price}>
-							{attraction.basePrice > 0
-								? `${attraction.basePrice.toLocaleString("ru-RU")} ₽`
-								: "Бесплатно"}
-						</p>
-					</div>
-				</Link>
-			</article>
-		);
-	});
+	const slides = list.map((attraction) => (
+		<CardAttraction
+			key={attraction.id}
+			attraction={attraction}
+			href={`${AppRouter.attractions}/${attraction.slug}`}
+		/>
+	));
 
 	return (
 		<section id={sectionId} className={styles.section}>
 			<div className="container">
-				{title && <h2 className={styles.heading}>{title}</h2>}
-				{description && <p className={styles.description}>{description}</p>}
+				<div className={styles.head}>
+					<div>
+						<h2 className="h2">{title}</h2>
+						{description && <p className={styles.description}>{description}</p>}
+					</div>
+				</div>
 
-				<div className={styles.grid}>{cards}</div>
+				<UiSwiper
+					slides={slides}
+					slidesPerView={3}
+					spaceBetween={24}
+					navigation={list.length > 3}
+					showCount={list.length > 3}
+					loop={list.length > 4}
+					autoplay={{ delay: 6000 }}
+				/>
 			</div>
 		</section>
 	);

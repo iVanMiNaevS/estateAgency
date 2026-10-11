@@ -1,0 +1,111 @@
+[
+  {
+    "name": "park-hero",
+    "title": "Парк Чудес",
+    "subtitle": "14 аттракционов в Рязани",
+    "badge": "Открыты ежедневно",
+    "palette": "gallery",
+    "width": 1920,
+    "height": 1080,
+    "filename": "park-hero_f8f7e4d8da16.jpg"
+  },
+  {
+    "name": "attraction-svobodnoe-padenie",
+    "title": "Свободное падение 60 м",
+    "subtitle": "Экстремальный аттракцион",
+    "badge": "60 м",
+    "palette": "extreme",
+    "filename": "attraction-svobodnoe-padenie_b3ee69d91b5e.jpg"
+  },
+  {
+    "name": "attraction-ekstrim-pik",
+    "title": "Американские горки Экстрим-Пик",
+    "subtitle": "Высота 32 метра, три петли",
+    "palette": "extreme",
+    "filename": "attraction-ekstrim-pik_aba4e387fdda.jpg"
+  },
+  {
+    "name": "attraction-koleso-obozreniya",
+    "title": "Колесо обозрения",
+    "subtitle": "Панорама Рязани с высоты 55 метров",
+    "palette": "family",
+    "filename": "attraction-koleso-obozreniya_f4d5fa689868.jpg"
+  },
+  {
+    "name": "attraction-lodochnaya-dorozhka",
+    "title": "Лодочная дорожка",
+    "subtitle": "Прогулка по озеру для всей семьи",
+    "palette": "family",
+    "filename": "attraction-lodochnaya-dorozhka_785351ff46d3.jpg"
+  },
+  {
+    "name": "attraction-ostrov-sokrovisch",
+    "title": "Остров сокровищ",
+    "subtitle": "Детская площадка до 6 лет",
+    "palette": "child",
+    "filename": "attraction-ostrov-sokrovisch_93cce15d376e.jpg"
+  },
+  {
+    "name": "attraction-komnata-vyzhivaniya",
+    "title": "Комната выживания",
+    "subtitle": "60 минут с заданиями",
+    "palette": "child",
+    "filename": "attraction-komnata-vyzhivaniya_257367964a26.jpg"
+  },
+  {
+    "name": "news-noch-ekstremala",
+    "title": "Ночь экстремала",
+    "subtitle": "Парк работает до 03:00",
+    "palette": "extreme",
+    "filename": "news-noch-ekstremala_12185fde280f.jpg"
+  },
+  {
+    "name": "news-svobodnoe-padenie",
+    "title": "Новый аттракцион",
+    "subtitle": "Свободное падение 60 м",
+    "palette": "news",
+    "filename": "news-svobodnoe-padenie_b0c2a365457c.jpg"
+  },
+  {
+    "name": "news-fotokonkurs",
+    "title": "Фотоконкурс",
+    "subtitle": "Лучший кадр парка",
+    "palette": "gallery",
+    "filename": "news-fotokonkurs_244c5fd4eafb.jpg"
+  },
+  {
+    "name": "news-raspisanie",
+    "title": "Утренние сеансы в 10:00",
+    "subtitle": "Изменилось расписание",
+    "palette": "news",
+    "filename": "news-raspisanie_301736a60a1c.jpg"
+  },
+  {
+    "name": "album-ekstremalnaya-zona",
+    "title": "Экстремальная зона",
+    "subtitle": "Главные аттракционы парка",
+    "palette": "extreme",
+    "filename": "album-ekstremalnaya-zona_dc1d4167758a.jpg"
+  },
+  {
+    "name": "album-semeynaya-zona",
+    "title": "Семейная зона",
+    "subtitle": "Весело всей семье",
+    "palette": "family",
+    "filename": "album-semeynaya-zona_c95080cfdecf.jpg"
+  },
+  {
+    "name": "album-detskiy-ostrov",
+    "title": "Детский остров",
+    "subtitle": "Для самых маленьких",
+    "palette": "child",
+    "filename": "album-detskiy-ostrov_f013bfaa0e67.jpg"
+  },
+  {
+    "name": "album-territoriya",
+    "title": "Территория парка",
+    "subtitle": "Аллеи, фуд-корт и зоны отдыха",
+    "palette": "gallery",
+    "filename": "album-territoriya_111f9c1a238d.jpg"
+  }
+]
