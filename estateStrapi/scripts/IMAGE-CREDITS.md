@@ -17,6 +17,9 @@
 | [Mega Drop tower ride at the CNE in 2008.jpg](https://commons.wikimedia.org/wiki/File:Mega%20Drop%20tower%20ride%20at%20the%20CNE%20in%202008.jpg) | Ian Muttoo | CC BY-SA 2.0 |
 | [Amusement Park by Night (48726828301).jpg](https://commons.wikimedia.org/wiki/File:Amusement%20Park%20by%20Night%20(48726828301).jpg) | Dejan Krsmanovic | CC BY 2.0 |
 | [Le Touquet - The merry-go-round on the waterfront.jpg](https://commons.wikimedia.org/wiki/File:Le%20Touquet%20-%20The%20merry-go-round%20on%20the%20waterfront.jpg) | Dr Dobeaucoup | CC BY-SA 4.0 |
+| [Halloween Pumpkin Lantern, Ayrshire, Scotland.jpg](https://commons.wikimedia.org/wiki/File:Halloween%20Pumpkin%20Lantern%2C%20Ayrshire%2C%20Scotland.jpg) | Rosser1954 | CC BY-SA 4.0 |
+| [Winter Festival 2011 ice skating rink King George Square Brisbane P1140966.jpg](https://commons.wikimedia.org/wiki/File:Winter%20Festival%202011%20ice%20skating%20rink%20King%20George%20Square%20Brisbane%20P1140966.jpg) | John Robert McPherson | CC BY-SA 4.0 |
+| [DFC 4928 Children giggle and ride a brightly lit kiddie train at a nighttime fair in Sattahip Chon Buri.jpg](https://commons.wikimedia.org/wiki/File:DFC%204928%20Children%20giggle%20and%20ride%20a%20brightly%20lit%20kiddie%20train%20at%20a%20nighttime%20fair%20in%20Sattahip%20Chon%20Buri.jpg) | PattayaPatrol | CC BY-SA 4.0 |
 | [Giant Drop themeing.jpg](https://commons.wikimedia.org/wiki/File:Giant%20Drop%20themeing.jpg) | Troy Kelly | CC BY 2.0 |
 | [The Swing Carousel - Flickr - Stig Nygaard.jpg](https://commons.wikimedia.org/wiki/File:The%20Swing%20Carousel%20-%20Flickr%20-%20Stig%20Nygaard.jpg) | Stig Nygaard | CC BY 2.0 |
 | [Carousel, 6th of October City, Egypt.JPG](https://commons.wikimedia.org/wiki/File:Carousel%2C%206th%20of%20October%20City%2C%20Egypt.JPG) | Faris El-Gwely | CC BY-SA 4.0 |

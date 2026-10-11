@@ -161,6 +161,9 @@ const main = async () => {
     ["novyy-atrakcion-svobodnoe-padenie", "news-svobodnoe-padenie"],
     ["fotokonkurs-luchshiy-kadr", "news-fotokonkurs"],
     ["izmenilos-raspisanie", "news-raspisanie"],
+    ["halloween-noch-prityucheniy", "news-halloween"],
+    ["otkrytie-ledyanogo-goroda", "news-ledyanoy-gorod"],
+    ["semeyny-marafon", "news-semeyny-marafon"],
   ];
 
   const ALBUMS = [
@@ -203,7 +206,9 @@ const main = async () => {
     const current = mainScreen?.data;
 
     if (current?.heroSection) {
-      const { image, ...heroFields } = current.heroSection;
+      // id и documentId компонента Strapi в обновлении не принимает
+      // и отвечает ошибкой «Invalid key id». Остальные поля переносим.
+      const { id, documentId, image, ...heroFields } = current.heroSection;
 
       await api("/main-screen", {
         method: "PUT",

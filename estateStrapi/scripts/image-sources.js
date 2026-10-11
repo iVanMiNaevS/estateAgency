@@ -105,6 +105,31 @@ module.exports = [
     height: 675,
   },
   {
+    name: "news-halloween",
+    title: "Halloween Pumpkin Lantern, Ayrshire, Scotland.jpg",
+    author: "Rosser1954",
+    license: "CC BY-SA 4.0",
+    width: 1200,
+    height: 900,
+  },
+  {
+    name: "news-ledyanoy-gorod",
+    title: "Winter Festival 2011 ice skating rink King George Square Brisbane P1140966.jpg",
+    author: "John Robert McPherson",
+    license: "CC BY-SA 4.0",
+    width: 1200,
+    height: 900,
+  },
+  {
+    name: "news-semeyny-marafon",
+    title:
+      "DFC 4928 Children giggle and ride a brightly lit kiddie train at a nighttime fair in Sattahip Chon Buri.jpg",
+    author: "PattayaPatrol",
+    license: "CC BY-SA 4.0",
+    width: 1200,
+    height: 800,
+  },
+  {
     name: "album-ekstremalnaya-zona",
     title: "Giant Drop themeing.jpg",
     author: "Troy Kelly",

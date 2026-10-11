@@ -1,4 +1,5 @@
 import { HeroSection } from "@/components/screens/home/heroSection";
+import { EventsSection } from "@/components/screens/home/events-section";
 import { AdvantagesSection } from "@/components/screens/home/advantages-section";
 import { RecomendedAttractionSection } from "@/components/screens/home/recomendedAttractionSection";
 import { NewsSection } from "@/components/screens/home/news-section";
@@ -53,6 +54,10 @@ export default async function Home() {
 	return (
 		<main>
 			<HeroSection sectionId="main-heroSection" data={screen} />
+
+			{/* Ближайшие события идут сразу после первого экрана:
+			    гость узнаёт о них раньше, чем дочитает до новостей. */}
+			<EventsSection sectionId="main-eventsSection" />
 
 			<AdvantagesSection
 				sectionId="main-advantagesSection"
