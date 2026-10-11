@@ -1,111 +1,152 @@
 [
   {
     "name": "park-hero",
-    "title": "Парк Чудес",
-    "subtitle": "14 аттракционов в Рязани",
-    "badge": "Открыты ежедневно",
-    "palette": "gallery",
-    "width": 1920,
-    "height": 1080,
-    "filename": "park-hero_f8f7e4d8da16.jpg"
+    "title": "Ferris wheel Nice Dec 2008 a.jpg",
+    "author": "Cayambe",
+    "license": "CC BY-SA 3.0",
+    "width": 1600,
+    "height": 900,
+    "filename": "park-hero_3de6760dff02.jpg",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/4/4f/Ferris_wheel_Nice_Dec_2008_a.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original"
   },
   {
     "name": "attraction-svobodnoe-padenie",
-    "title": "Свободное падение 60 м",
-    "subtitle": "Экстремальный аттракцион",
-    "badge": "60 м",
-    "palette": "extreme",
-    "filename": "attraction-svobodnoe-padenie_b3ee69d91b5e.jpg"
+    "title": "Drop tower ride.jpg",
+    "author": "Wikimedia Commons contributors",
+    "license": "CC BY-SA 4.0",
+    "width": 1200,
+    "height": 900,
+    "filename": "attraction-svobodnoe-padenie_416fee76e127.jpg",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/a/a9/Drop_tower_ride.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original"
   },
   {
     "name": "attraction-ekstrim-pik",
-    "title": "Американские горки Экстрим-Пик",
-    "subtitle": "Высота 32 метра, три петли",
-    "palette": "extreme",
-    "filename": "attraction-ekstrim-pik_aba4e387fdda.jpg"
+    "title": "Baishamen Park - amusement park - roller coaster, adult - 01.jpg",
+    "author": "Anna Frodesiak",
+    "license": "CC0",
+    "width": 1200,
+    "height": 800,
+    "filename": "attraction-ekstrim-pik_d14d1a83acf1.jpg",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/0/02/Baishamen_Park_-_amusement_park_-_roller_coaster%2C_adult_-_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original"
   },
   {
     "name": "attraction-koleso-obozreniya",
-    "title": "Колесо обозрения",
-    "subtitle": "Панорама Рязани с высоты 55 метров",
-    "palette": "family",
-    "filename": "attraction-koleso-obozreniya_f4d5fa689868.jpg"
+    "title": "Illuminated Ferris wheel at dusk in Vientiane, Laos.jpg",
+    "author": "Basile Morin",
+    "license": "CC BY-SA 4.0",
+    "width": 1200,
+    "height": 800,
+    "filename": "attraction-koleso-obozreniya_6c4871d439eb.jpg",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/4/46/Illuminated_Ferris_wheel_at_dusk_in_Vientiane%2C_Laos.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original"
   },
   {
     "name": "attraction-lodochnaya-dorozhka",
-    "title": "Лодочная дорожка",
-    "subtitle": "Прогулка по озеру для всей семьи",
-    "palette": "family",
-    "filename": "attraction-lodochnaya-dorozhka_785351ff46d3.jpg"
+    "title": "Take a boat ride on Upper Waterton Lake (53087475969).jpg",
+    "author": "GlacierNPS",
+    "license": "Public domain",
+    "width": 1200,
+    "height": 800,
+    "filename": "attraction-lodochnaya-dorozhka_ac464fb7b57f.jpg",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/4/44/Take_a_boat_ride_on_Upper_Waterton_Lake_%2853087475969%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original"
   },
   {
     "name": "attraction-ostrov-sokrovisch",
-    "title": "Остров сокровищ",
-    "subtitle": "Детская площадка до 6 лет",
-    "palette": "child",
-    "filename": "attraction-ostrov-sokrovisch_93cce15d376e.jpg"
+    "title": "Baishamen Park - amusement park - roller coaster, kiddie - 01.jpg",
+    "author": "Anna Frodesiak",
+    "license": "CC0",
+    "width": 1200,
+    "height": 800,
+    "filename": "attraction-ostrov-sokrovisch_b4f57b91bddf.jpg",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/8/87/Baishamen_Park_-_amusement_park_-_roller_coaster%2C_kiddie_-_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original"
   },
   {
     "name": "attraction-komnata-vyzhivaniya",
-    "title": "Комната выживания",
-    "subtitle": "60 минут с заданиями",
-    "palette": "child",
-    "filename": "attraction-komnata-vyzhivaniya_257367964a26.jpg"
+    "title": "Escape room (42169658204).jpg",
+    "author": "Eric Fischer",
+    "license": "CC BY 2.0",
+    "width": 1200,
+    "height": 800,
+    "filename": "attraction-komnata-vyzhivaniya_125235cfb052.jpg",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/2/24/Escape_room_%2842169658204%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original"
   },
   {
     "name": "news-noch-ekstremala",
-    "title": "Ночь экстремала",
-    "subtitle": "Парк работает до 03:00",
-    "palette": "extreme",
-    "filename": "news-noch-ekstremala_12185fde280f.jpg"
+    "title": "Illuminated Ferris wheel, bouncing castle and carousel at night in a funfair in Vientiane, Laos.jpg",
+    "author": "Basile Morin",
+    "license": "CC BY-SA 4.0",
+    "width": 1200,
+    "height": 800,
+    "filename": "news-noch-ekstremala_46a1e168adfe.jpg",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/4/43/Illuminated_Ferris_wheel%2C_bouncing_castle_and_carousel_at_night_in_a_funfair_in_Vientiane%2C_Laos.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original"
   },
   {
     "name": "news-svobodnoe-padenie",
-    "title": "Новый аттракцион",
-    "subtitle": "Свободное падение 60 м",
-    "palette": "news",
-    "filename": "news-svobodnoe-padenie_b0c2a365457c.jpg"
+    "title": "Mega Drop tower ride at the CNE in 2008.jpg",
+    "author": "Ian Muttoo",
+    "license": "CC BY-SA 2.0",
+    "width": 1200,
+    "height": 800,
+    "filename": "news-svobodnoe-padenie_62604614ff2b.jpg",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/5/55/Mega_Drop_tower_ride_at_the_CNE_in_2008.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original"
   },
   {
     "name": "news-fotokonkurs",
-    "title": "Фотоконкурс",
-    "subtitle": "Лучший кадр парка",
-    "palette": "gallery",
-    "filename": "news-fotokonkurs_244c5fd4eafb.jpg"
+    "title": "Amusement Park by Night (48726828301).jpg",
+    "author": "Dejan Krsmanovic",
+    "license": "CC BY 2.0",
+    "width": 1200,
+    "height": 800,
+    "filename": "news-fotokonkurs_8794f2c13ba8.jpg",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/0/0e/Amusement_Park_by_Night_%2848726828301%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original"
   },
   {
     "name": "news-raspisanie",
-    "title": "Утренние сеансы в 10:00",
-    "subtitle": "Изменилось расписание",
-    "palette": "news",
-    "filename": "news-raspisanie_301736a60a1c.jpg"
+    "title": "Le Touquet - The merry-go-round on the waterfront.jpg",
+    "author": "Dr Dobeaucoup",
+    "license": "CC BY-SA 4.0",
+    "width": 1200,
+    "height": 675,
+    "filename": "news-raspisanie_5e1e4682af5d.jpg",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/3/3e/Le_Touquet_-_The_merry-go-round_on_the_waterfront.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original"
   },
   {
     "name": "album-ekstremalnaya-zona",
-    "title": "Экстремальная зона",
-    "subtitle": "Главные аттракционы парка",
-    "palette": "extreme",
-    "filename": "album-ekstremalnaya-zona_dc1d4167758a.jpg"
+    "title": "Giant Drop themeing.jpg",
+    "author": "Troy Kelly",
+    "license": "CC BY 2.0",
+    "width": 1200,
+    "height": 800,
+    "filename": "album-ekstremalnaya-zona_12dc9df8fc01.jpg",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/3/34/Giant_Drop_themeing.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original"
   },
   {
     "name": "album-semeynaya-zona",
-    "title": "Семейная зона",
-    "subtitle": "Весело всей семье",
-    "palette": "family",
-    "filename": "album-semeynaya-zona_c95080cfdecf.jpg"
+    "title": "The Swing Carousel - Flickr - Stig Nygaard.jpg",
+    "author": "Stig Nygaard",
+    "license": "CC BY 2.0",
+    "width": 1200,
+    "height": 800,
+    "filename": "album-semeynaya-zona_6764ecee8d8f.jpg",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/6/65/The_Swing_Carousel_-_Flickr_-_Stig_Nygaard.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original"
   },
   {
     "name": "album-detskiy-ostrov",
-    "title": "Детский остров",
-    "subtitle": "Для самых маленьких",
-    "palette": "child",
-    "filename": "album-detskiy-ostrov_f013bfaa0e67.jpg"
+    "title": "Carousel, 6th of October City, Egypt.JPG",
+    "author": "Faris El-Gwely",
+    "license": "CC BY-SA 4.0",
+    "width": 1200,
+    "height": 800,
+    "filename": "album-detskiy-ostrov_3e375a3d560c.jpg",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/b/bd/Carousel%2C_6th_of_October_City%2C_Egypt.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original"
   },
   {
     "name": "album-territoriya",
-    "title": "Территория парка",
-    "subtitle": "Аллеи, фуд-корт и зоны отдыха",
-    "palette": "gallery",
-    "filename": "album-territoriya_111f9c1a238d.jpg"
+    "title": "Seibuen Amusement Park (9996459904).jpg",
+    "author": "Tomohiro Ohtake",
+    "license": "CC BY 2.0",
+    "width": 1200,
+    "height": 800,
+    "filename": "album-territoriya_9f32f38334b4.jpg",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/a/a7/Seibuen_Amusement_Park_%289996459904%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original"
   }
 ]

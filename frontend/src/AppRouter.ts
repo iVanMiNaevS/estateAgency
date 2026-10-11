@@ -12,4 +12,5 @@ export class AppRouter {
 	static account = "/account";
 	static rules = "/content/rules";
 	static privacy = "/content/privacy";
+	static credits = "/credits";
 }

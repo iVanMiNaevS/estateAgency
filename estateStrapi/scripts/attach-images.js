@@ -194,23 +194,29 @@ const main = async () => {
   // Первый экран главной: singleType с компонентом heroSection.
   const hero = pick("park-hero");
   if (hero) {
-    const mainScreen = await api("/main-screen");
-    const docId = mainScreen?.data?.documentId;
+    // Компонент обязателен в запросе: без populate он не приходит,
+    // и {...current.heroSection} подставит undefined, а PUT с
+    // heroSection: { image } затрёт заголовок и описание блока.
+    const mainScreen = await api(
+      "/main-screen?populate[heroSection][populate]=image"
+    );
+    const current = mainScreen?.data;
 
-    if (docId) {
-      const current = mainScreen.data;
+    if (current?.heroSection) {
+      const { image, ...heroFields } = current.heroSection;
+
       await api("/main-screen", {
         method: "PUT",
         body: {
           data: {
-            title: current.title,
-            description: current.description,
-            heroSection: { ...current.heroSection, image: hero.id },
+            heroSection: { ...heroFields, image: hero.id },
           },
         },
       });
       attached += 1;
       console.log("  первый экран главной");
+    } else {
+      console.log("  первый экран главной: блок heroSection не найден");
     }
   }
 

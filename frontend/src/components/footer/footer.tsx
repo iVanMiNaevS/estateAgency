@@ -54,6 +54,11 @@ export const Footer = ({isAuthenticated = false}: Props) => {
 		{
 			page: { text: "Политика конфиденциальности", link: AppRouter.privacy },
 		},
+		{
+			// Лицензии CC BY и CC BY-SA требуют указать авторов
+			// фотографий, поэтому ссылка должна быть доступна с сайта.
+			page: { text: "Источники изображений", link: AppRouter.credits },
+		},
 	];
 	return (
 		<footer className={styles.footer}>
