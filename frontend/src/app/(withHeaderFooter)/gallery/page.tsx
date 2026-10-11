@@ -16,19 +16,30 @@ export const metadata: Metadata = {
  * гостю ничего не дают.
  */
 const Page = async () => {
+	// REST-путь берётся из pluralName модели api::gallery-album.album,
+	// то есть «albums», а не по имени самой папки API.
 	const result = await getObjects<IGalleryAlbum>(
-		"gallery-albums",
+		"albums",
 		["cover", "items.file", "items.preview"],
 		undefined,
 		[{ params: "pageSize", value: 50 }]
 	);
 
-	const albums = (result.data ?? [])
+	const all = result.data ?? [];
+
+	// Элемент без файла не показываем, и альбом без единого файла тоже:
+	// гостю пустая сетка ничего не даёт.
+	const albums = all
 		.map((album) => ({
 			...album,
 			items: (album.items ?? []).filter((item) => item.file?.url),
 		}))
-		.filter((album) => (album.cover?.url || album.items.length > 0));
+		.filter((album) => album.cover?.url || album.items.length > 0);
+
+	const emptyText =
+		all.length === 0
+			? "Альбомы пока не созданы. Добавьте их в панели администратора."
+			: "Фотографии пока не загружены. Файлы добавляются через панель администратора.";
 
 	return (
 		<main>
@@ -45,10 +56,7 @@ const Page = async () => {
 			<section>
 				<div className="container">
 					{albums.length === 0 ? (
-						<p className={styles.empty}>
-							Фотографии пока не загружены. Материалы добавляются через панель
-							администратора.
-						</p>
+						<p className={styles.empty}>{emptyText}</p>
 					) : (
 						albums.map((album) => (
 							<section key={album.id} className={styles.album}>
