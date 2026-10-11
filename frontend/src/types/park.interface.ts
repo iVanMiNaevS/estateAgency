@@ -25,6 +25,66 @@ export interface IAttraction extends BaseEntity {
 	sortOrder?: number;
 	poster?: IMediaFormat | null;
 	images?: IMediaFormat[] | null;
+	/** Ограничения по здоровью и безопасности. */
+	restrictions?: {
+		id: number;
+		title: string;
+		text?: string | null;
+		isCritical?: boolean;
+	}[] | null;
+	/** Характеристики вида «длительность / стоимость». */
+	options?: { id: number; label: string; value?: string | null }[] | null;
+}
+
+/** Элемент галереи: фотография или видео. */
+export interface IGalleryItem {
+	id: number;
+	title?: string | null;
+	mediaType: "image" | "video";
+	caption?: string | null;
+	sortOrder?: number;
+	file?: IMediaFormat | null;
+	preview?: IMediaFormat | null;
+}
+
+/** Альбом галереи. */
+export interface IGalleryAlbum {
+	id: number;
+	title: string;
+	slug: string;
+	description?: string | null;
+	cover?: IMediaFormat | null;
+	items?: IGalleryItem[] | null;
+	sortOrder?: number;
+}
+
+/** Новость парка. */
+export interface INewsItem {
+	id: number;
+	title: string;
+	slug: string;
+	excerpt?: string | null;
+	content?: string | null;
+	eventDate?: string | null;
+	isPinned?: boolean;
+	cover?: IMediaFormat | null;
+}
+
+/** Текстовая страница парка. */
+export interface IPage {
+	id: number;
+	title: string;
+	slug: string;
+	subtitle?: string | null;
+	content?: string | null;
+	heroImage?: IMediaFormat | null;
+	blocks?: {
+		id: number;
+		title?: string | null;
+		text?: string | null;
+		layout?: "text" | "text-left" | "text-right";
+		items?: { id: number; title?: string | null; text?: string | null }[] | null;
+	}[] | null;
 }
 
 /** Тариф парка. Соответствует модели api::ticket-price.ticket-price. */

@@ -1,14 +1,15 @@
 export class AppRouter {
 	static home = "/";
-	static about = "/about";
-	static catalog = "/catalog";
+	static about = "/content/about";
+	static attractions = "/attractions";
+	static schedule = "/schedule";
+	static prices = "/prices";
+	static gallery = "/gallery";
+	static news = "/news";
 	static contact = "/contact";
 	static login = "/login";
 	static signIn = "/reg";
 	static account = "/account";
-	static attractions = "/attractions";
-	static schedule = "/schedule";
-	static prices = "/prices";
-	static news = "/news";
-	static privacy = "/privacy";
+	static rules = "/content/rules";
+	static privacy = "/content/privacy";
 }

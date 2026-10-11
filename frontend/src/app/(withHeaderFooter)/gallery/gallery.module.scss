@@ -1,0 +1,61 @@
+.hero {
+	padding-top: 40px;
+}
+
+.lead {
+	color: var(--grey60);
+	font-size: 18px;
+	line-height: 1.6;
+	max-width: 760px;
+	margin-top: 16px;
+}
+
+.album {
+	margin-bottom: 56px;
+}
+
+.albumLead {
+	color: var(--grey60);
+	font-size: 16px;
+	margin-top: 10px;
+	margin-bottom: 24px;
+}
+
+.grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+	gap: 16px;
+}
+
+.item {
+	background: var(--grey10);
+	border: 1px solid var(--grey15);
+	border-radius: 14px;
+	overflow: hidden;
+
+	img,
+	video {
+		width: 100%;
+		height: 220px;
+		object-fit: cover;
+		display: block;
+		background: var(--grey15);
+	}
+
+	figcaption {
+		padding: 12px 16px;
+		font-size: 14px;
+		color: var(--grey60);
+	}
+}
+
+.empty {
+	color: var(--grey60);
+	font-size: 18px;
+}
+
+@media (max-width: 576px) {
+	.grid {
+		grid-template-columns: 1fr;
+	}
+}

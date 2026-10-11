@@ -1,0 +1,155 @@
+.hero {
+	padding-top: 40px;
+}
+
+.lead {
+	color: var(--grey60);
+	font-size: 18px;
+	line-height: 1.6;
+	max-width: 760px;
+	margin-top: 16px;
+}
+
+.dates {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	margin-bottom: 32px;
+}
+
+.date,
+.dateActive {
+	border: 1px solid var(--grey15);
+	border-radius: 999px;
+	padding: 10px 18px;
+	font-size: 15px;
+	color: var(--grey60);
+	transition: border-color 0.2s ease, color 0.2s ease;
+	white-space: nowrap;
+}
+
+.date:hover {
+	border-color: var(--purple60);
+	color: var(--white);
+}
+
+.dateActive {
+	background: var(--purple60);
+	border-color: var(--purple60);
+	color: var(--white);
+}
+
+.group {
+	margin-bottom: 36px;
+}
+
+.list {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	margin-top: 16px;
+}
+
+.item {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 20px;
+	padding: 18px 22px;
+	background: var(--grey10);
+	border: 1px solid var(--grey15);
+	border-radius: 14px;
+}
+
+.itemMain {
+	display: flex;
+	align-items: center;
+	gap: 20px;
+}
+
+.time {
+	font-size: 22px;
+	font-weight: 700;
+	min-width: 72px;
+}
+
+.itemTitle {
+	font-size: 17px;
+	font-weight: 600;
+}
+
+.itemMeta {
+	font-size: 14px;
+	color: var(--grey60);
+	margin-top: 4px;
+}
+
+.itemSide {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	flex-shrink: 0;
+}
+
+.price {
+	font-size: 17px;
+	font-weight: 600;
+}
+
+.free {
+	font-size: 14px;
+	color: #6fcf97;
+	border: 1px solid #2e8b57;
+	border-radius: 999px;
+	padding: 5px 12px;
+	white-space: nowrap;
+}
+
+.full {
+	font-size: 14px;
+	color: var(--grey60);
+	border: 1px solid var(--grey15);
+	border-radius: 999px;
+	padding: 5px 12px;
+	white-space: nowrap;
+}
+
+.cancelled {
+	font-size: 14px;
+	color: #e08b8b;
+	border: 1px solid #8b2e2e;
+	border-radius: 999px;
+	padding: 5px 12px;
+	white-space: nowrap;
+}
+
+.empty {
+	color: var(--grey60);
+	font-size: 18px;
+}
+
+.bookingSection {
+	border-top: 1px solid var(--grey15);
+}
+
+.bookingGrid {
+	max-width: 1600px;
+	margin: 0 auto;
+	padding: 0 20px;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 48px;
+	align-items: start;
+}
+
+@media (max-width: 768px) {
+	.bookingGrid {
+		grid-template-columns: 1fr;
+	}
+
+	.item {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 12px;
+	}
+}

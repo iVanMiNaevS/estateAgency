@@ -3,6 +3,7 @@ import styles from "@/app/(withHeaderFooter)/(home)//home.module.scss";
 import Image from "next/image";
 import {IMainScreen} from "@/types/screens/mainScreen.interface";
 import Link from "next/link";
+import { AppRouter } from "@/AppRouter";
 
 type props = {
 	sectionId: string;
@@ -32,8 +33,12 @@ export const HeroSection = ({sectionId, data}: props) => {
 						<p>{sectionData.description}</p>
 					</div>
 					<div className={styles.heroSection__btns}>
-						<button className="btn">Узнать больше</button>
-						<Link href={'/#main-recomendedEstateSection'} className="btn-purple">Посмотреть недвижимость</Link>
+						<Link href={AppRouter.attractions} className="btn">
+							Смотреть аттракционы
+						</Link>
+						<Link href={AppRouter.schedule} className="btn-purple">
+							Забронировать
+						</Link>
 					</div>
 					<div className={styles.heroSection__stat}>
 						<div className={styles.heroSection__statBlock}>
@@ -41,12 +46,12 @@ export const HeroSection = ({sectionId, data}: props) => {
 							<p>Довольные клиенты</p>
 						</div>
 						<div className={styles.heroSection__statBlock}>
-							<h2>10k+</h2>
-							<p>Недвижимости</p>
+							<h2>14+</h2>
+							<p>Аттракционов</p>
 						</div>
 						<div className={styles.heroSection__statBlock}>
-							<h2>16+</h2>
-							<p>Опыт работы</p>
+							<h2>4</h2>
+							<p>Зоны парка</p>
 						</div>
 					</div>
 				</div>

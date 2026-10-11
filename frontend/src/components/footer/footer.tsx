@@ -8,42 +8,44 @@ import {AppRouter} from "@/AppRouter";
 export const Footer = () => {
 	const footerLinks = [
 		{
-			page: {text: "Главная", link: AppRouter.home},
+			page: { text: "Главная", link: AppRouter.home },
 			anchors: [
-				{text: "Встречающая секция", link: `${AppRouter.home}#main-heroSection`},
-				{text: "Рекомендуемые объекты", link: `${AppRouter.home}#main-recomendedEstateSection`},
-				{text: "Отзывы", link: `${AppRouter.home}#main-recomendedEstateSection`},
-				{text: "Часто задаваемые вопросы", link: `${AppRouter.home}#main-faqSection`},
+				{ text: "Популярные аттракционы", link: `${AppRouter.home}#main-recomendedAttractionSection` },
+				{ text: "Отзывы", link: `${AppRouter.home}#main-reviewsSection` },
+				{ text: "Частые вопросы", link: `${AppRouter.home}#main-faqSection` },
 			],
 		},
 		{
-			page: {text: "О нас", link: AppRouter.about},
+			page: { text: "Аттракционы", link: AppRouter.attractions },
 			anchors: [
-				{text: "Наш путь", link: `${AppRouter.about}#about-ourWaySection`},
-				{text: "Наши ценности", link: `${AppRouter.about}#about-ourValuesSection`},
-				{text: "Наши достижения", link: `${AppRouter.about}#about-ourAch`},
+				{ text: "Все аттракционы", link: AppRouter.attractions },
+				{ text: "Экстремальные", link: `${AppRouter.attractions}?type=extreme` },
+				{ text: "Семейные", link: `${AppRouter.attractions}?type=family` },
+				{ text: "Детские", link: `${AppRouter.attractions}?type=child` },
 			],
 		},
 		{
-			page: {text: "Каталог", link: AppRouter.catalog},
+			page: { text: "Посетителям", link: AppRouter.schedule },
 			anchors: [
-				{text: "Поиск", link: `${AppRouter.catalog}#catalog-catalogSearch`},
-				{text: "Недвижимость", link: `${AppRouter.catalog}#catalog-catalogSection`},
-				{text: "Форма связи", link: `${AppRouter.catalog}#catalog-connSection`},
+				{ text: "Расписание и запись", link: AppRouter.schedule },
+				{ text: "Цены на билеты", link: AppRouter.prices },
+				{ text: "Правила посещения", link: AppRouter.rules },
+				{ text: "О парке", link: AppRouter.about },
 			],
 		},
 		{
-			page: {text: "Котнакты", link: AppRouter.contact},
+			page: { text: "Парк", link: AppRouter.news },
 			anchors: [
-				{text: "Контакты", link: `${AppRouter.contact}#contact-sectionCardText`},
-				{text: "Форма связи", link: `${AppRouter.contact}#contact-sectionForm`},
+				{ text: "Новости", link: AppRouter.news },
+				{ text: "Галерея", link: AppRouter.gallery },
+				{ text: "Контакты", link: AppRouter.contact },
 			],
 		},
 		{
-			page: {text: "Войти", link: AppRouter.login},
+			page: { text: "Личный кабинет", link: AppRouter.account },
 		},
 		{
-			page: {text: "Зарегестрироваться", link: AppRouter.signIn},
+			page: { text: "Политика конфиденциальности", link: AppRouter.privacy },
 		},
 	];
 	return (
