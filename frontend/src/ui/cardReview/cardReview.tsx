@@ -24,10 +24,9 @@ export const CardReview: FC<props> = ({review}) => {
 				{review.user?.avatar ? (
 					<Image
 						src={
-							process.env.NEXT_PUBLIC_SERVER_URL +
-							(!review.user?.avatar.formats
+							!review.user?.avatar.formats
 								? review.user?.avatar.url
-								: review.user?.avatar.formats.thumbnail.url)
+								: review.user?.avatar.formats.thumbnail.url
 						}
 						width={
 							review.user?.avatar.formats

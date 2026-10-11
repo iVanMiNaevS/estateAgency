@@ -41,6 +41,62 @@ export const apiBase = (): string => {
  */
 export const strapiUrl = (): string => apiBase();
 
+/** Корень сайта Strapi без /api — файлы лежат в /uploads. */
+const mediaOrigin = (): string => {
+  const trimmed = (process.env.STRAPI_URL ?? process.env.NEXT_PUBLIC_API_URL ?? "")
+    .trim()
+    .replace(/\/+$/, "");
+
+  return trimmed.replace(/\/api$/, "");
+};
+
+/**
+ * Превращает относительный путь медиа в абсолютный адрес.
+ *
+ * Strapi отдаёт «/uploads/photo.jpg», а next/image такой путь
+ * ищет на собственном домене Next и получает 400 — картинка
+ * не появляется, хотя ссылка в разметке есть. Компонент
+ * отдаёт только файлы с разрешённого хоста, поэтому адрес
+ * собирается здесь, на сервере, и не раскрывает ничего лишнего:
+ * хост Strapi и так известен из next.config.
+ */
+export const absoluteMediaUrl = (url?: string | null): string | null => {
+  if (!url) return null;
+
+  // Уже абсолютный адрес — например, если в CMS записан внешний URL.
+  if (/^https?:\/\//i.test(url)) return url;
+
+  return `${mediaOrigin()}${url.startsWith("/") ? "" : "/"}${url}`;
+};
+
+/**
+ * Проставляет абсолютные адреса во всех полях url ответа Strapi.
+ *
+ * Обход в ширину: структура произвольная — атрибуции у тарифов,
+ * форматы картинок (thumbnail, large), альбомы с вложенными фото.
+ */
+const withAbsoluteMediaUrls = <T>(node: T): T => {
+  if (Array.isArray(node)) {
+    return node.map((item) => withAbsoluteMediaUrls(item)) as unknown as T;
+  }
+
+  if (node === null || typeof node !== "object") {
+    return node;
+  }
+
+  const source = node as Record<string, unknown>;
+
+  for (const [key, value] of Object.entries(source)) {
+    if (key === "url" && typeof value === "string") {
+      source[key] = absoluteMediaUrl(value);
+    } else if (typeof value === "object" && value !== null) {
+      source[key] = withAbsoluteMediaUrls(value);
+    }
+  }
+
+  return node;
+};
+
 /** Ответ Strapi, приведённый к единому виду. */
 export type StrapiResult<T> =
   | { ok: true; data: T }
@@ -107,7 +163,7 @@ export const strapiFetch = async <T>(
       };
     }
 
-    return { ok: true, data: payload as T };
+    return { ok: true, data: withAbsoluteMediaUrls(payload as T) };
   } catch (error) {
     console.error(`Strapi ${method} ${path} недоступен`, error);
     return { ok: false, error: "Сервер временно недоступен", status: 503 };
