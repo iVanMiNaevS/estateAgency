@@ -14,7 +14,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "2026-10-11T16:20:10.187Z"
+    "x-generation-date": "2026-10-11T16:40:51.676Z"
   },
   "x-strapi-config": {
     "plugins": [
@@ -15759,6 +15759,9 @@
               "heroSection": {
                 "$ref": "#/components/schemas/MainScreenHeroSectionComponent"
               },
+              "introSection": {
+                "$ref": "#/components/schemas/MainScreenIntroSectionComponent"
+              },
               "advantagesSection": {
                 "$ref": "#/components/schemas/MainScreenAdvantageSectionComponent"
               },
@@ -15845,6 +15848,9 @@
           "heroSection": {
             "$ref": "#/components/schemas/MainScreenHeroSectionComponent"
           },
+          "introSection": {
+            "$ref": "#/components/schemas/MainScreenIntroSectionComponent"
+          },
           "advantagesSection": {
             "$ref": "#/components/schemas/MainScreenAdvantageSectionComponent"
           },
@@ -15913,6 +15919,9 @@
                 },
                 "heroSection": {
                   "$ref": "#/components/schemas/MainScreenHeroSectionComponent"
+                },
+                "introSection": {
+                  "$ref": "#/components/schemas/MainScreenIntroSectionComponent"
                 },
                 "advantagesSection": {
                   "$ref": "#/components/schemas/MainScreenAdvantageSectionComponent"
@@ -16139,6 +16148,20 @@
                 }
               }
             }
+          }
+        }
+      },
+      "MainScreenIntroSectionComponent": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
           }
         }
       },

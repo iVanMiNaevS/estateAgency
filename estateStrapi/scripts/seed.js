@@ -688,6 +688,20 @@ const insertFaqSection = db.prepare(`
   values (@title, @description)
 `);
 
+// FAQ на главной: отдельный компонент от того, что на странице
+// «О парке». Без него блок вопросов на главной не отрисовывался,
+// хотя компонент был объявлен в схеме, а ссылка «Частые вопросы»
+// в подвале вела на несуществующий якорь.
+const insertMainFaqSection = db.prepare(`
+  insert into components_main_screen_faq_sections
+    (title, description)
+  values (@title, @description)
+`);
+
+const linkMainFaqQuestion = db.prepare(
+  'insert into components_main_screen_faq_sections_cmps (entity_id, cmp_id, component_type, field, "order") values (?, ?, ?, ?, ?)'
+);
+
 const insertQuestion = db.prepare(`
   insert into components_faq_section_questions
     (title, description, slug)
@@ -819,6 +833,12 @@ const insertNewsSection = db.prepare(`
   values (@title, @description)
 `);
 
+const insertIntroSection = db.prepare(`
+  insert into components_main_screen_intro_sections
+    (title, description)
+  values (@title, @description)
+`);
+
 const linkRecomendedAttraction = db.prepare(
   'insert into components_main_screen_recomended_5c93f_attractions_lnk (recomended_section_id, attraction_id, attraction_ord) values (?, ?, ?)'
 );
@@ -885,6 +905,29 @@ if (mainScreen) {
       description: 'Анонсы событий и сезонных акций',
     });
     mainScreenCmp.run(mainScreen.id, newsSection.lastInsertRowid, 'main-screen.news-section', 'newsSection', null);
+
+    /* Вводный блок под первым экраном */
+    const introSection = insertIntroSection.run({
+      title: 'Добро пожаловать в «Парк Чудес»',
+      description:
+        'Шесть аттракционов для тех, кто готов к высоте и скорости, и для тех, кто пришёл вместе с детьми. Выбирайте сеанс в расписании и приходите к своему времени — очередей нет.',
+    });
+    mainScreenCmp.run(mainScreen.id, introSection.lastInsertRowid, 'main-screen.intro-section', 'introSection', null);
+
+    /* Частые вопросы на главной */
+    const mainFaqSection = insertMainFaqSection.run({
+      title: FAQ.title,
+      description: FAQ.description,
+    });
+    mainScreenCmp.run(mainScreen.id, mainFaqSection.lastInsertRowid, 'main-screen.faq-section', 'faqSection', null);
+    FAQ.questions.forEach((question, index) => {
+      const qCmp = insertQuestion.run({
+        title: question.title,
+        description: question.description,
+        slug: question.title.slice(0, 40),
+      });
+      linkMainFaqQuestion.run(mainFaqSection.lastInsertRowid, qCmp.lastInsertRowid, 'faq-section.question', 'questions', index);
+    });
 
     /* Отзывы */
     const reviewsSection = insertReviewsSection.run({

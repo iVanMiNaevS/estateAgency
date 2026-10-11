@@ -16,6 +16,11 @@
       "component": "main-screen.hero-section",
       "repeatable": false
     },
+    "introSection": {
+      "type": "component",
+      "component": "main-screen.intro-section",
+      "repeatable": false
+    },
     "advantagesSection": {
       "type": "component",
       "component": "main-screen.advantage-section",

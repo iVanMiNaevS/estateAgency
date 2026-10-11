@@ -739,6 +739,10 @@ export interface ApiMainScreenMainScreen extends Struct.SingleTypeSchema {
       Schema.Attribute.Private;
     faqSection: Schema.Attribute.Component<'main-screen.faq-section', false>;
     heroSection: Schema.Attribute.Component<'main-screen.hero-section', false>;
+    introSection: Schema.Attribute.Component<
+      'main-screen.intro-section',
+      false
+    >;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',

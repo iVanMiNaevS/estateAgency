@@ -1,4 +1,5 @@
 import { HeroSection } from "@/components/screens/home/heroSection";
+import { IntroSection } from "@/components/screens/home/intro-section";
 import { EventsSection } from "@/components/screens/home/events-section";
 import { AdvantagesSection } from "@/components/screens/home/advantages-section";
 import { RecomendedAttractionSection } from "@/components/screens/home/recomendedAttractionSection";
@@ -16,7 +17,11 @@ import { Metadata } from "next";
  */
 const POPULATE = [
 	"heroSection.image",
+	"introSection",
 	"recomendedSection.attractions.poster",
+	// Без этой строки блок преимуществ оставался пустым:
+	// данные приходят из CMS, а запрашивались только заголовок секции.
+	"advantagesSection.advantages",
 	"reviewsSection.reviews.user.avatar",
 	"faqSection.questions",
 	"seo",
@@ -54,6 +59,12 @@ export default async function Home() {
 	return (
 		<main>
 			<HeroSection sectionId="main-heroSection" data={screen} />
+
+			<IntroSection
+				sectionId="main-introSection"
+				title={screen?.introSection?.title}
+				description={screen?.introSection?.description}
+			/>
 
 			{/* Ближайшие события идут сразу после первого экрана:
 			    гость узнаёт о них раньше, чем дочитает до новостей. */}

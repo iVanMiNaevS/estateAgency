@@ -1,0 +1,58 @@
+.section {
+	padding-top: 0;
+}
+
+.inner {
+	display: flex;
+	/* Текст занимает большую часть строки, кнопки жмутся вправо
+	   и на узких экранах переносятся под текст. */
+	align-items: flex-end;
+	justify-content: space-between;
+	gap: 40px;
+	flex-wrap: wrap;
+}
+
+.text {
+	flex: 1 1 520px;
+}
+
+.text h2 {
+	margin-bottom: 20px;
+}
+
+.description {
+	color: var(--grey60);
+	font-size: 20px;
+	line-height: 1.6;
+	max-width: 720px;
+}
+
+.actions {
+	display: flex;
+	gap: 16px;
+	flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+	.inner {
+		align-items: flex-start;
+		gap: 28px;
+	}
+
+	.actions {
+		width: 100%;
+	}
+
+	/* На телефоне кнопки тянутся на всю ширину — так их проще
+	   нажать мимо большого пальца. */
+	.actions a {
+		flex: 1 1 100%;
+		text-align: center;
+	}
+}
+
+@media (max-width: 576px) {
+	.description {
+		font-size: 16px;
+	}
+}

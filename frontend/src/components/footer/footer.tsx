@@ -50,21 +50,32 @@ export const Footer = ({isAuthenticated = false}: Props) => {
 			page: isAuthenticated
 				? { text: "Личный кабинет", link: AppRouter.account }
 				: { text: "Войти", link: AppRouter.login },
+			anchors: isAuthenticated
+				? undefined
+				: [
+						// Без этой ссылки зарегистрироваться можно было
+						// только вручную набрав адрес в строке браузера.
+						{ text: "Регистрация", link: AppRouter.signIn },
+					],
 		},
 		{
-			page: { text: "Политика конфиденциальности", link: AppRouter.privacy },
-		},
-		{
-			// Лицензии CC BY и CC BY-SA требуют указать авторов
-			// фотографий, поэтому ссылка должна быть доступна с сайта.
-			page: { text: "Источники изображений", link: AppRouter.credits },
+			// Раньше это были две отдельные колонки с одной ссылкой
+			// каждая — они выглядели пусто рядом с колонками,
+			// где ссылок несколько. Теперь это один раздел.
+			page: { text: "Документы", link: AppRouter.privacy },
+			anchors: [
+				{ text: "Политика конфиденциальности", link: AppRouter.privacy },
+				// Лицензии CC BY и CC BY-SA требуют указать авторов
+				// фотографий, поэтому ссылка должна быть на сайте.
+				{ text: "Источники изображений", link: AppRouter.credits },
+			],
 		},
 	];
 	return (
 		<footer className={styles.footer}>
 			<div className="container">
 				<div className={styles.feedback}>
-					<Image src={logo} alt="Логотип ЭлитДом" />
+					<Image src={logo} alt="Логотип парка Чудес" />
 					<FormEmail />
 				</div>
 				<div className={styles.linksWrapp}>
@@ -74,16 +85,17 @@ export const Footer = ({isAuthenticated = false}: Props) => {
 								<Link href={column.page.link} className={styles.page}>
 									{column.page.text}
 								</Link>
-								<ul className={styles.links}>
-									{column.anchors &&
-										column.anchors.map((anchor) => {
-											return (
-												<li key={anchor.text}>
-													<Link href={anchor.link}>{anchor.text}</Link>
-												</li>
-											);
-										})}
-								</ul>
+								{/* Список выводим, только когда есть что показать:
+								    пустой <ul> в разметке ничего не даёт. */}
+								{column.anchors && column.anchors.length > 0 && (
+									<ul className={styles.links}>
+										{column.anchors.map((anchor) => (
+											<li key={anchor.text}>
+												<Link href={anchor.link}>{anchor.text}</Link>
+											</li>
+										))}
+									</ul>
+								)}
 							</div>
 						);
 					})}

@@ -20,6 +20,10 @@ export interface IMainScreen extends BaseEntity {
 		description: string;
 		image: IMediaFormat;
 	};
+	introSection?: {
+		title?: string | null;
+		description?: string | null;
+	};
 	advantagesSection?: {
 		title?: string | null;
 		advantages?: { id: number; title: string; text?: string | null }[] | null;

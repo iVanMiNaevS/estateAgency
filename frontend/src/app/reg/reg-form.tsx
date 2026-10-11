@@ -26,7 +26,10 @@ export const RegisterForm = ({ next }: { next: string }) => {
 
         <div className={styles.top}>
           <Image src={logo} alt="Логотип парка" width={40} height={40} />
-          Регистрация
+          {/* Заголовок страницы: у /reg не было ни одного
+              h1, поэтому структура документа начиналась
+              с div. */}
+          <h1 className={styles.title}>Регистрация</h1>
         </div>
 
         {state.error && (

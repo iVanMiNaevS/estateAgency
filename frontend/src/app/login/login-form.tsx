@@ -27,7 +27,10 @@ export const LoginForm = ({ next }: { next: string }) => {
 
         <div className={styles.top}>
           <Image src={logo} alt="Логотип парка" width={40} height={40} />
-          Вход в личный кабинет
+          {/* Это заголовок страницы: без h1 у /login не было
+              ни одного заголовка, и читатель с экрана
+              не знал, где находится. */}
+          <h1 className={styles.title}>Вход в личный кабинет</h1>
         </div>
 
         {state.error && (

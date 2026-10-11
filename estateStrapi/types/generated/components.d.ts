@@ -120,6 +120,18 @@ export interface MainScreenHeroSection extends Struct.ComponentSchema {
   };
 }
 
+export interface MainScreenIntroSection extends Struct.ComponentSchema {
+  collectionName: 'components_main_screen_intro_sections';
+  info: {
+    description: '\u0412\u0432\u043E\u0434\u043D\u044B\u0439 \u0431\u043B\u043E\u043A: \u043A\u043E\u0440\u043E\u0442\u043A\u0438\u0439 \u0442\u0435\u043A\u0441\u0442 \u043E \u043F\u0430\u0440\u043A\u0435 \u043F\u043E\u0434 \u043F\u0435\u0440\u0432\u044B\u043C \u044D\u043A\u0440\u0430\u043D\u043E\u043C';
+    displayName: 'introSection';
+  };
+  attributes: {
+    description: Schema.Attribute.Text;
+    title: Schema.Attribute.String;
+  };
+}
+
 export interface MainScreenNewsSection extends Struct.ComponentSchema {
   collectionName: 'components_main_screen_news_sections';
   info: {
@@ -223,6 +235,7 @@ declare module '@strapi/strapi' {
       'main-screen.advantage-section': MainScreenAdvantageSection;
       'main-screen.faq-section': MainScreenFaqSection;
       'main-screen.hero-section': MainScreenHeroSection;
+      'main-screen.intro-section': MainScreenIntroSection;
       'main-screen.news-section': MainScreenNewsSection;
       'main-screen.recomended-section': MainScreenRecomendedSection;
       'main-screen.reviews-section': MainScreenReviewsSection;

@@ -39,6 +39,16 @@ textarea {
 	border-radius: 12px;
 	border: 1px solid var(--grey15);
 	padding: 18px;
+	transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+/* Раньше у полей стоял outline: none и ничего взамен: человек,
+   работающий с клавиатурой, не видел, где находится курсор.
+   Рамка и подсветка возвращают видимый фокус. */
+input:focus,
+textarea:focus {
+	outline: none;
+	border-color: var(--purple60);
+	box-shadow: 0 0 0 3px rgba(112, 59, 247, 0.35);
 }
 * {
 	box-sizing: border-box;
@@ -53,10 +63,23 @@ textarea {
 	padding: 0px 20px;
 }
 
+.h1 {
+	font-size: 60px;
+	color: var(--white);
+	font-weight: 600;
+	line-height: 1.15;
+}
 .h2 {
 	font-size: 48px;
 	color: var(--white);
 	font-weight: 600;
+	line-height: 1.2;
+}
+.h3 {
+	font-size: 32px;
+	color: var(--white);
+	font-weight: 600;
+	line-height: 1.25;
 }
 .h4 {
 	font-size: 24px;
@@ -89,6 +112,15 @@ button {
 	outline: none;
 	border: none;
 	transition: 0.3s;
+}
+
+/* Ссылки и кнопки: обводка появляется только при переходе
+   с клавиатуры, мышиному курсору она не нужна. */
+a:focus-visible,
+button:focus-visible {
+	outline: 2px solid var(--purple70);
+	outline-offset: 3px;
+	border-radius: 6px;
 }
 .btn {
 	border-radius: 10px;
@@ -133,6 +165,14 @@ button {
 	.container{
 		max-width: 768px;
 	}
+	/* Заголовки 48px занимали почти всю ширину планшета и
+	   переносились по слогам — на 768px их уменьшаем. */
+	.h2 {
+		font-size: 36px;
+	}
+	.h3 {
+		font-size: 26px;
+	}
 	.h4 {
 		font-size: 20px;
 		font-weight: 600;
@@ -142,14 +182,28 @@ button {
 	.container{
 		max-width: 576px;
 	}
+	:root{
+		/* На телефоне 50px сверху и снизу съедали первый экран
+		   целиком, поэтому вертикальный отступ уменьшается. */
+		--sectionPadding: 40px;
+	}
+	.h1 {
+		font-size: 38px;
+	}
+	.h2 {
+		font-size: 30px;
+	}
 }
 @media (max-width:576px) {
 	.btn, .btn-purple {
 		padding: 16px 22px;
 		font-size: 16px;
 	}
+	.h1{
+		font-size: 32px;
+	}
 	.h2{
-		font-size: 28px;
+		font-size: 26px;
 	}
 	.buttonLink {
 		padding: 16px 22px;

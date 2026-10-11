@@ -21,6 +21,13 @@
 			img {
 				margin-bottom: -15px;
 			}
+			/* Заголовок страницы повторяет вид прежнего текста:
+			   логотип и название стояли рядом, а не друг под другом. */
+			.title {
+				font-size: inherit;
+				font-weight: inherit;
+				line-height: 1.2;
+			}
 		}
 		.inputs {
 			display: flex;

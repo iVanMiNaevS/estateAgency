@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_main_screen_intro_sections",
+  "info": {
+    "displayName": "introSection",
+    "description": "Вводный блок: короткий текст о парке под первым экраном"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "text"
+    }
+  },
+  "config": {}
+}

@@ -42,15 +42,15 @@ export const HeroSection = ({sectionId, data}: props) => {
 					</div>
 					<div className={styles.heroSection__stat}>
 						<div className={styles.heroSection__statBlock}>
-							<h2>200+</h2>
+							<p className={styles.heroSection__statValue}>200+</p>
 							<p>Довольные клиенты</p>
 						</div>
 						<div className={styles.heroSection__statBlock}>
-							<h2>14+</h2>
+							<p className={styles.heroSection__statValue}>14+</p>
 							<p>Аттракционов</p>
 						</div>
 						<div className={styles.heroSection__statBlock}>
-							<h2>4</h2>
+							<p className={styles.heroSection__statValue}>4</p>
 							<p>Зоны парка</p>
 						</div>
 					</div>

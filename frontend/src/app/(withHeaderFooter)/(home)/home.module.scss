@@ -4,7 +4,10 @@
 	background: linear-gradient(30deg, var(--grey08) 40%, #703bf750 100%);
 	> div {
 		display: flex;
-		height: calc(100vh - 151px);
+		/* Раньше высота считалась от высоты экрана за вычетом
+		   151px — высоты шапки, которая менялась при прокрутке.
+		   Теперь блок просто занимает своё содержимое. */
+		min-height: 560px;
 		gap: 80px;
 	}
 	.left {
@@ -12,6 +15,7 @@
 		padding-top: 100px;
 		display: flex;
 		flex-direction: column;
+		justify-content: center;
 		gap: 60px;
 	}
 		img {
@@ -50,8 +54,13 @@
 			display: flex;
 			flex-direction: column;
 			gap: 2px;
-			h2 {
+			/* Числа — не заголовки: раньше это были <h2>, и они
+			   попадали в структуру документа как заголовки разделов.
+			   Внешний вид прежний, но семантика теперь обычный текст. */
+			.heroSection__statValue {
 				font-size: 40px;
+				font-weight: 600;
+				line-height: 1.1;
 			}
 			p {
 				font-size: 18px;
@@ -106,6 +115,12 @@
 			height: fit-content;
 			flex-direction: column-reverse;
 		}
+		&__mainText{
+			/* 60px на планшете занимали всю ширину колонки. */
+			h1{
+				font-size: 48px;
+			}
+		}
 		.left{
 			padding-top: 0px;
 			width: 100%;
@@ -142,7 +157,7 @@
 		height: auto;
 		&__mainText{
 			h1{
-				font-size: 40px;
+				font-size: 38px;
 			}
 		}
 		> div {
@@ -155,7 +170,6 @@
 		}
 		&__stat{
 			padding-bottom: 0px;
-			// flex-direction: column;
 		}
 	}
 }

@@ -21,6 +21,12 @@
 			img {
 				margin-bottom: -15px;
 			}
+			/* Заголовок страницы повторяет вид прежнего текста. */
+			.title {
+				font-size: inherit;
+				font-weight: inherit;
+				line-height: 1.2;
+			}
 		}
 		.inputs {
 			display: flex;
