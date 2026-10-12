@@ -4,33 +4,23 @@ node. Желательно версии 20.20.0. Посмотреть можно
 
 Как скачать ноду интернет в помощь, это изи
 
-## То что я скину уже готовое
-
-.env файл для frontend и estateStrapi
-
-data.db для estateStrapi
-
 ## frontend (next)
 
 открыть проект в vscode
 
-в терминале: cd frontend -> npm i
-
-Потом взять .env файд что я дам и добавить его в папку frontend
-
-после npm i и добавления файла .env -> npm run dev
+в терминале: cd frontend -> npm i -> npm run dev
 
 ВСЁ! Ура. Фронтенд поднимется на localhost:3000
 
 ## estateStrapi (strapi backend и админка)
 
-cd estateStrapi -> npm i
+cd estateStrapi -> npm i -> npm run dev
 
 Потом взять .env файд что я дам и добавить его в папку estateStrapi
 
 Так же я скину файл с базой данных. Его скопировать в estateStrapi/.tmp/
 
-Потом npm run dev и бэк с админкой запустятся на localhost:1337
+бэк с админкой запустятся на localhost:1337
 
 Зайдёшь на localhost:1337 будет форма входа в админку почта: minaev70ivan009@gmail.com, пароль: Minaeff12
 
