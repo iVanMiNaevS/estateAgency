@@ -162,7 +162,9 @@ export const TICKET_PRICES = [
     adultPercent: 100,
     childPercent: 50,
     minGuests: 0,
-    minAdults: 0,
+    // Хотя бы один взрослый: без него «семейный» превращался в
+    // скидку для группы детей, пришедших без сопровождения.
+    minAdults: 1,
     minChildren: 2,
     durationMinutes: 0,
     cancelPolicy: 'Возврат 100% при отмене не позднее чем за 2 часа до сеанса.',
