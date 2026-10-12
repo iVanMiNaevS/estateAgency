@@ -19,6 +19,15 @@ interface Props {
 	sessions: ISession[];
 	/** Тарифы выбираются из списка, id уходит в server action. */
 	tariffs: ITicketPrice[];
+	/**
+	 * Выбранный сеанс и обработчик выбора.
+	 *
+	 * Нужны, чтобы список сеансов и форма были одной системой: гость
+	 * нажимает на время в расписании, и форма сразу его подхватывает.
+	 * Если их не передавать, форма работает сама по себе.
+	 */
+	sessionId?: string;
+	onSessionChange?: (id: string) => void;
 }
 
 /**
@@ -33,9 +42,21 @@ interface Props {
  * проценты и то же округление. Но доверяем всё равно только ответу
  * Strapi — клиент может подделать разметку.
  */
-export const BookingForm = ({ sessions, tariffs }: Props) => {
+export const BookingForm = ({
+	sessions,
+	tariffs,
+	sessionId: controlledSessionId,
+	onSessionChange,
+}: Props) => {
 	const [state, formAction, isPending] = useActionState(createBooking, initialState);
-	const [sessionId, setSessionId] = useState<string>("");
+	const [ownSessionId, setOwnSessionId] = useState<string>("");
+	// Когда сеанс выбирают снаружи, источником правды считаем его.
+	const sessionId = controlledSessionId ?? ownSessionId;
+
+	const setSessionId = (id: string) => {
+		setOwnSessionId(id);
+		onSessionChange?.(id);
+	};
 	const [adults, setAdults] = useState(2);
 	const [children, setChildren] = useState(1);
 	const [tariffId, setTariffId] = useState<string>("");

@@ -71,3 +71,40 @@
 :global(.swiper-slide) > a {
 	height: 100%;
 }
+
+/* Кнопка под телом карточки: ведёт на расписание этого аттракциона */
+.book {
+	display: block;
+	margin: 0 22px 22px;
+	padding: 14px 20px;
+	text-align: center;
+	border-radius: 12px;
+	background: var(--purple60);
+	color: var(--white);
+	font-weight: 500;
+	transition: background 0.2s ease;
+
+	&:hover {
+		background: var(--purple70);
+	}
+}
+
+/* В слайдере карточка тянется на всю высоту слайда, а кнопка —
+   прижата к низу, чтобы кнопки разных карточек были на одной линии. */
+.card {
+	display: flex;
+	flex-direction: column;
+
+	.body {
+		flex: 1 1 auto;
+	}
+
+	.book {
+		flex: 0 0 auto;
+	}
+}
+
+/* Заголовок-ссылка не должен подчёркиваться целиком */
+.title a:hover {
+	color: var(--purple70);
+}

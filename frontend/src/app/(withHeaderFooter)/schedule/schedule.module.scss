@@ -153,3 +153,118 @@
 		gap: 12px;
 	}
 }
+/* ------------------------------------------------------------------ */
+/*  Фильтр по аттракциону и список с постепенным раскрытием           */
+/* ------------------------------------------------------------------ */
+
+.filters {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	margin-bottom: 20px;
+}
+
+.filterChip,
+.filterChipActive {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 2px;
+	padding: 10px 16px;
+	border-radius: 12px;
+	border: 1px solid var(--grey15);
+	background: var(--grey10);
+	font-size: 15px;
+	transition: border-color 0.2s ease, background 0.2s ease;
+
+	&:hover {
+		border-color: var(--purple60);
+	}
+}
+
+.filterChipActive {
+	border-color: var(--purple60);
+	background: rgba(112, 59, 247, 0.15);
+}
+
+.filterType {
+	color: var(--grey60);
+	font-size: 12px;
+}
+
+.backToAttraction {
+	display: inline-block;
+	margin-bottom: 24px;
+	color: var(--grey60);
+	font-size: 15px;
+
+	&:hover {
+		color: var(--purple70);
+	}
+}
+
+.chosen {
+	margin-bottom: 16px;
+	padding: 12px 16px;
+	border: 1px solid var(--purple60);
+	border-radius: 12px;
+	background: rgba(112, 59, 247, 0.12);
+	font-size: 15px;
+}
+
+.itemChosen {
+	border-color: var(--purple60);
+	background: rgba(112, 59, 247, 0.1);
+}
+
+.pick {
+	padding: 10px 18px;
+	border-radius: 10px;
+	background: var(--purple60);
+	color: var(--white);
+	font-size: 15px;
+	white-space: nowrap;
+	transition: background 0.2s ease;
+
+	&:hover {
+		background: var(--purple70);
+	}
+}
+
+.itemSide {
+	/* Цена, остаток мест и кнопка в одну строку: столбиком строка
+	   сеанса становилась втрое выше. */
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	flex-wrap: wrap;
+	justify-content: flex-end;
+}
+
+.more {
+	margin-top: 14px;
+	padding: 12px 22px;
+	border: 1px solid var(--grey15);
+	border-radius: 12px;
+	background: var(--grey10);
+	color: var(--white);
+	font-size: 15px;
+	transition: border-color 0.2s ease;
+
+	&:hover {
+		border-color: var(--purple60);
+	}
+}
+
+@media (max-width: 576px) {
+	.item {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 12px;
+	}
+
+	.itemSide {
+		justify-content: flex-start;
+		width: 100%;
+	}
+}

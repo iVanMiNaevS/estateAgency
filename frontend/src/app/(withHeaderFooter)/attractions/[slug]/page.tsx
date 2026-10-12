@@ -104,7 +104,10 @@ const Page = async ({ params }: Props) => {
 								</ul>
 							</div>
 
-							<Link href="/schedule" className="btn btn-purple">
+							<Link
+								href={`/schedule?attraction=${attraction.slug}`}
+								className="btn btn-purple"
+							>
 								Записаться на сеанс
 							</Link>
 						</div>

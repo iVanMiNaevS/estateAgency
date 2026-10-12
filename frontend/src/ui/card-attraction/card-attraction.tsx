@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { AppRouter } from "@/AppRouter";
 import styles from "./card-attraction.module.scss";
 import type { IAttraction } from "@/types/park.interface";
 import { ATTRACTION_TYPE_LABELS } from "@/constants/park";
@@ -16,16 +17,21 @@ interface Props {
 /**
  * Карточка аттракциона.
  *
- * Используется в каталоге, на главной и в расписании. Ограничения
- * по возрасту и росту показываются явно: это требование безопасности
- * из ТЗ, гость должен видеть их до покупки билета.
+ * Используется в каталоге и на главной. Ограничения по возрасту и
+ * росту показываются явно: это требование безопасности из ТЗ,
+ * гость должен видеть их до покупки билета.
+ *
+ * Заголовок ведёт на страницу аттракциона, а кнопка рядом — сразу
+ * на расписание этого аттракциона. Раньше карточка целиком была
+ * ссылкой, и кнопку внутрь добавить было нельзя: вложенная ссылка
+ * не работает и ломает разметку.
  */
 export const CardAttraction = ({
 	attraction,
 	href,
 	showLimits = true,
 }: Props) => {
-	const content = (
+	const body = (
 		<>
 			{attraction.poster?.url && (
 				<Image
@@ -42,7 +48,13 @@ export const CardAttraction = ({
 					{ATTRACTION_TYPE_LABELS[attraction.type] ?? attraction.type}
 				</span>
 
-				<h3 className={styles.title}>{attraction.title}</h3>
+				<h3 className={styles.title}>
+					{href ? (
+						<Link href={href}>{attraction.title}</Link>
+					) : (
+						attraction.title
+					)}
+				</h3>
 
 				{attraction.shortFact && <p className={styles.fact}>{attraction.shortFact}</p>}
 
@@ -75,13 +87,18 @@ export const CardAttraction = ({
 		</>
 	);
 
-	if (!href) {
-		return <article className={styles.card}>{content}</article>;
-	}
-
 	return (
-		<Link href={href} className={styles.card}>
-			{content}
-		</Link>
+		<article className={styles.card}>
+			{body}
+
+			{/* Ведём сразу на расписание нужного аттракциона: общий
+			    список заставлял искать нужный среди всех сеансов. */}
+			<Link
+				href={`${AppRouter.schedule}?attraction=${attraction.slug}`}
+				className={styles.book}
+			>
+				Забронировать
+			</Link>
+		</article>
 	);
 };
