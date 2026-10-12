@@ -108,6 +108,8 @@ export const BookingForm = ({ sessions, tariffs }: Props) => {
 		setTariffId(fallbackId);
 	}, [options, tariffId, fallbackId]);
 
+	const unavailableOptions = options.filter((option) => !option.available);
+
 	const current =
 		options.find((option) => String(option.tariff.id) === (tariffId || fallbackId)) ?? null;
 
@@ -207,8 +209,13 @@ export const BookingForm = ({ sessions, tariffs }: Props) => {
 					{/* Тарифы карточками с готовой суммой: гостю не нужно
 					    считать, чем дешевле пойти с семьёй. */}
 
-					{options.map(({ tariff, available, reason, total }) => {
-						const isBest = available && cheapest?.tariff.id === tariff.id;
+					{/* Показываем только подходящие тарифы. Раньше
+					    недоступные выводились серыми карточками, и гость,
+					    пришедший без детей, читал их как «вам нельзя».
+					    Теперь о них короткая строка с условием. */}
+					{availableOptions.map(({ tariff, total }) => {
+						// Метка «выгодно» осмысленна только когда есть из чего выбирать.
+						const isBest = availableOptions.length > 1 && cheapest?.tariff.id === tariff.id;
 						// Пустой tariffId означает «выбран обычный по умолчанию».
 						const checked = String(tariff.id) === (tariffId || fallbackId);
 
@@ -217,13 +224,12 @@ export const BookingForm = ({ sessions, tariffs }: Props) => {
 								key={tariff.id}
 								className={`${styles.tariff} ${
 									checked ? styles.tariffChecked : ""
-								} ${!available ? styles.tariffDisabled : ""}`}
+								}`}
 							>
 								<input
 									type="radio"
 									name="tariffChoice"
 									value={tariff.id}
-									disabled={!available}
 									checked={checked}
 									onChange={() => setTariffId(String(tariff.id))}
 								/>
@@ -231,17 +237,23 @@ export const BookingForm = ({ sessions, tariffs }: Props) => {
 									{tariff.title}
 									{isBest && <span className={styles.tariffBest}>выгодно</span>}
 								</span>
-								<span className={styles.tariffHint}>
-									{available
-										? tariff.description
-										: `Не подходит: нужно ${reason}`}
-								</span>
+								<span className={styles.tariffHint}>{tariff.description}</span>
 								<span className={styles.tariffTotal}>
 									{total.toLocaleString("ru-RU")} ₽
 								</span>
 							</label>
 						);
 					})}
+
+					{unavailableOptions.length > 0 && (
+						<p className={styles.tariffNote}>
+							{unavailableOptions.map(({ tariff, reason }) => (
+								<span key={tariff.id}>
+									«{tariff.title}» действует {reason}
+								</span>
+							))}
+						</p>
+					)}
 				</fieldset>
 			)}
 
