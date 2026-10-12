@@ -214,6 +214,26 @@ export const BookingForm = ({
 				</div>
 			</div>
 
+			{/* Ограничения аттракциона показываем здесь же: раньше они были
+			    только на его странице, и при записи о них не напоминали. */}
+			{selected?.attraction &&
+				(selected.attraction.ageMin || selected.attraction.heightMinCm) && (
+					<p className={styles.hint}>
+						{selected.attraction.title}:{" "}
+						{selected.attraction.ageMin
+							? `возраст ${
+									selected.attraction.ageMax
+										? `${selected.attraction.ageMin}–${selected.attraction.ageMax}`
+										: `от ${selected.attraction.ageMin}`
+								} лет`
+							: ""}
+						{selected.attraction.heightMinCm
+							? `, рост от ${selected.attraction.heightMinCm} см`
+							: ""}
+						. Ответственность за соблюдение ограничений — на гостях.
+					</p>
+				)}
+
 			{selected && (
 				<p className={styles.hint}>
 					Осталось мест: {selected.freeSeats}. Гостей выбрано: {adults + children}.
