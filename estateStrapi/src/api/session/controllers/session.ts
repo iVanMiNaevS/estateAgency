@@ -1,9 +1,9 @@
 /**
  * session controller
  *
- * Публичный find обогащает сеансы полями, которые нужны фронту:
- * freeSeats и название аттракциона. Значение seatsTaken при этом
- * остаётся вычисленным сервером.
+ * Публичный find обогащает сеансы полем freeSeats и разворачивает
+ * связь с аттракционом. Значение seatsTaken при этом остаётся
+ * вычисленным сервером.
  */
 
 import { factories } from '@strapi/strapi';
@@ -14,27 +14,29 @@ export default factories.createCoreController('api::session.session', ({ strapi 
 
     const filters = ctx.query?.filters ?? {};
 
-    const sessions = await strapi.db.query('api::session.session').findMany({
-      where: filters,
-      orderBy: [{ date: 'asc' }, { startTime: 'asc' }],
-      limit: ctx.query?.pagination?.limit ?? 100,
-    });
+    // Забираем сеансы документным сервисом: он умеет разворачивать
+    // связи. Раньше здесь был низкоуровневый запрос без populate,
+    // из-за чего поле attraction приходило пустым, а страницы
+    // расписания и цен показывали сеансы без названия аттракциона.
+    // pageSize приходит как pagination[pageSize], а limit стандартный
+    // обработчик формирует уже после нашего кода — учитываем оба.
+    const pagination = ctx.query?.pagination ?? {};
+    const limit = Number(pagination.limit ?? pagination.pageSize ?? 100);
 
-    const attractionIds = [...new Set(sessions.map((s: any) => s.attraction).filter(Boolean))];
-    const attractions = attractionIds.length
-      ? await strapi.db.query('api::attraction.attraction').findMany({
-          where: { id: { $in: attractionIds } },
-          select: ['id', 'title', 'slug', 'type'],
-        })
-      : [];
-    const attractionById = new Map(attractions.map((a: any) => [a.id, a]));
+    const sessions = (await strapi
+      .documents('api::session.session')
+      .findMany({
+        filters,
+        populate: { attraction: true },
+        sort: ['date:asc', 'startTime:asc'],
+        limit: Number.isFinite(limit) && limit > 0 ? limit : 100,
+      })) as any[];
 
     const sanitized = (await this.sanitizeOutput(sessions, ctx)) as any[];
 
     const data = sanitized.map((session: any) => ({
       ...session,
       freeSeats: sessionService.getFreeSeats(session),
-      attraction: attractionById.get(session.attraction) ?? null,
     }));
 
     ctx.body = { data, meta: {} };

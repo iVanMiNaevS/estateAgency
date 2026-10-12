@@ -118,3 +118,108 @@
 		grid-template-columns: 1fr;
 	}
 }
+/* ------------------------------------------------------------------ */
+/*  Тарифы                                                             */
+/* ------------------------------------------------------------------ */
+
+.tariffs {
+	border: none;
+	padding: 0;
+	margin: 0 0 24px;
+
+	legend {
+		padding: 0;
+		margin-bottom: 12px;
+		font-size: 16px;
+	}
+}
+
+.tariff {
+	display: grid;
+	/* Радиокнопка, название с пояснением и сумма справа. */
+	grid-template-columns: auto 1fr auto;
+	align-items: center;
+	gap: 14px;
+	padding: 16px 18px;
+	margin-bottom: 10px;
+	background: var(--grey10);
+	border: 1px solid var(--grey15);
+	border-radius: 14px;
+	cursor: pointer;
+	transition: border-color 0.2s ease, background 0.2s ease;
+
+	input {
+		width: 20px;
+		height: 20px;
+		min-width: 20px;
+		accent-color: var(--purple60);
+	}
+
+	&:hover {
+		border-color: var(--purple60);
+	}
+}
+
+.tariffChecked {
+	border-color: var(--purple60);
+	background: rgba(112, 59, 247, 0.12);
+}
+
+/* Недоступный тариф остаётся видимым: гость должен понять,
+   что он существует и почему не предлагается. */
+.tariffDisabled {
+	cursor: not-allowed;
+	opacity: 0.5;
+
+	&:hover {
+		border-color: var(--grey15);
+	}
+}
+
+.tariffName {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	flex-wrap: wrap;
+	font-size: 17px;
+	font-weight: 600;
+}
+
+.tariffBest {
+	font-size: 12px;
+	font-weight: 400;
+	color: var(--white);
+	background: var(--purple60);
+	border-radius: 999px;
+	padding: 3px 10px;
+}
+
+.tariffHint {
+	grid-column: 2;
+	grid-row: 2;
+	color: var(--grey60);
+	font-size: 14px;
+	line-height: 1.4;
+}
+
+.tariffTotal {
+	grid-column: 3;
+	grid-row: 1 / span 2;
+	font-size: 20px;
+	font-weight: 700;
+	white-space: nowrap;
+}
+
+@media (max-width: 576px) {
+	.tariff {
+		grid-template-columns: auto 1fr;
+	}
+
+	/* На телефоне сумма переезжает под название, иначе она
+	   выдавливает описание за пределы карточки. */
+	.tariffTotal {
+		grid-column: 2;
+		grid-row: 3;
+		font-size: 18px;
+	}
+}

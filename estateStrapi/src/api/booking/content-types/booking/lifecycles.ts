@@ -7,8 +7,9 @@
  *  - запрет повторной брони на тот же сеанс;
  *  - отмена доступна только пока статус «ожидает», «подтверждено» или «оплачено».
  *
- * Цена считается на сервере: тариф разделяет взрослых и детей,
- * иначе используется цена места в сеансе.
+ * Цена считается на сервере. Тариф задаёт долю цены места в процентах
+ * отдельно для взрослого и ребёнка и условия применимости по составу
+ * гостей; без тарифа берётся полная цена места.
  */
 
 import { errors } from '@strapi/utils';
@@ -70,11 +71,58 @@ const readCount = (value: unknown): number | null => {
 };
 
 /**
+ * Цена одного места по тарифу.
+ *
+ * Тариф задаёт не рубли, а долю цены сеанса: у каждого аттракциона своя
+ * цена, и «скидка 50% на ребёнка» должна работать одинаково и на лодочной
+ * дорожке за 500₽, и на горках за 1800₽.
+ *
+ * Округляем цену места, а не итог: иначе при 2500₽ и 20% на восемь
+ * гостей набегают рубли расхождения с тем, что показала форма.
+ */
+const seatPrice = (sessionPrice: number, percent: number | null | undefined): number => {
+  const share = typeof percent === 'number' && percent >= 0 ? percent : 100;
+  return Math.round((sessionPrice * share) / 100);
+};
+
+/**
+ * Подходит ли тариф под состав гостей.
+ *
+ * Правила задаёт администратор в полях minGuests, minAdults и minChildren,
+ * поэтому проверка одна и та же для любого набора тарифов.
+ */
+export interface TariffCheck {
+  ok: boolean;
+  reason?: string;
+}
+
+export const checkTariff = (
+  tariff: { minGuests?: number | null; minAdults?: number | null; minChildren?: number | null },
+  adultsCount: number,
+  childrenCount: number
+): TariffCheck => {
+  const guests = adultsCount + childrenCount;
+  const reasons: string[] = [];
+
+  if ((tariff.minGuests ?? 0) > 0 && guests < tariff.minGuests!) {
+    reasons.push(`от ${tariff.minGuests} человек`);
+  }
+  if ((tariff.minAdults ?? 0) > 0 && adultsCount < tariff.minAdults!) {
+    reasons.push(`от ${tariff.minAdults} взрослого`);
+  }
+  if ((tariff.minChildren ?? 0) > 0 && childrenCount < tariff.minChildren!) {
+    reasons.push(`от ${tariff.minChildren} детей`);
+  }
+
+  return reasons.length ? { ok: false, reason: reasons.join(', ') } : { ok: true };
+};
+
+/**
  * Считает состав гостей и итоговую сумму.
  *
- * Цена зависит от тарифа: если у него заданы отдельные цены для взрослого
- * и ребёнка, считаем по ним, иначеFallback на цену места в сеансе.
- * Сумму считает сервер — клиентскому значению не доверяем.
+ * Без тарифа берётся цена места. С тарифом — доля цены сеанса для
+ * взрослого и ребёнка по его правилам. Сумму считает сервер —
+ * клиентскому значению не доверяем.
  */
 const resolvePricing = async (
   adultsCount: number,
@@ -91,26 +139,37 @@ const resolvePricing = async (
 
   const tariff = await strapi.db
     .query('api::ticket-price.ticket-price')
-    .findOne({ where: { id: tariffId }, select: ['id', 'title', 'adultPrice', 'childPrice', 'price'] });
+    .findOne({
+      where: { id: tariffId },
+      select: [
+        'id', 'title', 'category',
+        'adultPercent', 'childPercent',
+        'minGuests', 'minAdults', 'minChildren',
+      ],
+    });
 
   if (!tariff) {
     throw badRequest('Тариф не найден');
   }
 
-  const adultPrice = tariff.adultPrice ?? 0;
-  const childPrice = tariff.childPrice ?? 0;
-
-  // Если тариф не разделяет категории, берём его общую цену.
-  const usesSplit = adultPrice > 0 || childPrice > 0;
-  if (!usesSplit) {
-    return {
-      totalPrice: (adultsCount + childrenCount) * (tariff.price || sessionPrice),
-      tariffName: tariff.title,
-    };
+  // Услуги и льготы нельзя оформить как билет на сеанс: у них нет
+  // правил покрытия, и раньше они давали нулевую цену за гостя.
+  if (tariff.category !== 'ticket') {
+    throw badRequest('Это не тариф на посещение');
   }
 
+  // Состав проверяем и на сервере: правило доступности — бизнес-условие,
+  // клиент может подменить значение в форме.
+  const check = checkTariff(tariff, adultsCount, childrenCount);
+  if (!check.ok) {
+    throw badRequest(`Тариф «${tariff.title}» действует ${check.reason}`);
+  }
+
+  const adultSeat = seatPrice(sessionPrice, tariff.adultPercent);
+  const childSeat = seatPrice(sessionPrice, tariff.childPercent);
+
   return {
-    totalPrice: adultsCount * adultPrice + childrenCount * childPrice,
+    totalPrice: adultsCount * adultSeat + childrenCount * childSeat,
     tariffName: tariff.title,
   };
 };

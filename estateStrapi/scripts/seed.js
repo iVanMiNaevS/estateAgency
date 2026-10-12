@@ -327,11 +327,13 @@ log(`  аттракционов: ${attractionIds.length}`);
 const insertPrice = db.prepare(`
   insert into ticket_prices
     (document_id, title, category, description, price, old_price,
-     duration_minutes, adult_price, child_price, cancel_policy, is_popular,
+     adult_percent, child_percent, min_guests, min_adults, min_children,
+     duration_minutes, cancel_policy, is_popular,
      sort_order, created_at, updated_at, published_at)
   values
     (@document_id, @title, @category, @description, @price, @old_price,
-     @duration_minutes, @adult_price, @child_price, @cancel_policy, @is_popular,
+     @adult_percent, @child_percent, @min_guests, @min_adults, @min_children,
+     @duration_minutes, @cancel_policy, @is_popular,
      @sort_order, @created_at, @updated_at, @published_at)
 `);
 
@@ -358,8 +360,13 @@ const seedPrices = () => {
         price: item.price,
         old_price: item.oldPrice || null,
         duration_minutes: item.durationMinutes || null,
-        adult_price: item.adultPrice || null,
-        child_price: item.childPrice || null,
+        // Проценты от цены места: у тарифов без скидок 100,
+        // ноль означал бы «гость бесплатно» — поэтому 0 не пишем.
+        adult_percent: item.adultPercent ?? null,
+        child_percent: item.childPercent ?? null,
+        min_guests: item.minGuests ?? 0,
+        min_adults: item.minAdults ?? 0,
+        min_children: item.minChildren ?? 0,
         cancel_policy: item.cancelPolicy || null,
         is_popular: item.isPopular ? 1 : 0,
         sort_order: item.sortOrder,
@@ -375,11 +382,13 @@ const seedPrices = () => {
         ).run(info.lastInsertRowid, cmp.lastInsertRowid, 'ticket-price.price-include', 'includes', index);
       });
 
+      // Брони ссылаются на эти id и считают по процентам, поэтому
+      // сохраняем именно их, а не отображаемую цену прайса.
       ticketPrices.push({
         id: info.lastInsertRowid,
-        price: item.price,
-        adultPrice: item.adultPrice || null,
-        childPrice: item.childPrice || null,
+        category: item.category,
+        adultPercent: item.adultPercent ?? 100,
+        childPercent: item.childPercent ?? 100,
       });
       priceCount += 1;
     }
@@ -535,14 +544,24 @@ db.transaction(() => {
       .get(session.id);
     if (alreadyBooked) continue;
 
-    // Тариф подбираем так, чтобы тарифы с ценой ребёнка тоже использовались.
-    const tariff = ticketPrices[i % ticketPrices.length];
+    // Берём только билетные тарифы: услуги и льготы не оформляются как
+    // проход на сеанс, их отклоняет сервер. И только те, чьи условия по
+    // составу выполняются — иначе демо-бронь была бы заведомо
+    // невалидной и разошлась бы с расчётом lifecycles.
+    const fits = (t) =>
+      guestsCount >= (t.minGuests ?? 0) &&
+      adultsCount >= (t.minAdults ?? 0) &&
+      childrenCount >= (t.minChildren ?? 0);
 
-    // Считаем так же, как lifecycles: если у тарифа есть раздельные цены —
-    // по ним, иначе по цене места в сеансе.
-    const usesSplit = (tariff.adultPrice || 0) > 0 || (tariff.childPrice || 0) > 0;
-    const pricePerAdult = usesSplit ? tariff.adultPrice || 0 : tariff.price || session.price;
-    const pricePerChild = usesSplit ? tariff.childPrice || 0 : tariff.price || session.price;
+    const usable = ticketPrices.filter((t) => t.category === 'ticket' && fits(t));
+    const tariff = usable[i % usable.length];
+
+    // Считаем ровно как lifecycles: доля цены места в процентах,
+    // округление до рубля на каждого гостя. Иначе суммы в демо-бронях
+    // разойдутся с тем, что посчитает сервер при отмене или правке.
+    const seat = (percent) => Math.round(((session.price || 0) * percent) / 100);
+    const pricePerAdult = seat(tariff.adultPercent ?? 100);
+    const pricePerChild = seat(tariff.childPercent ?? 100);
     const totalPrice = adultsCount * pricePerAdult + childrenCount * pricePerChild;
 
     const ts = now();

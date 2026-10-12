@@ -954,25 +954,29 @@ export interface ApiTicketPriceTicketPrice extends Struct.CollectionTypeSchema {
     draftAndPublish: false;
   };
   attributes: {
-    adultPrice: Schema.Attribute.Integer &
+    adultPercent: Schema.Attribute.Integer &
       Schema.Attribute.SetMinMax<
         {
+          max: 100;
           min: 0;
         },
         number
-      >;
+      > &
+      Schema.Attribute.DefaultTo<100>;
     bookings: Schema.Attribute.Relation<'oneToMany', 'api::booking.booking'>;
     cancelPolicy: Schema.Attribute.Text;
     category: Schema.Attribute.Enumeration<['ticket', 'service', 'benefit']> &
       Schema.Attribute.Required &
       Schema.Attribute.DefaultTo<'ticket'>;
-    childPrice: Schema.Attribute.Integer &
+    childPercent: Schema.Attribute.Integer &
       Schema.Attribute.SetMinMax<
         {
+          max: 100;
           min: 0;
         },
         number
-      >;
+      > &
+      Schema.Attribute.DefaultTo<100>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -992,6 +996,30 @@ export interface ApiTicketPriceTicketPrice extends Struct.CollectionTypeSchema {
       'api::ticket-price.ticket-price'
     > &
       Schema.Attribute.Private;
+    minAdults: Schema.Attribute.Integer &
+      Schema.Attribute.SetMinMax<
+        {
+          min: 0;
+        },
+        number
+      > &
+      Schema.Attribute.DefaultTo<0>;
+    minChildren: Schema.Attribute.Integer &
+      Schema.Attribute.SetMinMax<
+        {
+          min: 0;
+        },
+        number
+      > &
+      Schema.Attribute.DefaultTo<0>;
+    minGuests: Schema.Attribute.Integer &
+      Schema.Attribute.SetMinMax<
+        {
+          min: 0;
+        },
+        number
+      > &
+      Schema.Attribute.DefaultTo<0>;
     oldPrice: Schema.Attribute.Integer &
       Schema.Attribute.SetMinMax<
         {

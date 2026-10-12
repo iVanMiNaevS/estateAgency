@@ -13,6 +13,60 @@ export const metadata: Metadata = {
 };
 
 /**
+ * Карточка одного тарифа.
+ *
+ * Вынесена отдельной функцией намеренно: внутри разметки страницы
+ * вложенные тернарники и вычисления превращались в нечитаемую
+ * простыню и ломали разбор JSX. Здесь всё считается до разметки.
+ */
+const TariffCard = ({ tariff }: { tariff: ITicketPrice }) => {
+	const rules: string[] = [];
+
+	if ((tariff.minGuests ?? 0) > 0) rules.push(`от ${tariff.minGuests} человек`);
+	if ((tariff.minAdults ?? 0) > 0) rules.push(`от ${tariff.minAdults} взрослого`);
+	if ((tariff.minChildren ?? 0) > 0) rules.push(`от ${tariff.minChildren} детей`);
+
+	return (
+		<article className={tariff.isPopular ? styles.cardPopular : styles.card}>
+			{tariff.isPopular && <span className={styles.badge}>Выгодно</span>}
+
+			<h3 className={styles.cardTitle}>{tariff.title}</h3>
+
+			{/* Билет — это процент от цены аттракциона, а не своя
+			    сумма: у каждого аттракциона цена своя. */}
+			{tariff.category === "ticket" ? (
+				<p className={styles.price}>
+					Взрослый — {tariff.adultPercent ?? 100}% цены
+					<span className={styles.split}>
+						Ребёнок — {tariff.childPercent ?? 100}% цены
+					</span>
+				</p>
+			) : (
+				<p className={styles.price}>{tariff.price.toLocaleString("ru-RU")} ₽</p>
+			)}
+
+			{rules.length > 0 && (
+				<p className={styles.rules}>Действует при {rules.join(", ")}</p>
+			)}
+
+			{tariff.description && <p className={styles.description}>{tariff.description}</p>}
+
+			{(tariff.includes?.length ?? 0) > 0 && (
+				<ul className={styles.includes}>
+					{tariff.includes?.map((item) => (
+						<li key={item.id}>{item.text}</li>
+					))}
+				</ul>
+			)}
+
+			{tariff.cancelPolicy && (
+				<p className={styles.cancel}>Отмена: {tariff.cancelPolicy}</p>
+			)}
+		</article>
+	);
+};
+
+/**
  * Тарифы (ТЗ F-1.4).
  *
  * Категории повторяют значения из content-type ticket-price, поэтому
@@ -31,6 +85,20 @@ const Page = async () => {
 
 	const groups = ["ticket", "service", "benefit"] as const;
 
+	// Цена берётся из сеансов: она своя у каждого аттракциона,
+	// а в тарифе хранится процент от неё.
+	const attractionPrices = Array.from(
+		new Map(
+			(sessions.data ?? [])
+				.map((session) => ({
+					title: session.attraction?.title ?? "Аттракцион",
+					price: session.price ?? 0,
+				}))
+				.filter((item) => item.title !== "Аттракцион")
+				.map((item) => [item.title, item] as const)
+		).values()
+	).sort((a, b) => a.title.localeCompare(b.title));
+
 	return (
 		<main>
 			<section className={styles.hero}>
@@ -40,6 +108,35 @@ const Page = async () => {
 						Стоимость зависит от тарифа и сеанса. Итоговую сумму по записи считает
 						сервер, оплата — в кассе парка при посещении.
 					</p>
+				</div>
+			</section>
+
+			{/* Цены по аттракционам: проценты тарифов считаются именно
+			    от этих сумм, поэтому показать их нужно до списка тарифов. */}
+			<section>
+				<div className="container">
+					<h2 className="h2">Сколько стоит посещение</h2>
+					<p className={styles.lead}>
+						Цена зависит от аттракциона. Тарифы ниже — это скидка от этих сумм.
+					</p>
+
+					<div className={styles.attractionsGrid}>
+						{attractionPrices.map((item) => (
+							<article key={item.title} className={styles.attractionCard}>
+								<h3>{item.title}</h3>
+								<p className={styles.attractionPrice}>
+									{item.price > 0
+										? `${item.price.toLocaleString("ru-RU")} ₽ за гостя`
+										: "Бесплатно"}
+								</p>
+								{item.price > 0 && (
+									<p className={styles.attractionNote}>
+										Семейный: ребёнок {Math.round(item.price / 2).toLocaleString("ru-RU")} ₽
+									</p>
+								)}
+							</article>
+						))}
+					</div>
 				</div>
 			</section>
 
@@ -55,55 +152,7 @@ const Page = async () => {
 
 								<div className={styles.grid}>
 									{items.map((tariff) => (
-										<article
-											key={tariff.id}
-											className={
-												tariff.isPopular ? styles.cardPopular : styles.card
-											}
-										>
-											{tariff.isPopular && <span className={styles.badge}>Выгодно</span>}
-
-											<h3 className={styles.cardTitle}>{tariff.title}</h3>
-
-											<p className={styles.price}>
-												{tariff.oldPrice ? (
-													<>
-														<span className={styles.oldPrice}>
-															{tariff.oldPrice.toLocaleString("ru-RU")} ₽
-														</span>
-														{tariff.price.toLocaleString("ru-RU")} ₽
-													</>
-												) : (
-													<>
-														{tariff.price.toLocaleString("ru-RU")} ₽
-														{(tariff.adultPrice ?? 0) > 0 && (tariff.childPrice ?? 0) > 0 && (
-															<span className={styles.split}>
-																 взрослый {tariff.adultPrice?.toLocaleString("ru-RU")} ₽,
-																ребёнок {tariff.childPrice?.toLocaleString("ru-RU")} ₽
-															</span>
-														)}
-													</>
-												)}
-											</p>
-
-											{tariff.description && (
-												<p className={styles.description}>{tariff.description}</p>
-											)}
-
-											{(tariff.includes?.length ?? 0) > 0 && (
-												<ul className={styles.includes}>
-													{tariff.includes?.map((item) => (
-														<li key={item.id}>{item.text}</li>
-													))}
-												</ul>
-											)}
-
-											{tariff.cancelPolicy && (
-												<p className={styles.cancel}>
-													Отмена: {tariff.cancelPolicy}
-												</p>
-											)}
-										</article>
+										<TariffCard key={tariff.id} tariff={tariff} />
 									))}
 								</div>
 							</div>

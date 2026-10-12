@@ -1,10 +1,15 @@
 "use client";
 
-import React, { useActionState, useMemo, useState } from "react";
+import React, { useActionState, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import type { ISession, ITicketPrice } from "@/types/park.interface";
 import { createBooking, type ActionState } from "@/app/actions/public";
-import { formatSessionDate, formatTime } from "@/constants/park";
+import {
+	formatSessionDate,
+	formatTime,
+	tariffAvailability,
+	tariffTotal,
+} from "@/constants/park";
 import styles from "./booking-form.module.scss";
 
 const initialState: ActionState = {};
@@ -15,19 +20,27 @@ interface Props {
 	tariffs: ITicketPrice[];
 }
 
+/** Тариф без записи — просто полная цена места. */
+const NO_TARIFF = "none";
+
 /**
  * Форма бронирования (ТЗ F-1.9).
  *
- * Стоимость на экране считается как ориентир, окончательную считает
- * сервер: клиент может подделать разметку, поэтому доверяем только
- * ответу Strapi. Форма отправляется через server action, где проверяется
- * авторизация и количество гостей.
+ * Тариф выбирается не из выпадающего списка, а карточкой с готовой
+ * суммой: гостю не нужно считать в уме, чем дешевле пойти с семьёй.
+ * Недоступные тарифы показываются с причиной — молча исчезнувший
+ * пункт выглядит как ошибка.
+ *
+ * Суммы на экране совпадают с серверными: используются те же
+ * проценты и то же округление. Но доверяем всё равно только ответу
+ * Strapi — клиент может подделать разметку.
  */
 export const BookingForm = ({ sessions, tariffs }: Props) => {
 	const [state, formAction, isPending] = useActionState(createBooking, initialState);
 	const [sessionId, setSessionId] = useState<string>("");
 	const [adults, setAdults] = useState(2);
 	const [children, setChildren] = useState(1);
+	const [tariffId, setTariffId] = useState<string>(NO_TARIFF);
 
 	// В форму попадают только открытые сеансы: закрытые нельзя выбрать.
 	const available = useMemo(
@@ -42,9 +55,60 @@ export const BookingForm = ({ sessions, tariffs }: Props) => {
 
 	const selected = available.find((session) => String(session.id) === sessionId);
 
-	// Ориентировочная сумма по цене места: тариф может разделить
-	// взрослых и детей, тогда итог посчитает сервер.
-	const estimate = selected ? (adults + children) * selected.price : 0;
+	// Услуги и льготы не оформляются как проход на сеанс.
+	const ticketTariffs = useMemo(
+		() => tariffs.filter((tariff) => tariff.category === "ticket"),
+		[tariffs]
+	);
+
+	// Услуги и льготы сервер не примет: у них нет правил покрытия.
+	const options = useMemo(() => {
+		const price = selected?.price ?? 0;
+
+		return ticketTariffs.map((tariff) => {
+			const availability = tariffAvailability(tariff, adults, children);
+
+			return {
+				tariff,
+				available: availability.ok,
+				reason: availability.ok ? null : availability.reason,
+				total: tariffTotal(tariff, price, adults, children),
+			};
+		});
+	}, [ticketTariffs, selected, adults, children]);
+
+	// Состав изменился — ранее выбранный тариф мог стать недоступным.
+	useEffect(() => {
+		if (tariffId === NO_TARIFF) return;
+
+		const chosen = options.find((option) => String(option.tariff.id) === tariffId);
+		if (chosen && !chosen.available) {
+			setTariffId(NO_TARIFF);
+		}
+	}, [options, tariffId]);
+
+	const guests = adults + children;
+	const noTariffTotal = selected ? guests * selected.price : 0;
+
+	// Выбранный тариф подсвечивается, а из доступных показываем
+	// самый выгодный — на нём гость скорее всего и остановится.
+	const cheapest = options
+		.filter((option) => option.available)
+		.reduce<(typeof options)[number] | null>(
+			(best, option) => (!best || option.total < best.total ? option : best),
+			null
+		);
+
+	const current =
+		tariffId === NO_TARIFF
+			? null
+			: options.find((option) => String(option.tariff.id) === tariffId) ?? null;
+
+	const estimate = selected
+		? current?.available
+			? current.total
+			: noTariffTotal
+		: 0;
 
 	const fieldError = (field: string) => state.fieldErrors?.[field];
 
@@ -133,20 +197,77 @@ export const BookingForm = ({ sessions, tariffs }: Props) => {
 				</p>
 			)}
 
-			<div className={styles.field}>
-				<label htmlFor="booking-tariff">Тариф</label>
-				<select id="booking-tariff" name="tariff" defaultValue="">
-					<option value="">Без тарифа — цена места</option>
-					{tariffs.map((tariff) => (
-						<option key={tariff.id} value={tariff.id}>
-							{tariff.title} — {tariff.price.toLocaleString("ru-RU")} ₽
-						</option>
-					))}
-				</select>
-				<span className={styles.hint}>
-					Тарифы с раздельными ценами для взрослых и детей считаются отдельно.
-				</span>
-			</div>
+			{selected && (
+				<fieldset className={styles.tariffs}>
+					<legend>Тариф</legend>
+
+					{/* Тарифы карточками с готовой суммой: гостю не нужно
+					    считать, чем дешевле пойти с семьёй. */}
+					<label
+						className={`${styles.tariff} ${
+							tariffId === NO_TARIFF ? styles.tariffChecked : ""
+						}`}
+					>
+						<input
+							type="radio"
+							name="tariffChoice"
+							value={NO_TARIFF}
+							checked={tariffId === NO_TARIFF}
+							onChange={() => setTariffId(NO_TARIFF)}
+						/>
+						<span className={styles.tariffName}>Без тарифа</span>
+						<span className={styles.tariffHint}>Полная цена за каждого гостя</span>
+						<span className={styles.tariffTotal}>
+							{noTariffTotal.toLocaleString("ru-RU")} ₽
+						</span>
+					</label>
+
+					{options.map(({ tariff, available, reason, total }) => {
+						const isBest = available && cheapest?.tariff.id === tariff.id;
+						const checked = tariffId === String(tariff.id);
+
+						return (
+							<label
+								key={tariff.id}
+								className={`${styles.tariff} ${
+									checked ? styles.tariffChecked : ""
+								} ${!available ? styles.tariffDisabled : ""}`}
+							>
+								<input
+									type="radio"
+									name="tariffChoice"
+									value={tariff.id}
+									disabled={!available}
+									checked={checked}
+									onChange={() => setTariffId(String(tariff.id))}
+								/>
+								<span className={styles.tariffName}>
+									{tariff.title}
+									{isBest && <span className={styles.tariffBest}>выгодно</span>}
+								</span>
+								<span className={styles.tariffHint}>
+									{available
+										? tariff.description
+										: `Не подходит: нужно ${reason}`}
+								</span>
+								<span className={styles.tariffTotal}>
+									{total.toLocaleString("ru-RU")} ₽
+								</span>
+							</label>
+						);
+					})}
+				</fieldset>
+			)}
+
+			{!selected && (
+				<p className={styles.hint}>
+					Сначала выберите сеанс — тогда появятся тарифы и итоговая сумма.
+				</p>
+			)}
+
+			{/* id выбранного тарифа уходит на сервер отдельным полем:
+			    радиокнопки выше нужны только для показа сумм. */}
+			<input type="hidden" name="tariff" value={tariffId === NO_TARIFF ? "" : tariffId} />
 
 			<div className={styles.field}>
 				<label htmlFor="booking-wishes">Пожелания</label>
@@ -169,7 +290,7 @@ export const BookingForm = ({ sessions, tariffs }: Props) => {
 
 			{estimate > 0 && (
 				<p className={styles.total}>
-					Ориентировочно: {estimate.toLocaleString("ru-RU")} ₽
+					К оплате: <strong>{estimate.toLocaleString("ru-RU")} ₽</strong>
 				</p>
 			)}
 

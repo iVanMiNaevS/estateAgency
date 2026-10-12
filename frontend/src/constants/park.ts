@@ -50,6 +50,65 @@ export const TARIFF_CATEGORY_TITLES: Record<string, string> = {
 	benefit: "Льготы",
 };
 
+/* ------------------------------------------------------------------ */
+/*  Тарификация                                                        */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Правила тарифов — те же самые, что проверяет сервер при сохранении
+ * брони. Держать их здесь нужно, чтобы форма не предлагала тариф,
+ * который сервер всё равно отклонит.
+ */
+export interface TariffLike {
+	adultPercent?: number | null;
+	childPercent?: number | null;
+	minGuests?: number | null;
+	minAdults?: number | null;
+	minChildren?: number | null;
+}
+
+/** Цена одного места по тарифу: процент от цены сеанса, округление до рубля. */
+export const seatPrice = (sessionPrice: number, percent?: number | null): number => {
+	const share = typeof percent === "number" && percent >= 0 ? percent : 100;
+	return Math.round((sessionPrice * share) / 100);
+};
+
+/**
+ * Подходит ли тариф под состав гостей.
+ *
+ * Возвращает причину отказа, а не просто false: гостю нужно объяснить,
+ * почему тариф недоступен, иначе он решит, что сайт сломан.
+ */
+export const tariffAvailability = (
+	tariff: TariffLike,
+	adults: number,
+	children: number
+): { ok: true } | { ok: false; reason: string } => {
+	const reasons: string[] = [];
+
+	if ((tariff.minGuests ?? 0) > 0 && adults + children < tariff.minGuests!) {
+		reasons.push(`от ${tariff.minGuests} человек`);
+	}
+	if ((tariff.minAdults ?? 0) > 0 && adults < tariff.minAdults!) {
+		reasons.push(`от ${tariff.minAdults} взрослого`);
+	}
+	if ((tariff.minChildren ?? 0) > 0 && children < tariff.minChildren!) {
+		reasons.push(`от ${tariff.minChildren} детей`);
+	}
+
+	return reasons.length ? { ok: false, reason: reasons.join(", ") } : { ok: true };
+};
+
+/** Итог по тарифу для состава гостей. */
+export const tariffTotal = (
+	tariff: TariffLike,
+	sessionPrice: number,
+	adults: number,
+	children: number
+): number =>
+	adults * seatPrice(sessionPrice, tariff.adultPercent) +
+	children * seatPrice(sessionPrice, tariff.childPercent);
+
 /** Тип элемента галереи. */
 export const GALLERY_MEDIA_LABELS: Record<string, string> = {
 	image: "Фото",

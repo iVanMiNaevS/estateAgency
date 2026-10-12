@@ -95,8 +95,17 @@ export interface ITicketPrice extends BaseEntity {
 	price: number;
 	oldPrice?: number | null;
 	durationMinutes?: number | null;
-	adultPrice?: number | null;
-	childPrice?: number | null;
+	/**
+	 * Доля цены места в процентах: 100 — полная цена аттракциона.
+	 * Тарифы хранят проценты, а не рубли, потому что цена аттракциона
+	 * своя у каждого, и скидка считается от неё.
+	 */
+	adultPercent?: number | null;
+	childPercent?: number | null;
+	/** Условия применимости: 0 — ограничения нет. */
+	minGuests?: number | null;
+	minAdults?: number | null;
+	minChildren?: number | null;
 	cancelPolicy?: string | null;
 	isPopular?: boolean;
 	sortOrder?: number;

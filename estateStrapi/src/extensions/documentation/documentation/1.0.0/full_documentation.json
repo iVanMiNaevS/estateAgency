@@ -14,7 +14,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "2026-10-11T16:40:51.676Z"
+    "x-generation-date": "2026-10-12T17:01:36.241Z"
   },
   "x-strapi-config": {
     "plugins": [
@@ -9079,13 +9079,22 @@
                           "oldPrice": {
                             "type": "integer"
                           },
+                          "adultPercent": {
+                            "type": "integer"
+                          },
+                          "childPercent": {
+                            "type": "integer"
+                          },
+                          "minGuests": {
+                            "type": "integer"
+                          },
+                          "minAdults": {
+                            "type": "integer"
+                          },
+                          "minChildren": {
+                            "type": "integer"
+                          },
                           "durationMinutes": {
-                            "type": "integer"
-                          },
-                          "adultPrice": {
-                            "type": "integer"
-                          },
-                          "childPrice": {
                             "type": "integer"
                           },
                           "cancelPolicy": {
@@ -11083,13 +11092,22 @@
                         "oldPrice": {
                           "type": "integer"
                         },
+                        "adultPercent": {
+                          "type": "integer"
+                        },
+                        "childPercent": {
+                          "type": "integer"
+                        },
+                        "minGuests": {
+                          "type": "integer"
+                        },
+                        "minAdults": {
+                          "type": "integer"
+                        },
+                        "minChildren": {
+                          "type": "integer"
+                        },
                         "durationMinutes": {
-                          "type": "integer"
-                        },
-                        "adultPrice": {
-                          "type": "integer"
-                        },
-                        "childPrice": {
                           "type": "integer"
                         },
                         "cancelPolicy": {
@@ -20501,13 +20519,22 @@
                         "oldPrice": {
                           "type": "integer"
                         },
+                        "adultPercent": {
+                          "type": "integer"
+                        },
+                        "childPercent": {
+                          "type": "integer"
+                        },
+                        "minGuests": {
+                          "type": "integer"
+                        },
+                        "minAdults": {
+                          "type": "integer"
+                        },
+                        "minChildren": {
+                          "type": "integer"
+                        },
                         "durationMinutes": {
-                          "type": "integer"
-                        },
-                        "adultPrice": {
-                          "type": "integer"
-                        },
-                        "childPrice": {
                           "type": "integer"
                         },
                         "cancelPolicy": {
@@ -22324,13 +22351,22 @@
                               "oldPrice": {
                                 "type": "integer"
                               },
+                              "adultPercent": {
+                                "type": "integer"
+                              },
+                              "childPercent": {
+                                "type": "integer"
+                              },
+                              "minGuests": {
+                                "type": "integer"
+                              },
+                              "minAdults": {
+                                "type": "integer"
+                              },
+                              "minChildren": {
+                                "type": "integer"
+                              },
                               "durationMinutes": {
-                                "type": "integer"
-                              },
-                              "adultPrice": {
-                                "type": "integer"
-                              },
-                              "childPrice": {
                                 "type": "integer"
                               },
                               "cancelPolicy": {
@@ -22765,13 +22801,22 @@
               "oldPrice": {
                 "type": "integer"
               },
+              "adultPercent": {
+                "type": "integer"
+              },
+              "childPercent": {
+                "type": "integer"
+              },
+              "minGuests": {
+                "type": "integer"
+              },
+              "minAdults": {
+                "type": "integer"
+              },
+              "minChildren": {
+                "type": "integer"
+              },
               "durationMinutes": {
-                "type": "integer"
-              },
-              "adultPrice": {
-                "type": "integer"
-              },
-              "childPrice": {
                 "type": "integer"
               },
               "cancelPolicy": {
@@ -22893,13 +22938,22 @@
           "oldPrice": {
             "type": "integer"
           },
+          "adultPercent": {
+            "type": "integer"
+          },
+          "childPercent": {
+            "type": "integer"
+          },
+          "minGuests": {
+            "type": "integer"
+          },
+          "minAdults": {
+            "type": "integer"
+          },
+          "minChildren": {
+            "type": "integer"
+          },
           "durationMinutes": {
-            "type": "integer"
-          },
-          "adultPrice": {
-            "type": "integer"
-          },
-          "childPrice": {
             "type": "integer"
           },
           "cancelPolicy": {
@@ -24334,13 +24388,22 @@
                     "oldPrice": {
                       "type": "integer"
                     },
+                    "adultPercent": {
+                      "type": "integer"
+                    },
+                    "childPercent": {
+                      "type": "integer"
+                    },
+                    "minGuests": {
+                      "type": "integer"
+                    },
+                    "minAdults": {
+                      "type": "integer"
+                    },
+                    "minChildren": {
+                      "type": "integer"
+                    },
                     "durationMinutes": {
-                      "type": "integer"
-                    },
-                    "adultPrice": {
-                      "type": "integer"
-                    },
-                    "childPrice": {
                       "type": "integer"
                     },
                     "cancelPolicy": {

@@ -18,7 +18,11 @@
     },
     "category": {
       "type": "enumeration",
-      "enum": ["ticket", "service", "benefit"],
+      "enum": [
+        "ticket",
+        "service",
+        "benefit"
+      ],
       "default": "ticket",
       "required": true
     },
@@ -35,20 +39,42 @@
       "min": 0,
       "description": "Цена до скидки, для показа перечёркнутой"
     },
+    "adultPercent": {
+      "type": "integer",
+      "min": 0,
+      "max": 100,
+      "default": 100,
+      "description": "Доля цены сеанса, которую платит взрослый, в процентах. 100 — полная цена"
+    },
+    "childPercent": {
+      "type": "integer",
+      "min": 0,
+      "max": 100,
+      "default": 100,
+      "description": "Доля цены сеанса, которую платит ребёнок, в процентах"
+    },
+    "minGuests": {
+      "type": "integer",
+      "min": 0,
+      "default": 0,
+      "description": "Минимум гостей в заявке. 0 — тариф доступен всегда"
+    },
+    "minAdults": {
+      "type": "integer",
+      "min": 0,
+      "default": 0,
+      "description": "Минимум взрослых. 0 — ограничения нет"
+    },
+    "minChildren": {
+      "type": "integer",
+      "min": 0,
+      "default": 0,
+      "description": "Минимум детей. 0 — ограничения нет"
+    },
     "durationMinutes": {
       "type": "integer",
       "min": 0,
       "description": "Длительность действия тарифа в минутах, если применимо"
-    },
-    "adultPrice": {
-      "type": "integer",
-      "min": 0,
-      "description": "Цена за взрослого по этому тарифу. 0 — тариф не разделяет по категориям"
-    },
-    "childPrice": {
-      "type": "integer",
-      "min": 0,
-      "description": "Цена за ребёнка по этому тарифу. 0 — тариф не разделяет по категориям"
     },
     "cancelPolicy": {
       "type": "text",
