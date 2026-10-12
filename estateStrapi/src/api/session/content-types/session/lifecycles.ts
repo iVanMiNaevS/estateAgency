@@ -60,8 +60,8 @@ export default {
 
     // seatsTaken задаёт только пересчёт из бронирований.
     data.seatsTaken = 0;
-    if (data.status === 'cancelled') {
-      data.status = 'cancelled';
+    if (data.sessionStatus === 'cancelled') {
+      data.sessionStatus = 'cancelled';
     }
   },
 };

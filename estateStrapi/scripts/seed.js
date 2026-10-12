@@ -7,7 +7,7 @@
  * существующие пользователи и отзывы не трогаются.
  *
  * Данные пишутся напрямую в SQLite, потому что lifecycles Strapi при
- * этом не срабатывают. Все вычисляемые поля (seats_taken, status,
+ * этом не срабатывают. Все вычисляемые поля (seats_taken, session_status,
  * total_price) проставляются здесь же — по тем же правилам, что и в
  * lifecycles в src/api.
  */
@@ -413,7 +413,7 @@ const SCHEDULE = {
 const insertSession = db.prepare(`
   insert into sessions
     (document_id, date, start_time, duration_minutes, capacity, seats_taken,
-     price, status, created_at, updated_at, published_at)
+     price, session_status, created_at, updated_at, published_at)
   values
     (@document_id, @date, @start_time, @duration_minutes, @capacity, 0,
      @price, 'open', @created_at, @updated_at, @published_at)
@@ -485,11 +485,11 @@ const OCCUPYING = ['pending', 'confirmed', 'paid'];
 
 const insertBooking = db.prepare(`
   insert into bookings
-    (document_id, guests_count, adults_count, children_count, total_price, status,
+    (document_id, guests_count, adults_count, children_count, total_price, booking_status,
      contact_name, contact_phone, wishes, comment, cancelled_at,
      created_at, updated_at, published_at)
   values
-    (@document_id, @guests_count, @adults_count, @children_count, @total_price, @status,
+    (@document_id, @guests_count, @adults_count, @children_count, @total_price, @booking_status,
      @contact_name, @contact_phone, @wishes, @comment, @cancelled_at,
      @created_at, @updated_at, @published_at)
 `);
@@ -573,7 +573,7 @@ db.transaction(() => {
       adults_count: adultsCount,
       children_count: childrenCount,
       total_price: totalPrice,
-      status,
+      booking_status: status,
       contact_name: DATA.PARK.name,
       contact_phone: DATA.PARK.phone,
       wishes: WISHES[i % WISHES.length],
@@ -605,20 +605,20 @@ db.transaction(() => {
     select sum(b.guests_count) as seats
     from bookings b
     join bookings_session_lnk lnk on lnk.booking_id = b.id
-    where lnk.session_id = ? and b.status in ('pending', 'confirmed', 'paid')
+    where lnk.session_id = ? and b.booking_status in ('pending', 'confirmed', 'paid')
   `);
 
   const updateSession = db.prepare(
-    'update sessions set seats_taken = ?, status = ? where id = ?'
+    'update sessions set seats_taken = ?, session_status = ? where id = ?'
   );
 
   for (const { session_id: sessionId } of sessionsForRecalc) {
-    const session = db.prepare('select capacity, status from sessions where id = ?').get(sessionId);
+    const session = db.prepare('select capacity, session_status from sessions where id = ?').get(sessionId);
     if (!session) continue;
 
     const seats = sumSeats.get(sessionId).seats || 0;
-    const status = session.status === 'cancelled' ? 'cancelled' : seats >= session.capacity ? 'full' : 'open';
-    updateSession.run(seats, status, sessionId);
+    const sessionStatus = session.session_status === 'cancelled' ? 'cancelled' : seats >= session.capacity ? 'full' : 'open';
+    updateSession.run(seats, sessionStatus, sessionId);
   }
 })();
 
@@ -1011,10 +1011,10 @@ if (reviewCount === 0) {
 const insertRequest = db.prepare(`
   insert into user_requests
     (document_id, name, second_name, email, phone, message, active_contact,
-     status, admin_comment, created_at, updated_at, published_at)
+     request_status, admin_comment, created_at, updated_at, published_at)
   values
     (@document_id, @name, @second_name, @email, @phone, @message, @active_contact,
-     @status, @admin_comment, @created_at, @updated_at, @published_at)
+     @request_status, @admin_comment, @created_at, @updated_at, @published_at)
 `);
 
 db.transaction(() => {
@@ -1028,7 +1028,7 @@ db.transaction(() => {
       phone: item.phone,
       message: item.message,
       active_contact: item.activeContact,
-      status: item.status,
+      request_status: item.status,
       admin_comment: item.adminComment || null,
       created_at: ts,
       updated_at: ts,
@@ -1127,7 +1127,7 @@ for (const table of ['attractions', 'sessions', 'bookings', 'ticket_prices', 'ne
   console.log(`  ${table.padEnd(16)} ${count}`);
 }
 
-const full = db.prepare("select count(*) as c from sessions where status = 'full'").get().c;
+const full = db.prepare("select count(*) as c from sessions where session_status = 'full'").get().c;
 console.log(`  сеансов «мест нет»: ${full}`);
 
 console.log('');

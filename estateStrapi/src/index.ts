@@ -13,7 +13,7 @@
  *                  бронирования и правит свой профиль.
  *
  * Права на user.update НЕ выдаются: в плагине этот экшен принимает
- * `role` в теле запроса и не сверяет id из URL с текущим пользователем,
+ * `role` в теле запроса и не сверя2ет id из URL с текущим пользователем,
  * поэтому его выдача позволила бы любому клиенту выдать себе роль
  * администратора. Профиль редактируется через api::profile.profile,
  * где разрешено менять только разрешённые поля.
@@ -143,6 +143,86 @@ const revokeExtraPermissions = async (
   return revoked;
 };
 
+/**
+ * Настройка вида записей в админке.
+ *
+ * Strapi при создании типа контента ставит список из первых четырёх
+ * полей схемы и назначает главным полем служебное documentId. Из-за
+ * этого в списке броней статуса не было вообще, а сеанс подписан был
+ * сырым идентификатором — читать это в админке было невозможно.
+ *
+ * Правим только дефолтные значения. Если администратор настроил вид
+ * сам, его выбор сохраняется: переписывать настройки при каждом
+ * запуске нельзя.
+ */
+const ADMIN_VIEW_DEFAULTS: {
+  uid: string;
+  mainField: string;
+  list: string[];
+}[] = [
+  {
+    // Статус брони — главное, ради чего администратор и открывает список.
+    uid: 'api::booking.booking',
+    mainField: 'contactName',
+    list: [
+      'contactName',
+      'bookingStatus',
+      'session',
+      'totalPrice',
+      'guestsCount',
+      'prepaidAmount',
+      'createdAt',
+    ],
+  },
+  {
+    // У сеанса нет названия: показываем дату, остальное — в карточке.
+    uid: 'api::session.session',
+    mainField: 'date',
+    list: ['attraction', 'date', 'startTime', 'capacity', 'seatsTaken', 'price'],
+  },
+];
+
+const DEFAULT_LIST_LENGTH = 4;
+const DEFAULT_MAIN_FIELD = 'documentId';
+
+const configureAdminViews = async (strapi: any): Promise<number> => {
+  const coreStore = strapi.store({ type: 'core-store', name: 'global' });
+  let changed = 0;
+
+  for (const view of ADMIN_VIEW_DEFAULTS) {
+    try {
+      const key = `plugin_content_manager_configuration_content_types::${view.uid}`;
+      const raw = await coreStore.get({ key });
+
+      if (!raw) continue;
+
+      const config = typeof raw === 'string' ? JSON.parse(raw) : raw;
+
+      // Трогаем настройку, только если она ещё дефолтная.
+      const listIsDefault =
+        Array.isArray(config.layouts?.list) && config.layouts.list.length === DEFAULT_LIST_LENGTH;
+      const mainFieldIsDefault = config.settings?.mainField === DEFAULT_MAIN_FIELD;
+
+      // Если администратор настроил хоть что-то сам, не трогаем остальное:
+      // его выбор важнее наших удобных значений.
+      if (!listIsDefault && !mainFieldIsDefault) continue;
+
+      if (mainFieldIsDefault) config.settings.mainField = view.mainField;
+      if (listIsDefault) config.layouts.list = view.list;
+
+      // В core-store настройка лежит JSON-строкой: положим объект
+      // как есть, и Strapi запишет «[object Object]», который при
+      // следующем чтении уже не разобрать.
+      await coreStore.set({ key, value: JSON.stringify(config) });
+      changed += 1;
+    } catch (error: any) {
+      strapi.log.error(`Не удалось настроить вид "${view.uid}": ${error.message}`);
+    }
+  }
+
+  return changed;
+};
+
 export default {
   register() {},
 
@@ -185,6 +265,11 @@ export default {
 
     if (granted > 0) {
       strapi.log.info(`users-permissions: выдано прав — ${granted}`);
+    }
+
+    const views = await configureAdminViews(strapi);
+    if (views > 0) {
+      strapi.log.info(`content-manager: настроен вид записей — ${views}`);
     }
   },
 };

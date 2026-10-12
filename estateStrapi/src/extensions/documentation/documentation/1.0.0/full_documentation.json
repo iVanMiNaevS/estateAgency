@@ -14,7 +14,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "2026-10-12T19:06:09.516Z"
+    "x-generation-date": "2026-10-12T20:03:25.907Z"
   },
   "x-strapi-config": {
     "plugins": [
@@ -8702,7 +8702,7 @@
                 "price": {
                   "type": "integer"
                 },
-                "status": {
+                "sessionStatus": {
                   "type": "string",
                   "enum": [
                     "open",
@@ -9283,7 +9283,7 @@
                       "totalPrice": {
                         "type": "integer"
                       },
-                      "status": {
+                      "bookingStatus": {
                         "type": "string",
                         "enum": [
                           "pending",
@@ -9680,7 +9680,7 @@
               "childrenCount",
               "guestsCount",
               "totalPrice",
-              "status"
+              "bookingStatus"
             ],
             "type": "object",
             "properties": {
@@ -9729,7 +9729,7 @@
               "totalPrice": {
                 "type": "integer"
               },
-              "status": {
+              "bookingStatus": {
                 "type": "string",
                 "enum": [
                   "pending",
@@ -9828,7 +9828,7 @@
           "childrenCount",
           "guestsCount",
           "totalPrice",
-          "status"
+          "bookingStatus"
         ],
         "properties": {
           "id": {
@@ -11091,7 +11091,7 @@
                         "price": {
                           "type": "integer"
                         },
-                        "status": {
+                        "sessionStatus": {
                           "type": "string",
                           "enum": [
                             "open",
@@ -11310,7 +11310,7 @@
                     "totalPrice": {
                       "type": "integer"
                     },
-                    "status": {
+                    "bookingStatus": {
                       "type": "string",
                       "enum": [
                         "pending",
@@ -11485,7 +11485,7 @@
           "totalPrice": {
             "type": "integer"
           },
-          "status": {
+          "bookingStatus": {
             "type": "string",
             "enum": [
               "pending",
@@ -20532,7 +20532,7 @@
                         "price": {
                           "type": "integer"
                         },
-                        "status": {
+                        "sessionStatus": {
                           "type": "string",
                           "enum": [
                             "open",
@@ -20751,7 +20751,7 @@
                     "totalPrice": {
                       "type": "integer"
                     },
-                    "status": {
+                    "bookingStatus": {
                       "type": "string",
                       "enum": [
                         "pending",
@@ -21043,7 +21043,7 @@
               "startTime",
               "capacity",
               "price",
-              "status"
+              "sessionStatus"
             ],
             "type": "object",
             "properties": {
@@ -21079,7 +21079,7 @@
               "price": {
                 "type": "integer"
               },
-              "status": {
+              "sessionStatus": {
                 "type": "string",
                 "enum": [
                   "open",
@@ -21168,7 +21168,7 @@
           "startTime",
           "capacity",
           "price",
-          "status"
+          "sessionStatus"
         ],
         "properties": {
           "id": {
@@ -22009,7 +22009,7 @@
                     "price": {
                       "type": "integer"
                     },
-                    "status": {
+                    "sessionStatus": {
                       "type": "string",
                       "enum": [
                         "open",
@@ -22590,7 +22590,7 @@
                           "totalPrice": {
                             "type": "integer"
                           },
-                          "status": {
+                          "bookingStatus": {
                             "type": "string",
                             "enum": [
                               "pending",
@@ -22812,7 +22812,7 @@
           "price": {
             "type": "integer"
           },
-          "status": {
+          "sessionStatus": {
             "type": "string",
             "enum": [
               "open",
@@ -24415,7 +24415,7 @@
                     "price": {
                       "type": "integer"
                     },
-                    "status": {
+                    "sessionStatus": {
                       "type": "string",
                       "enum": [
                         "open",
@@ -24634,7 +24634,7 @@
                 "totalPrice": {
                   "type": "integer"
                 },
-                "status": {
+                "bookingStatus": {
                   "type": "string",
                   "enum": [
                     "pending",
@@ -24814,7 +24814,7 @@
               "activeContact": {
                 "type": "string"
               },
-              "status": {
+              "requestStatus": {
                 "type": "string",
                 "enum": [
                   "new",
@@ -24910,7 +24910,7 @@
           "activeContact": {
             "type": "string"
           },
-          "status": {
+          "requestStatus": {
             "type": "string",
             "enum": [
               "new",
@@ -25241,7 +25241,7 @@
                 "activeContact": {
                   "type": "string"
                 },
-                "status": {
+                "requestStatus": {
                   "type": "string",
                   "enum": [
                     "new",

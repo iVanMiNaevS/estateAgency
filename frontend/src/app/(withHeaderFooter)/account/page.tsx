@@ -15,8 +15,9 @@ type Attraction = { id: number; title: string; type: string };
 
 type Booking = {
   id: number;
-  status: string;
-  statusLabel: string;
+  // Имя не status: в Strapi это служебное поле документа
+  // (черновик/публикация), и поле с таким именем не сохраняется из админки.
+  bookingStatus: string;
   adultsCount: number;
   childrenCount: number;
   guestsCount: number;
@@ -105,8 +106,8 @@ const Page = async () => {
 
   const list: Booking[] = bookings.ok ? bookings.data.data ?? [] : [];
 
-  const active = list.filter((b) => ["pending", "confirmed", "paid"].includes(b.status));
-  const history = list.filter((b) => !["pending", "confirmed", "paid"].includes(b.status));
+  const active = list.filter((b) => ["pending", "confirmed", "paid"].includes(b.bookingStatus));
+  const history = list.filter((b) => !["pending", "confirmed", "paid"].includes(b.bookingStatus));
 
   // Записи без предоплаты держат место, но денег не принесли. Их
   // число показываем явно: при достижении лимита сервер не даст
@@ -117,21 +118,21 @@ const Page = async () => {
   const today = new Date().toISOString().slice(0, 10);
   const unpaidCount = active.filter(
     (b) =>
-      PREPAYABLE.includes(b.status) &&
+      PREPAYABLE.includes(b.bookingStatus) &&
       !b.prepaidAmount &&
       (b.session?.date ?? "") >= today
   ).length;
 
   const renderBooking = (booking: Booking) => {
     const attraction = booking.session?.attraction;
-    const cancellable = CANCELLABLE.includes(booking.status);
+    const cancellable = CANCELLABLE.includes(booking.bookingStatus);
 
     return (
       <article key={booking.id} className={styles.booking}>
         <div className={styles.bookingHead}>
           <h3>{attraction?.title ?? "Аттракцион"}</h3>
-          <span className={`${styles.status} ${styles[`status_${booking.status}`] ?? ""}`}>
-            {STATUS_LABELS[booking.status] ?? booking.status}
+          <span className={`${styles.status} ${styles[`status_${booking.bookingStatus}`] ?? ""}`}>
+            {STATUS_LABELS[booking.bookingStatus] ?? booking.bookingStatus}
           </span>
         </div>
 
@@ -171,7 +172,7 @@ const Page = async () => {
         {booking.prepaidAmount ? (
           <p className={styles.prepaid}>
             Предоплата {booking.prepaidAmount.toLocaleString("ru-RU")} ₽ внесена.{" "}
-            {booking.status === "paid"
+            {booking.bookingStatus === "paid"
               ? "Оплачено полностью."
               : `В кассе доплата ${(booking.totalPrice - booking.prepaidAmount).toLocaleString("ru-RU")} ₽.`}
           </p>
@@ -189,7 +190,7 @@ const Page = async () => {
           <div className={styles.actions}>
             {/* Бесплатной брони предоплата не нужна: сервер всё равно
                 отклонит попытку внести 0 ₽. */}
-            {PREPAYABLE.includes(booking.status) &&
+            {PREPAYABLE.includes(booking.bookingStatus) &&
               !booking.prepaidAmount &&
               booking.totalPrice > 0 && (
               <form action={prepayBookingAction}>
@@ -209,7 +210,7 @@ const Page = async () => {
         )}
 
         {!cancellable && (
-          <p className={styles.hint}>Отмена недоступна: запись в статусе «{STATUS_LABELS[booking.status] ?? booking.status}».</p>
+          <p className={styles.hint}>Отмена недоступна: запись в статусе «{STATUS_LABELS[booking.bookingStatus] ?? booking.bookingStatus}».</p>
         )}
       </article>
     );

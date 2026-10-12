@@ -66,7 +66,7 @@ export const BookingForm = ({
 	const available = useMemo(
 		() =>
 			sessions
-				.filter((session) => session.status !== "cancelled" && session.freeSeats > 0)
+				.filter((session) => session.sessionStatus !== "cancelled" && session.freeSeats > 0)
 				.sort((a, b) =>
 					`${a.date}${a.startTime}`.localeCompare(`${b.date}${b.startTime}`)
 				),

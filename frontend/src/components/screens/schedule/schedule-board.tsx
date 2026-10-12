@@ -90,8 +90,8 @@ export const ScheduleBoard = ({ sessions, tariffs, attractionTitle }: Props) => 
 							<ul className={styles.list}>
 								{items.slice(0, shown).map((session) => {
 									const isFull =
-										session.status === "full" || session.freeSeats <= 0;
-									const isCancelled = session.status === "cancelled";
+										session.sessionStatus === "full" || session.freeSeats <= 0;
+									const isCancelled = session.sessionStatus === "cancelled";
 									const isChosen = String(session.id) === sessionId;
 
 									return (

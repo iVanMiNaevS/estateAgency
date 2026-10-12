@@ -88,7 +88,7 @@ const readId = (value: any): number | null => {
 };
 
 /** Занимает ли статус места в сеансе. */
-const occupiesSeats = (status: string) => OCCUPYING_STATUSES.includes(status);
+const occupiesSeats = (bookingStatus: string) => OCCUPYING_STATUSES.includes(bookingStatus);
 
 /**
  * Приводит количество гостей к неотрицательному целому.
@@ -249,7 +249,7 @@ export default {
     const attraction = withAttraction?.attraction ?? null;
 
     if (!session) throw badRequest('Сеанс не найден');
-    if (session.status === 'cancelled') {
+    if (session.sessionStatus === 'cancelled') {
       throw badRequest('Сеанс отменён, бронирование недоступно');
     }
 
@@ -271,7 +271,7 @@ export default {
       where: {
         session: { id: { $eq: sessionId } },
         user: { id: { $eq: userId } },
-        status: { $in: OCCUPYING_STATUSES },
+        bookingStatus: { $in: OCCUPYING_STATUSES },
       },
       select: ['id'],
     });
@@ -292,7 +292,7 @@ export default {
     const unpaidCount = await strapi.db.query('api::booking.booking').count({
       where: {
         user: { id: { $eq: userId } },
-        status: { $in: UNPAID_STATUSES },
+        bookingStatus: { $in: UNPAID_STATUSES },
         prepaidAmount: { $lte: 0 },
         session: { date: { $gte: startOfToday() } },
       },
@@ -326,7 +326,7 @@ export default {
 
     // Статус приходит только от администратора; пользователь может лишь
     // создать бронь в статусе «ожидает».
-    if (!data.status) data.status = 'pending';
+    if (!data.bookingStatus) data.bookingStatus = 'pending';
   },
 
   async beforeUpdate(event: any) {
@@ -338,7 +338,7 @@ export default {
       .query('api::booking.booking')
       .findOne({
         where: { id },
-        select: ['id', 'status', 'guestsCount', 'adultsCount', 'childrenCount'],
+        select: ['id', 'bookingStatus', 'guestsCount', 'adultsCount', 'childrenCount'],
         // session и tariff — связи, их нельзя получить через select.
         populate: { session: true, tariff: true },
       });
@@ -347,11 +347,11 @@ export default {
     const previousSessionId = readId(booking.session);
     const nextSessionId = data.session !== undefined ? readId(data.session) : previousSessionId;
 
-    if (data.status !== undefined && data.status !== booking.status) {
-      if (data.status === 'cancelled' && !CANCELLABLE_STATUSES.includes(booking.status)) {
-        throw badRequest(`Бронь в статусе «${booking.status}» уже нельзя отменить`);
+    if (data.bookingStatus !== undefined && data.bookingStatus !== booking.bookingStatus) {
+      if (data.bookingStatus === 'cancelled' && !CANCELLABLE_STATUSES.includes(booking.bookingStatus)) {
+        throw badRequest(`Бронь в статусе «${booking.bookingStatus}» уже нельзя отменить`);
       }
-      if (data.status === 'cancelled') {
+      if (data.bookingStatus === 'cancelled') {
         data.cancelledAt = new Date().toISOString();
       }
     }
@@ -361,7 +361,7 @@ export default {
     const compositionChanged =
       data.adultsCount !== undefined || data.childrenCount !== undefined || data.tariff !== undefined;
 
-    if (compositionChanged && data.status === undefined) {
+    if (compositionChanged && data.bookingStatus === undefined) {
       const adultsCount =
         data.adultsCount !== undefined ? readCount(data.adultsCount) : booking.adultsCount ?? 0;
       const childrenCount =
@@ -386,7 +386,7 @@ export default {
 
       if (session) {
         // Проверяем лимит с учётом уже занятых мест, если статус не меняется.
-        if (occupiesSeats(booking.status) && session.status !== 'cancelled') {
+        if (occupiesSeats(booking.bookingStatus) && session.sessionStatus !== 'cancelled') {
           const freeSeats = Math.max(0, session.capacity - (session.seatsTaken ?? 0));
           // Текущая бронь уже учтена в seatsTaken, её места возвращаем в расчёт.
           const available = freeSeats + (booking.guestsCount ?? 0);

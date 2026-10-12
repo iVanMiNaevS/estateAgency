@@ -83,7 +83,7 @@ export default {
         // user, guestsCount и totalPrice проставляются в lifecycles,
         // статус всегда «pending».
         user: user.id,
-        status: 'pending',
+        bookingStatus: 'pending',
       },
       populate: { session: { populate: { attraction: true } }, tariff: true },
     });
@@ -111,7 +111,7 @@ export default {
     // в таблице связей, поэтому запрашиваем её через populate.
     const booking = await strapi.db.query('api::booking.booking').findOne({
       where: { id },
-      select: ['id', 'status'],
+      select: ['id', 'bookingStatus'],
       populate: { user: true, session: true },
     });
 
@@ -126,9 +126,9 @@ export default {
     // Отменяем через db.query: документный сервис Strapi некорректно
     // строит where для этой сущности из-за связей user/session/tariff.
     // Правила проверяем здесь явно, места пересчитываем через сервис.
-    if (!CANCELLABLE_STATUSES.includes(booking.status)) {
+    if (!CANCELLABLE_STATUSES.includes(booking.bookingStatus)) {
       throw new errors.ApplicationError(
-        `Бронь в статусе «${booking.status}» уже нельзя отменить`
+        `Бронь в статусе «${booking.bookingStatus}» уже нельзя отменить`
       );
     }
 
@@ -136,7 +136,7 @@ export default {
       .query('api::booking.booking')
       .update({
         where: { id },
-        data: { status: 'cancelled', cancelledAt: new Date().toISOString() },
+        data: { bookingStatus: 'cancelled', cancelledAt: new Date().toISOString() },
       });
 
     // Возвращаем освободившиеся места в сеанс.
@@ -175,7 +175,7 @@ export default {
 
     const booking = await strapi.db.query('api::booking.booking').findOne({
       where: { id },
-      select: ['id', 'status', 'totalPrice', 'prepaidAmount'],
+      select: ['id', 'bookingStatus', 'totalPrice', 'prepaidAmount'],
       populate: { user: true, session: true },
     });
 
@@ -187,9 +187,9 @@ export default {
       throw new errors.ForbiddenError('Можно оплатить только своё бронирование');
     }
 
-    if (!PREPAYABLE_STATUSES.includes(booking.status)) {
+    if (!PREPAYABLE_STATUSES.includes(booking.bookingStatus)) {
       throw new errors.ApplicationError(
-        `Бронь в статусе «${booking.status}» предоплату принять нельзя`
+        `Бронь в статусе «${booking.bookingStatus}» предоплату принять нельзя`
       );
     }
 

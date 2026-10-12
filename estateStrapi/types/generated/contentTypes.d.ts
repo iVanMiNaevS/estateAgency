@@ -542,6 +542,11 @@ export interface ApiBookingBooking extends Struct.CollectionTypeSchema {
         number
       > &
       Schema.Attribute.DefaultTo<1>;
+    bookingStatus: Schema.Attribute.Enumeration<
+      ['pending', 'confirmed', 'paid', 'completed', 'cancelled', 'rejected']
+    > &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'pending'>;
     cancelledAt: Schema.Attribute.DateTime;
     childrenCount: Schema.Attribute.Integer &
       Schema.Attribute.Required &
@@ -585,11 +590,6 @@ export interface ApiBookingBooking extends Struct.CollectionTypeSchema {
     publishedAt: Schema.Attribute.DateTime;
     session: Schema.Attribute.Relation<'manyToOne', 'api::session.session'> &
       Schema.Attribute.Required;
-    status: Schema.Attribute.Enumeration<
-      ['pending', 'confirmed', 'paid', 'completed', 'cancelled', 'rejected']
-    > &
-      Schema.Attribute.Required &
-      Schema.Attribute.DefaultTo<'pending'>;
     tariff: Schema.Attribute.Relation<
       'manyToOne',
       'api::ticket-price.ticket-price'
@@ -941,10 +941,10 @@ export interface ApiSessionSession extends Struct.CollectionTypeSchema {
         number
       > &
       Schema.Attribute.DefaultTo<0>;
-    startTime: Schema.Attribute.Time & Schema.Attribute.Required;
-    status: Schema.Attribute.Enumeration<['open', 'full', 'cancelled']> &
+    sessionStatus: Schema.Attribute.Enumeration<['open', 'full', 'cancelled']> &
       Schema.Attribute.Required &
       Schema.Attribute.DefaultTo<'open'>;
+    startTime: Schema.Attribute.Time & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1080,11 +1080,11 @@ export interface ApiUserRequestUserRequest extends Struct.CollectionTypeSchema {
     name: Schema.Attribute.String;
     phone: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
-    secondName: Schema.Attribute.String;
-    status: Schema.Attribute.Enumeration<
+    requestStatus: Schema.Attribute.Enumeration<
       ['new', 'in_progress', 'done', 'rejected']
     > &
       Schema.Attribute.DefaultTo<'new'>;
+    secondName: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;

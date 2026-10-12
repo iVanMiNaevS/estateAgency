@@ -23,33 +23,33 @@ export default factories.createCoreService('api::session.session', ({ strapi }) 
     if (!session) return null;
 
     // К брони неактивного сеанса места не возвращаем: их разбирает администратор.
-    const activeSessions = session.status !== 'cancelled';
+    const activeSessions = session.sessionStatus !== 'cancelled';
 
     const bookings = await strapi.db.query('api::booking.booking').findMany({
       where: {
         session: { id: { $eq: id } },
-        ...(activeSessions ? { status: { $in: [...ACTIVE_BOOKING_STATUSES] } } : {}),
+        ...(activeSessions ? { bookingStatus: { $in: [...ACTIVE_BOOKING_STATUSES] } } : {}),
       },
-      select: ['id', 'guestsCount', 'status'],
+      select: ['id', 'guestsCount', 'bookingStatus'],
     });
 
     const seatsTaken = bookings.reduce((sum, booking) => sum + (booking.guestsCount ?? 0), 0);
 
     // Отменённый сеанс сохраняет накопленное число, но не меняет статус.
-    let status = session.status;
-    if (session.status !== 'cancelled') {
-      status = seatsTaken >= session.capacity ? 'full' : 'open';
+    let sessionStatus = session.sessionStatus;
+    if (session.sessionStatus !== 'cancelled') {
+      sessionStatus = seatsTaken >= session.capacity ? 'full' : 'open';
     }
 
-    if (seatsTaken === session.seatsTaken && status === session.status) {
+    if (seatsTaken === session.seatsTaken && sessionStatus === session.sessionStatus) {
       return session;
     }
 
     await strapi.db
       .query('api::session.session')
-      .update({ where: { id }, data: { seatsTaken, status } });
+      .update({ where: { id }, data: { seatsTaken, sessionStatus } });
 
-    return { ...session, seatsTaken, status };
+    return { ...session, seatsTaken, sessionStatus };
   },
 
   /**

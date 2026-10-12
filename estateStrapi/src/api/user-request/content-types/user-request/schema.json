@@ -30,10 +30,11 @@
     "activeContact": {
       "type": "string"
     },
-    "status": {
+    "requestStatus": {
       "type": "enumeration",
       "enum": ["new", "in_progress", "done", "rejected"],
-      "default": "new"
+      "default": "new",
+      "description": "Новая, в работе, выполнена, отказ. Имя не status по той же причине, что и у брони и сеанса"
     },
     "adminComment": {
       "type": "text",

@@ -122,7 +122,8 @@ export interface ISession extends BaseEntity {
 	/** Приходит с сервера, клиент не рассчитывает сам. */
 	freeSeats: number;
 	price: number;
-	status: "open" | "full" | "cancelled";
+	// Имя не status: это служебное поле Strapi (черновик/публикация).
+	sessionStatus: "open" | "full" | "cancelled";
 	comment?: string | null;
 	attraction?: (IAttraction & { id: number }) | null;
 }

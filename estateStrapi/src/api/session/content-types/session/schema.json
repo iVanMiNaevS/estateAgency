@@ -50,11 +50,12 @@
       "min": 0,
       "description": "Цена за одно место в этом сеансе"
     },
-    "status": {
+    "sessionStatus": {
       "type": "enumeration",
       "enum": ["open", "full", "cancelled"],
       "default": "open",
-      "required": true
+      "required": true,
+      "description": "Открыт, мест нет, отменён. Имя не status по той же причине, что и у брони"
     },
     "comment": {
       "type": "text",

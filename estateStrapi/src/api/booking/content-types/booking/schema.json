@@ -61,12 +61,12 @@
       "default": 0,
       "description": "Сумма, рассчитанная сервером по тарифу. Значение по умолчанию нужно только для прохождения валидации до lifecycle, реальную цену ставит beforeCreate"
     },
-    "status": {
+    "bookingStatus": {
       "type": "enumeration",
       "enum": ["pending", "confirmed", "paid", "completed", "cancelled", "rejected"],
       "default": "pending",
       "required": true,
-      "description": "Новая, подтверждена, оплачена, завершена, отменена, отказ"
+      "description": "Новая, подтверждена, оплачена, завершена, отменена, отказ. Имя не status: это служебное поле Strapi (черновик/публикация), и поле с таким именем нельзя сохранить из админки"
     },
     "contactName": {
       "type": "string",
