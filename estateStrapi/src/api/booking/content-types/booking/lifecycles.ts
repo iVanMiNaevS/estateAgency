@@ -285,11 +285,15 @@ export default {
     // прошли: запись на прошедший сеанс место не занимает, и пять
     // давних записей без предоплаты иначе заблокировали бы гостю
     // все будущие записи навсегда.
+    //
+    // Отсутствие предоплаты — это 0, а не NULL: у поля значение по
+    // умолчанию, поэтому новые записи получают 0. Проверка на NULL
+    // пропускала бы их мимо счёта и лимит не срабатывал бы вовсе.
     const unpaidCount = await strapi.db.query('api::booking.booking').count({
       where: {
         user: { id: { $eq: userId } },
         status: { $in: UNPAID_STATUSES },
-        prepaidAmount: { $null: true },
+        prepaidAmount: { $lte: 0 },
         session: { date: { $gte: startOfToday() } },
       },
     });

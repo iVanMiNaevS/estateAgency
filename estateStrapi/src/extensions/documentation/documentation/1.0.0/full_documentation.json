@@ -14,7 +14,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "2026-10-12T18:56:17.915Z"
+    "x-generation-date": "2026-10-12T19:06:09.516Z"
   },
   "x-strapi-config": {
     "plugins": [
@@ -891,7 +891,7 @@
         }
       }
     },
-    "/bookings/{id}/pay": {
+    "/bookings/{id}/prepay": {
       "post": {
         "responses": {
           "200": {
@@ -970,7 +970,7 @@
             }
           }
         ],
-        "operationId": "post/bookings/{id}/pay",
+        "operationId": "post/bookings/{id}/prepay",
         "requestBody": {
           "required": true,
           "content": {

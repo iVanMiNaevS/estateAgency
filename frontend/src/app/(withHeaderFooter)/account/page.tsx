@@ -54,6 +54,14 @@ const PREPAYABLE = ["pending", "confirmed"];
 /** Сколько записей без предоплаты допускает сервер на человека. */
 const UNPAID_LIMIT = 5;
 
+/**
+ * Бесплатный аттракцион: предоплата по нему не вносится.
+ *
+ * Название берём из демо-данных только для пояснения: проверка кнопки
+ * опирается на нулевую сумму, а не на это имя.
+ */
+const FREE_ATTRACTION = "Детская площадка «Остров сокровищ»";
+
 const ATTRACTION_TYPE_LABELS: Record<string, string> = {
   extreme: "Экстремальный",
   family: "Семейный",
@@ -179,7 +187,11 @@ const Page = async () => {
 
         {cancellable && (
           <div className={styles.actions}>
-            {PREPAYABLE.includes(booking.status) && !booking.prepaidAmount && (
+            {/* Бесплатной брони предоплата не нужна: сервер всё равно
+                отклонит попытку внести 0 ₽. */}
+            {PREPAYABLE.includes(booking.status) &&
+              !booking.prepaidAmount &&
+              booking.totalPrice > 0 && (
               <form action={prepayBookingAction}>
                 <input type="hidden" name="id" value={booking.id} />
                 <button type="submit" className={styles.prepay}>
@@ -253,6 +265,11 @@ const Page = async () => {
             {unpaidCount >= UNPAID_LIMIT
               ? "Чтобы записаться ещё, внесите предоплату или отмените одну из них."
               : "Запись бронирует место заранее и держит его до визита."}
+          </p>
+
+          <p className={styles.sectionLead}>
+            Записи на «{FREE_ATTRACTION}» бесплатны — предоплата для них не
+            требуется, но место они тоже занимают.
           </p>
 
           {active.length === 0 ? (
