@@ -3,7 +3,7 @@ import { getObjects } from "@/services/getInfo";
 import type { ITicketPrice } from "@/types/park.interface";
 import { BookingForm } from "@/components/forms/booking-form";
 import type { ISession } from "@/types/park.interface";
-import { TARIFF_CATEGORY_TITLES } from "@/constants/park";
+import { AGE_RULE_TEXT, TARIFF_CATEGORY_TITLES } from "@/constants/park";
 import styles from "./prices.module.scss";
 
 export const metadata: Metadata = {
@@ -119,6 +119,7 @@ const Page = async () => {
 					<p className={styles.lead}>
 						Цена зависит от аттракциона. Тарифы ниже — это скидка от этих сумм.
 					</p>
+					<p className={styles.ageRule}>{AGE_RULE_TEXT}</p>
 
 					<div className={styles.attractionsGrid}>
 						{attractionPrices.map((item) => (

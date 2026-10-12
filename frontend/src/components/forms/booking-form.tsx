@@ -6,6 +6,7 @@ import { AppRouter } from "@/AppRouter";
 import type { ISession, ITicketPrice } from "@/types/park.interface";
 import { createBooking, type ActionState } from "@/app/actions/public";
 import {
+	AGE_RULE_TEXT,
 	formatSessionDate,
 	formatTime,
 	tariffAvailability,
@@ -213,6 +214,10 @@ export const BookingForm = ({
 					)}
 				</div>
 			</div>
+
+			{/* Где кончается детский возраст: без этой строки скидку
+			    можно было получить, записав взрослого ребёнком. */}
+			<p className={styles.ageRule}>{AGE_RULE_TEXT}</p>
 
 			{/* Ограничения аттракциона показываем здесь же: раньше они были
 			    только на его странице, и при записи о них не напоминали. */}

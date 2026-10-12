@@ -183,3 +183,12 @@
 		grid-template-columns: 1fr;
 	}
 }
+
+/* Граница детского возраста — она определяет, кому идёт скидка */
+.ageRule {
+	color: var(--grey60);
+	font-size: 15px;
+	line-height: 1.6;
+	max-width: 860px;
+	margin-top: 12px;
+}

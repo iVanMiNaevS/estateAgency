@@ -235,3 +235,12 @@
 	font-size: 14px;
 	line-height: 1.5;
 }
+
+/* Граница детского возраста: гость должен понимать, за что получает
+   скидку и на что идёт при проверке на месте. */
+.ageRule {
+	margin-bottom: 20px;
+	color: var(--grey60);
+	font-size: 14px;
+	line-height: 1.5;
+}
