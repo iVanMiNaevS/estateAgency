@@ -95,6 +95,21 @@ export async function cancelBookingAction(formData: FormData): Promise<void> {
   revalidatePath("/account");
 }
 
+/**
+ * Предоплата бронирования.
+ *
+ * Демонстрационный режим: платёжного провайдера нет, остаток суммы
+ * по ТЗ сдаётся в кассе на месте. Действие лишь записывает в бронь
+ * внесённую сумму. На боевом сайте такую кнопку выводить нельзя.
+ */
+export async function prepayBookingAction(formData: FormData): Promise<void> {
+  const id = String(formData.get("id") ?? "");
+  if (!/^\d+$/.test(id)) return;
+
+  await authFetch(`/bookings/${id}/prepay`, { method: "POST" });
+  revalidatePath("/account");
+}
+
 /** Сохранение профиля. */
 export async function updateProfileAction(
   _prev: FormState,

@@ -22,6 +22,38 @@ const badRequest = (message: string) => new errors.ApplicationError(message);
 
 const OCCUPYING_STATUSES = ['pending', 'confirmed', 'paid'];
 
+/**
+ * Статусы, в которых запись ещё может ждать предоплату.
+ *
+ * Остаток сдаётся в кассе, поэтому «подтверждённая» запись тоже
+ * считается неоплаченной: подтвердил администратор, а деньги
+ * гость ещё не вносил.
+ */
+const UNPAID_STATUSES = ['pending', 'confirmed'];
+
+/**
+ * Сколько записей без предоплаты допускается на человека.
+ *
+ * До этого ограничения не было вовсе: в демо-данных один
+ * пользователь держал 47 мест, не заплатив ни рубля.
+ */
+const MAX_UNPAID_BOOKINGS = 5;
+
+/**
+ * Сегодняшний день в формате «ГГГГ-ММ-ДД» — ровно так поле session.date
+ * хранится в базе.
+ *
+ * Сравнение строковое, поэтому полный ISO-таймстамп здесь не годится:
+ * «2026-10-12» меньше «2026-10-12T00:00:00.000Z», и сегодняшние сеансы
+ * были бы отсечены как прошедшие.
+ */
+const startOfToday = (): string => {
+  const now = new Date();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  return `${now.getFullYear()}-${month}-${day}`;
+};
+
 /** Статусы, из которых бронь ещё можно отменить. */
 const CANCELLABLE_STATUSES = ['pending', 'confirmed', 'paid'];
 
@@ -244,6 +276,29 @@ export default {
       select: ['id'],
     });
     if (existing) throw badRequest('Вы уже забронировали этот сеанс');
+
+    // Запись без предоплаты держит место, но денег не приносит. Без
+    // ограничения один человек забирал десятки мест и не приходил.
+    //
+    // Считаем записи без предоплаты (внесённая сумма — это уже
+    // подтверждённое намерение) и только по сеансам, которые ещё не
+    // прошли: запись на прошедший сеанс место не занимает, и пять
+    // давних записей без предоплаты иначе заблокировали бы гостю
+    // все будущие записи навсегда.
+    const unpaidCount = await strapi.db.query('api::booking.booking').count({
+      where: {
+        user: { id: { $eq: userId } },
+        status: { $in: UNPAID_STATUSES },
+        prepaidAmount: { $null: true },
+        session: { date: { $gte: startOfToday() } },
+      },
+    });
+
+    if (unpaidCount >= MAX_UNPAID_BOOKINGS) {
+      throw badRequest(
+        `У вас уже ${unpaidCount} записей без предоплаты. Внесите предоплату или отмените их, чтобы записаться снова`
+      );
+    }
 
     const freeSeats = Math.max(0, session.capacity - (session.seatsTaken ?? 0));
     if (guestsCount > freeSeats) {

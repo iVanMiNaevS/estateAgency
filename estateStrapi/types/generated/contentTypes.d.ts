@@ -573,6 +573,15 @@ export interface ApiBookingBooking extends Struct.CollectionTypeSchema {
       'api::booking.booking'
     > &
       Schema.Attribute.Private;
+    prepaidAmount: Schema.Attribute.Integer &
+      Schema.Attribute.SetMinMax<
+        {
+          min: 0;
+        },
+        number
+      > &
+      Schema.Attribute.DefaultTo<0>;
+    prepaidAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
     session: Schema.Attribute.Relation<'manyToOne', 'api::session.session'> &
       Schema.Attribute.Required;

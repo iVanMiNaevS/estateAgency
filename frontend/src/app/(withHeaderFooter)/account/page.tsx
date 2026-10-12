@@ -1,7 +1,8 @@
 import { redirect } from "next/navigation";
 import type { Metadata } from "next";
 import { getSessionUser, authFetch } from "@/lib/auth";
-import { cancelBookingAction, logoutAction } from "@/app/actions/auth";
+import { cancelBookingAction, logoutAction, prepayBookingAction } from "@/app/actions/auth";
+import { DEPOSIT_PERCENT, depositAmount } from "@/constants/park";
 import { ProfileForm } from "./profile-form";
 import styles from "./account.module.scss";
 
@@ -20,6 +21,8 @@ type Booking = {
   childrenCount: number;
   guestsCount: number;
   totalPrice: number;
+  prepaidAmount: number | null;
+  prepaidAt: string | null;
   wishes: string | null;
   canCancel: boolean;
   cancelHint: string | null;
@@ -44,6 +47,12 @@ const STATUS_LABELS: Record<string, string> = {
 
 /** Статусы, в которых клиент ещё может отменить визит. */
 const CANCELLABLE = ["pending", "confirmed", "paid"];
+
+/** Статусы, в которых бронь ещё ждёт предоплату. */
+const PREPAYABLE = ["pending", "confirmed"];
+
+/** Сколько записей без предоплаты допускает сервер на человека. */
+const UNPAID_LIMIT = 5;
 
 const ATTRACTION_TYPE_LABELS: Record<string, string> = {
   extreme: "Экстремальный",
@@ -79,12 +88,31 @@ const Page = async () => {
     redirect("/login");
   }
 
-  const bookings = await authFetch<BookingListResponse>("/bookings/me");
+  // Страницу задаём явно: без неё Strapi отдаёт первые 25 записей
+  // молча, и гость с большим числом визитов не увидел бы часть
+  // своих броней — а по счётчику неоплаченных решил бы, что их нет.
+  const bookings = await authFetch<BookingListResponse>(
+    "/bookings/me?pagination[pageSize]=100"
+  );
 
   const list: Booking[] = bookings.ok ? bookings.data.data ?? [] : [];
 
   const active = list.filter((b) => ["pending", "confirmed", "paid"].includes(b.status));
   const history = list.filter((b) => !["pending", "confirmed", "paid"].includes(b.status));
+
+  // Записи без предоплаты держат место, но денег не принесли. Их
+  // число показываем явно: при достижении лимита сервер не даст
+  // записаться снова, и гость должен понимать, что именно его
+  // останавливает. Считаем так же, как сервер — записи без
+  // предоплаты на сеансы, которые ещё не прошли, — иначе счётчик
+  // разошёлся бы с отказом.
+  const today = new Date().toISOString().slice(0, 10);
+  const unpaidCount = active.filter(
+    (b) =>
+      PREPAYABLE.includes(b.status) &&
+      !b.prepaidAmount &&
+      (b.session?.date ?? "") >= today
+  ).length;
 
   const renderBooking = (booking: Booking) => {
     const attraction = booking.session?.attraction;
@@ -132,16 +160,43 @@ const Page = async () => {
           </div>
         </dl>
 
+        {booking.prepaidAmount ? (
+          <p className={styles.prepaid}>
+            Предоплата {booking.prepaidAmount.toLocaleString("ru-RU")} ₽ внесена.{" "}
+            {booking.status === "paid"
+              ? "Оплачено полностью."
+              : `В кассе доплата ${(booking.totalPrice - booking.prepaidAmount).toLocaleString("ru-RU")} ₽.`}
+          </p>
+        ) : (
+          cancellable && (
+            <p className={styles.prepaidHint}>
+              Без предоплаты место закреплено за вами, но не оплачено.
+            </p>
+          )
+        )}
+
         {booking.wishes && <p className={styles.wishes}>Пожелания: {booking.wishes}</p>}
 
-        {cancellable ? (
-          <form action={cancelBookingAction}>
-            <input type="hidden" name="id" value={booking.id} />
-            <button type="submit" className={styles.cancel}>
-              Отменить запись
-            </button>
-          </form>
-        ) : (
+        {cancellable && (
+          <div className={styles.actions}>
+            {PREPAYABLE.includes(booking.status) && !booking.prepaidAmount && (
+              <form action={prepayBookingAction}>
+                <input type="hidden" name="id" value={booking.id} />
+                <button type="submit" className={styles.prepay}>
+                  Внести предоплату — {depositAmount(booking.totalPrice).toLocaleString("ru-RU")} ₽
+                </button>
+              </form>
+            )}
+            <form action={cancelBookingAction}>
+              <input type="hidden" name="id" value={booking.id} />
+              <button type="submit" className={styles.cancel}>
+                Отменить запись
+              </button>
+            </form>
+          </div>
+        )}
+
+        {!cancellable && (
           <p className={styles.hint}>Отмена недоступна: запись в статусе «{STATUS_LABELS[booking.status] ?? booking.status}».</p>
         )}
       </article>
@@ -186,6 +241,20 @@ const Page = async () => {
 
         <section>
           <h2>Активные записи</h2>
+
+          <p className={styles.sectionLead}>
+            Предоплата — {DEPOSIT_PERCENT}% от суммы, она закрепляет за вами
+            место. Остаток сдаёте в кассе на месте. Кнопка внесения
+            демонстрационная: настоящего списания не происходит.
+          </p>
+
+          <p className={unpaidCount >= UNPAID_LIMIT ? styles.limitHit : styles.sectionLead}>
+            Записей без предоплаты: {unpaidCount} из {UNPAID_LIMIT}.{" "}
+            {unpaidCount >= UNPAID_LIMIT
+              ? "Чтобы записаться ещё, внесите предоплату или отмените одну из них."
+              : "Запись бронирует место заранее и держит его до визита."}
+          </p>
+
           {active.length === 0 ? (
             <p className={styles.empty}>Активных записей пока нет.</p>
           ) : (

@@ -35,5 +35,14 @@ export default {
         middlewares: [],
       },
     },
+    {
+      method: 'POST',
+      path: '/bookings/:id/prepay',
+      handler: 'booking.prepay',
+      config: {
+        policies: [],
+        middlewares: [],
+      },
+    },
   ],
 };

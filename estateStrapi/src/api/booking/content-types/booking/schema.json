@@ -87,6 +87,16 @@
     "cancelledAt": {
       "type": "datetime",
       "description": "Когда бронь была отменена"
+    },
+    "prepaidAmount": {
+      "type": "integer",
+      "min": 0,
+      "default": 0,
+      "description": "Внесённая гостем предоплата в рублях. 0 — предоплаты нет. Остаток суммы сдаётся в кассе на месте"
+    },
+    "prepaidAt": {
+      "type": "datetime",
+      "description": "Когда внесена предоплата"
     }
   }
 }

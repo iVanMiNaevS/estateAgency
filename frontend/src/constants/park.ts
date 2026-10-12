@@ -153,3 +153,16 @@ export const formatFullDate = (value: string): string => {
 		year: "numeric",
 	}).format(date);
 };
+/**
+ * Доля суммы, вносимая заранее при бронировании.
+ *
+ * Дублируется в estateStrapi/src/api/booking/controllers/booking.ts
+ * (PREPAY_PERCENT) — там сервер считает реальную сумму предоплаты.
+ * Менять надо в обоих местах: кабинет показывает гостю сумму к
+ * внесению, а сервер её же записывает в бронь.
+ */
+export const DEPOSIT_PERCENT = 50;
+
+/** Сумма предоплаты по брони: половина, округлённая до целых рублей. */
+export const depositAmount = (totalPrice: number): number =>
+	Math.round(totalPrice * DEPOSIT_PERCENT) / 100;

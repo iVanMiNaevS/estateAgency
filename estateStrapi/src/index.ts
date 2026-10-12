@@ -49,6 +49,7 @@ const AUTHENTICATED_EXTRA_ACTIONS: Action[] = [
   'api::booking.booking.find',
   'api::booking.booking.create',
   'api::booking.booking.cancel',
+  'api::booking.booking.prepay',
   'api::profile.profile.find',
   'api::profile.profile.update',
   'plugin::users-permissions.user.me',

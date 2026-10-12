@@ -14,7 +14,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "2026-10-12T18:31:08.517Z"
+    "x-generation-date": "2026-10-12T18:56:17.915Z"
   },
   "x-strapi-config": {
     "plugins": [
@@ -879,6 +879,98 @@
           }
         ],
         "operationId": "post/bookings/{id}/cancel",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BookingRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bookings/{id}/pay": {
+      "post": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BookingResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Booking"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "deprecated": false,
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "operationId": "post/bookings/{id}/pay",
         "requestBody": {
           "required": true,
           "content": {
@@ -9218,6 +9310,13 @@
                         "type": "string",
                         "format": "date-time"
                       },
+                      "prepaidAmount": {
+                        "type": "integer"
+                      },
+                      "prepaidAt": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
                       "createdAt": {
                         "type": "string",
                         "format": "date-time"
@@ -9654,6 +9753,13 @@
                 "type": "string"
               },
               "cancelledAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "prepaidAmount": {
+                "type": "integer"
+              },
+              "prepaidAt": {
                 "type": "string",
                 "format": "date-time"
               },
@@ -11231,6 +11337,13 @@
                       "type": "string",
                       "format": "date-time"
                     },
+                    "prepaidAmount": {
+                      "type": "integer"
+                    },
+                    "prepaidAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
                     "createdAt": {
                       "type": "string",
                       "format": "date-time"
@@ -11396,6 +11509,13 @@
             "type": "string"
           },
           "cancelledAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "prepaidAmount": {
+            "type": "integer"
+          },
+          "prepaidAt": {
             "type": "string",
             "format": "date-time"
           },
@@ -20658,6 +20778,13 @@
                       "type": "string",
                       "format": "date-time"
                     },
+                    "prepaidAmount": {
+                      "type": "integer"
+                    },
+                    "prepaidAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
                     "createdAt": {
                       "type": "string",
                       "format": "date-time"
@@ -22487,6 +22614,13 @@
                             "type": "string"
                           },
                           "cancelledAt": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "prepaidAmount": {
+                            "type": "integer"
+                          },
+                          "prepaidAt": {
                             "type": "string",
                             "format": "date-time"
                           },
@@ -24524,6 +24658,13 @@
                   "type": "string"
                 },
                 "cancelledAt": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "prepaidAmount": {
+                  "type": "integer"
+                },
+                "prepaidAt": {
                   "type": "string",
                   "format": "date-time"
                 },

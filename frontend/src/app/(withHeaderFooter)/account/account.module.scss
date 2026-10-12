@@ -151,6 +151,49 @@
   background: rgba(139, 46, 46, 0.15);
 }
 
+/* Кнопки действий в ряд: оплатить и отменить не должны спорить
+   за внимание, но и сливаться в одну неразличимую группу. */
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.prepay {
+  background: transparent;
+  border: 1px solid #2e8b57;
+  border-radius: 10px;
+  color: #6fcf97;
+  padding: 10px 18px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.prepay:hover {
+  background: rgba(46, 139, 87, 0.15);
+}
+
+.prepaid {
+  color: #6fcf97;
+  font-size: 15px;
+  margin-bottom: 16px;
+}
+
+.prepaidHint {
+  color: var(--grey60);
+  font-size: 15px;
+  margin-bottom: 16px;
+}
+
+.limitHit {
+  color: #e5b95c;
+  font-size: 15px;
+  line-height: 1.6;
+  max-width: 640px;
+  margin-bottom: 24px;
+}
+
 .hint,
 .empty {
   color: var(--grey60);
