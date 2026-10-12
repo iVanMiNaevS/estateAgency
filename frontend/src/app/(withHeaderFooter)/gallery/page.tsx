@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getObjects } from "@/services/getInfo";
 import type { IGalleryAlbum } from "@/types/park.interface";
+import GalleryGrid from "@/components/screens/gallery/gallery-grid";
 import styles from "./gallery.module.scss";
 
 export const metadata: Metadata = {
@@ -58,44 +59,7 @@ const Page = async () => {
 					{albums.length === 0 ? (
 						<p className={styles.empty}>{emptyText}</p>
 					) : (
-						albums.map((album) => (
-							<section key={album.id} className={styles.album}>
-								<h2 className="h2">{album.title}</h2>
-								{album.description && (
-									<p className={styles.albumLead}>{album.description}</p>
-								)}
-
-								<div className={styles.grid}>
-									{album.cover?.url && (
-										<figure className={styles.item}>
-											<img src={album.cover.url} alt={album.title} />
-										</figure>
-									)}
-
-									{album.items?.map((item) => (
-										<figure key={item.id} className={styles.item}>
-											{item.mediaType === "video" && item.file?.url ? (
-												<video
-													src={item.file.url}
-													poster={item.preview?.url ?? item.file.url}
-													controls
-													preload="metadata"
-												/>
-											) : (
-												<img
-													src={item.preview?.url ?? item.file!.url}
-													alt={item.title ?? album.title}
-												/>
-											)}
-
-											{item.caption && (
-												<figcaption>{item.caption}</figcaption>
-											)}
-										</figure>
-									))}
-								</div>
-							</section>
-						))
+						<GalleryGrid albums={albums} />
 					)}
 				</div>
 			</section>
