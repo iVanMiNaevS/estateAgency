@@ -24,3 +24,18 @@
 | [The Swing Carousel - Flickr - Stig Nygaard.jpg](https://commons.wikimedia.org/wiki/File:The%20Swing%20Carousel%20-%20Flickr%20-%20Stig%20Nygaard.jpg) | Stig Nygaard | CC BY 2.0 |
 | [Carousel, 6th of October City, Egypt.JPG](https://commons.wikimedia.org/wiki/File:Carousel%2C%206th%20of%20October%20City%2C%20Egypt.JPG) | Faris El-Gwely | CC BY-SA 4.0 |
 | [Seibuen Amusement Park (9996459904).jpg](https://commons.wikimedia.org/wiki/File:Seibuen%20Amusement%20Park%20(9996459904).jpg) | Tomohiro Ohtake | CC BY 2.0 |
+| [Super Pendulum in Chime-Long Paradise Amusement Park.jpg](https://commons.wikimedia.org/wiki/File:Super%20Pendulum%20in%20Chime-Long%20Paradise%20Amusement%20Park.jpg) | Zhangmoon618 | CC BY-SA 3.0 |
+| [Free fall Nagashima Spa Land.jpg](https://commons.wikimedia.org/wiki/File:Free%20fall%20Nagashima%20Spa%20Land.jpg) | Freddo | CC BY-SA 4.0 |
+| [Square SCAD Tower at amusement park.jpg](https://commons.wikimedia.org/wiki/File:Square%20SCAD%20Tower%20at%20amusement%20park.jpg) | Scad Diver | CC BY-SA 4.0 |
+| [The Flume Valleyfair.jpg](https://commons.wikimedia.org/wiki/File:The%20Flume%20Valleyfair.jpg) | Larry Pieniazek | CC BY 2.5 |
+| [Pripyat amusement park Bumper cars.jpg](https://commons.wikimedia.org/wiki/File:Pripyat%20amusement%20park%20Bumper%20cars.jpg) | Kirill578 | CC BY-SA 4.0 |
+| [Wheeler Dealer Bumper Cars 2.jpg](https://commons.wikimedia.org/wiki/File:Wheeler%20Dealer%20Bumper%20Cars%202.jpg) | METRO96 | CC BY-SA 4.0 |
+| [Playground for All Children Qns td (2019-03-21) 059.jpg](https://commons.wikimedia.org/wiki/File:Playground%20for%20All%20Children%20Qns%20td%20(2019-03-21)%20059.jpg) | Tdorante10 | CC BY-SA 4.0 |
+| [Po Hong Park Children's Playground (5).jpg](https://commons.wikimedia.org/wiki/File:Po%20Hong%20Park%20Children's%20Playground%20(5).jpg) | Prosperity Horizons | CC BY-SA 4.0 |
+| [Manège A.jpg](https://commons.wikimedia.org/wiki/File:Man%C3%A8ge%20A.jpg) | Mouenthias | CC BY-SA 4.0 |
+| [DSCF0876 Evening bustle at a busy outdoor food stall with vendors grilling and preparing dishes under bright lights as customers wait.jpg](https://commons.wikimedia.org/wiki/File:DSCF0876%20Evening%20bustle%20at%20a%20busy%20outdoor%20food%20stall%20with%20vendors%20grilling%20and%20preparing%20dishes%20under%20bright%20lights%20as%20customers%20wait.jpg) | PattayaPatrol | CC BY-SA 4.0 |
+| [Hyperia entrance area 2024-09-30.jpg](https://commons.wikimedia.org/wiki/File:Hyperia%20entrance%20area%202024-09-30.jpg) | Suntooooth | CC BY-SA 4.0 |
+| [Ankara Gençlik Park Fairground at night in 2011 59.jpg](https://commons.wikimedia.org/wiki/File:Ankara%20Gen%C3%A7lik%20Park%20Fairground%20at%20night%20in%202011%2059.jpg) | Dosseman | CC BY-SA 4.0 |
+| [Illuminated Ferris wheel at dusk in Vientiane, Laos.jpg](https://commons.wikimedia.org/wiki/File:Illuminated%20Ferris%20wheel%20at%20dusk%20in%20Vientiane%2C%20Laos.jpg) | Basile Morin | CC BY-SA 4.0 |
+| [Kōmbo Family Coaster 05.jpg](https://commons.wikimedia.org/wiki/File:K%C5%8Dmbo%20Family%20Coaster%2005.jpg) | Jeremy Thompson | CC BY 2.0 |
+| [Picnic Pavilion and Kiddie Playland, Geauga Lake Park, Geauga Lake, Ohio (77802).jpg](https://commons.wikimedia.org/wiki/File:Picnic%20Pavilion%20and%20Kiddie%20Playland%2C%20Geauga%20Lake%20Park%2C%20Geauga%20Lake%2C%20Ohio%20(77802).jpg) | Pub. by Braun Art Publishing Co., Cleveland, Ohio. | Public domain |

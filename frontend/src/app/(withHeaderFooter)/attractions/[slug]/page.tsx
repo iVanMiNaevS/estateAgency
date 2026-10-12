@@ -31,7 +31,7 @@ const findAttraction = async (slug: string): Promise<IAttraction | undefined> =>
 	const result = await getObjects<IAttraction>(
 		"attractions",
 		["poster", "images", "restrictions", "options"],
-		[{ filter: "$eq", field: "slug", value: slug }]
+		[{ filter: "$eq", field: "slug", value: slug }],
 	);
 
 	return result.data?.[0];
@@ -71,9 +71,7 @@ const Page = async ({ params }: Props) => {
 
 							<h1 className="h2">{attraction.title}</h1>
 
-							{attraction.shortFact && (
-								<p className={styles.lead}>{attraction.shortFact}</p>
-							)}
+							{attraction.shortFact && <p className={styles.lead}>{attraction.shortFact}</p>}
 
 							<div className={styles.limitsBox}>
 								<h2 className="h4">Ограничения</h2>
@@ -82,9 +80,7 @@ const Page = async ({ params }: Props) => {
 										Рост:{" "}
 										{attraction.heightMinCm
 											? `от ${attraction.heightMinCm}${
-													attraction.heightMaxCm
-														? ` до ${attraction.heightMaxCm}`
-														: ""
+													attraction.heightMaxCm ? ` до ${attraction.heightMaxCm}` : ""
 												} см`
 											: "без ограничений"}
 									</li>
@@ -106,7 +102,7 @@ const Page = async ({ params }: Props) => {
 
 							<Link
 								href={`/schedule?attraction=${attraction.slug}`}
-								className="btn btn-purple"
+								className={`btn btn-purple ${styles.btn}`}
 							>
 								Записаться на сеанс
 							</Link>
@@ -139,10 +135,7 @@ const Page = async ({ params }: Props) => {
 						<h2 className="h2">Правила безопасности</h2>
 						<ul className={styles.restrictions}>
 							{restrictions.map((rule) => (
-								<li
-									key={rule.id}
-									className={rule.isCritical ? styles.ruleCritical : styles.rule}
-								>
+								<li key={rule.id} className={rule.isCritical ? styles.ruleCritical : styles.rule}>
 									<strong>{rule.title}</strong>
 									{rule.text && <span>{rule.text}</span>}
 								</li>

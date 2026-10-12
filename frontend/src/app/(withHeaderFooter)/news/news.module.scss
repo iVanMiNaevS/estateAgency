@@ -1,5 +1,5 @@
 .hero {
-	padding-top: 40px;
+	padding-bottom: 40px;
 }
 
 .lead {
@@ -21,7 +21,9 @@
 	border: 1px solid var(--grey15);
 	border-radius: 16px;
 	overflow: hidden;
-	transition: border-color 0.2s ease, transform 0.2s ease;
+	transition:
+		border-color 0.2s ease,
+		transform 0.2s ease;
 
 	&:hover {
 		border-color: var(--purple60);

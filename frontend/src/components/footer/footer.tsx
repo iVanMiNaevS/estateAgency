@@ -3,19 +3,22 @@ import styles from "./footer.module.scss";
 import Link from "next/link";
 import Image from "next/image";
 import logo from "@/../public/imgs/ParkMark.svg";
-import {FormEmail} from "./formEmail";
-import {AppRouter} from "@/AppRouter";
+import { FormEmail } from "./formEmail";
+import { AppRouter } from "@/AppRouter";
 type Props = {
 	/** Признак входа из серверного layout. */
 	isAuthenticated?: boolean;
 };
 
-export const Footer = ({isAuthenticated = false}: Props) => {
+export const Footer = ({ isAuthenticated = false }: Props) => {
 	const footerLinks = [
 		{
 			page: { text: "Главная", link: AppRouter.home },
 			anchors: [
-				{ text: "Популярные аттракционы", link: `${AppRouter.home}#main-recomendedAttractionSection` },
+				{
+					text: "Популярные аттракционы",
+					link: `${AppRouter.home}#main-recomendedAttractionSection`,
+				},
 				{ text: "Отзывы", link: `${AppRouter.home}#main-reviewsSection` },
 				{ text: "Частые вопросы", link: `${AppRouter.home}#main-faqSection` },
 			],
@@ -63,12 +66,7 @@ export const Footer = ({isAuthenticated = false}: Props) => {
 			// каждая — они выглядели пусто рядом с колонками,
 			// где ссылок несколько. Теперь это один раздел.
 			page: { text: "Документы", link: AppRouter.privacy },
-			anchors: [
-				{ text: "Политика конфиденциальности", link: AppRouter.privacy },
-				// Лицензии CC BY и CC BY-SA требуют указать авторов
-				// фотографий, поэтому ссылка должна быть на сайте.
-				{ text: "Источники изображений", link: AppRouter.credits },
-			],
+			anchors: [{ text: "Политика конфиденциальности", link: AppRouter.privacy }],
 		},
 	];
 	return (

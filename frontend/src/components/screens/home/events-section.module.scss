@@ -1,7 +1,3 @@
-.section {
-	border-top: 1px solid var(--grey15);
-}
-
 .head {
 	margin-bottom: 32px;
 }
@@ -43,7 +39,9 @@
 	border: 1px solid var(--grey15);
 	border-radius: 16px;
 	overflow: hidden;
-	transition: border-color 0.2s ease, transform 0.2s ease;
+	transition:
+		border-color 0.2s ease,
+		transform 0.2s ease;
 
 	a {
 		display: block;

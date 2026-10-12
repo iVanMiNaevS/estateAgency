@@ -27,6 +27,7 @@
 				font-size: inherit;
 				font-weight: inherit;
 				line-height: 1.2;
+				text-align: center;
 			}
 		}
 		.inputs {
@@ -92,6 +93,7 @@
 		.submit {
 			width: 100%;
 			margin-top: 30px;
+			margin-bottom: 30px;
 			padding: 18px;
 			border: none;
 			border-radius: 12px;
@@ -113,7 +115,7 @@
 			display: flex;
 			gap: 50px;
 			align-items: center;
-			p {
+			span {
 				font-size: 20px;
 				font-weight: 600;
 				a {
@@ -127,14 +129,14 @@
 }
 
 @media (max-width: 900px) {
-	.container{
-		form{
+	.container {
+		form {
 			padding: 20px;
-			.top{
+			.top {
 				font-size: 30px;
 			}
-			.acceptWrapp{
-				.checkbox{
+			.acceptWrapp {
+				.checkbox {
 					min-width: 28px;
 				}
 			}

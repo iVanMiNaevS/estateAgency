@@ -1,7 +1,7 @@
 .heroSection {
 	padding: 0px;
 	padding-top: 60px;
-	background: linear-gradient(30deg, var(--grey08) 40%, #703bf750 100%);
+	// background: linear-gradient(30deg, var(--grey08) 40%, #703bf750 100%);
 	> div {
 		display: flex;
 		/* Раньше высота считалась от высоты экрана за вычетом
@@ -18,12 +18,15 @@
 		justify-content: center;
 		gap: 60px;
 	}
-		img {
-			position: relative;
-			bottom: 0px;
-			width: 50%;
-			height: 100%;
-		}
+	img {
+		position: relative;
+		bottom: 0px;
+		width: 50%;
+		height: 100%;
+		background: linear-gradient(30deg, var(--grey08) 40%, #703bf750 100%);
+		border-radius: 20px;
+		transform: rotateY(180deg);
+	}
 	&__mainText {
 		display: flex;
 		flex-direction: column;
@@ -64,7 +67,6 @@
 			}
 			p {
 				font-size: 18px;
-				color: var(--grey60);
 			}
 		}
 	}
@@ -105,27 +107,27 @@
 	}
 }
 
-@media (max-width:1440px) {
+@media (max-width: 1440px) {
 	.heroSection {
 		margin-bottom: 60px;
-		height:fit-content;
+		height: fit-content;
 		background: transparent;
-		>div{
+		> div {
 			gap: 60px;
 			height: fit-content;
 			flex-direction: column-reverse;
 		}
-		&__mainText{
+		&__mainText {
 			/* 60px на планшете занимали всю ширину колонки. */
-			h1{
+			h1 {
 				font-size: 48px;
 			}
 		}
-		.left{
+		.left {
 			padding-top: 0px;
 			width: 100%;
 		}
-		img{
+		img {
 			height: auto;
 			width: 100%;
 			background: linear-gradient(30deg, var(--grey08) 40%, #703bf750 100%);
@@ -135,28 +137,27 @@
 		}
 	}
 }
-@media (max-width:1024px) {
-	.cardsTextLogoSection{
+@media (max-width: 1024px) {
+	.cardsTextLogoSection {
 		flex-wrap: wrap;
 	}
-	.swiperSection{
-		&__top{
+	.swiperSection {
+		&__top {
 			padding-bottom: 50px;
-			p{
+			p {
 				flex-direction: column;
 				align-items: flex-start;
 			}
-			
 		}
 	}
 }
-@media (max-width:768px) {
+@media (max-width: 768px) {
 	.heroSection {
 		margin-top: 60px;
 		padding: 0px;
 		height: auto;
-		&__mainText{
-			h1{
+		&__mainText {
+			h1 {
 				font-size: 38px;
 			}
 		}
@@ -164,22 +165,22 @@
 			height: auto;
 			gap: 40px;
 		}
-		.left{
+		.left {
 			padding-top: 0px;
 			gap: 40px;
 		}
-		&__stat{
+		&__stat {
 			padding-bottom: 0px;
 		}
 	}
 }
-@media (max-width:576px) {
-	.heroSection{
-		&__mainText{
-			h1{
+@media (max-width: 576px) {
+	.heroSection {
+		&__mainText {
+			h1 {
 				font-size: 40px;
 			}
-			p{
+			p {
 				font-size: 16px;
 			}
 		}
@@ -187,13 +188,13 @@
 			height: auto;
 			gap: 20px;
 		}
-		.left{
+		.left {
 			gap: 20px;
 		}
-		&__stat{
+		&__stat {
 			flex-direction: column;
 			padding-bottom: 0px;
-			&Block{
+			&Block {
 				width: 100%;
 				flex-direction: row;
 				align-items: center;
@@ -205,13 +206,11 @@
 			gap: 10px;
 		}
 	}
-
 }
-@media (max-width:400px) {
-	.heroSection{
-		&__mainText{
-
-			h1{
+@media (max-width: 400px) {
+	.heroSection {
+		&__mainText {
+			h1 {
 				font-size: 35px;
 			}
 		}
@@ -220,8 +219,8 @@
 			gap: 10px;
 			flex-direction: column;
 		}
-		&__stat{
-			&Block{
+		&__stat {
+			&Block {
 				flex-direction: column;
 				gap: 2px;
 				width: 100%;

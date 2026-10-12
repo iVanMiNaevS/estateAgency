@@ -40,28 +40,24 @@ const Page = async ({
 	const attractions = await getObjects<IAttraction>(
 		"attractions",
 		[],
-		[{ filter: "$eq", field: "isActive", value: "true" }]
+		[{ filter: "$eq", field: "isActive", value: "true" }],
 	);
 	const attractionList = attractions.data ?? [];
 
-	const attraction = attractionList.find(
-		(item) => item.slug === params.attraction
-	);
+	const attraction = attractionList.find((item) => item.slug === params.attraction);
 
 	const result = await getObjects<ISession>(
 		"sessions",
 		["attraction"],
-		[
-			...(dateFilter ? [{ filter: "$eq" as const, field: "date", value: dateFilter }] : []),
-		],
-		[{ params: "pageSize" as const, value: 200 }]
+		[...(dateFilter ? [{ filter: "$eq" as const, field: "date", value: dateFilter }] : [])],
+		[{ params: "pageSize" as const, value: 200 }],
 	);
 
 	// Фильтруем по аттракциону сами: связь в сеансе приходит числом,
 	// а полем в запросе Strapi не фильтрует по чужой связи так же
 	// надёжно, как это делает проверка по уже загруженным данным.
 	const sessions = (result.data ?? []).filter(
-		(session) => !attraction || session.attraction?.id === attraction.id
+		(session) => !attraction || session.attraction?.id === attraction.id,
 	);
 
 	// Тарифы нужны форме бронирования, картинки здесь не выводятся.
@@ -93,8 +89,8 @@ const Page = async ({
 						{attraction ? `Расписание: ${attraction.title}` : "Расписание и запись"}
 					</h1>
 					<p className={styles.lead}>
-						Выберите сеанс, укажите количество взрослых и детей. Число свободных мест
-						обновляется сразу после бронирования.
+						Выберите сеанс, укажите количество взрослых и детей. Число свободных мест обновляется
+						сразу после бронирования.
 					</p>
 				</div>
 			</section>
@@ -106,9 +102,7 @@ const Page = async ({
 					<nav className={styles.filters} aria-label="Фильтр по аттракциону">
 						<Link
 							href={buildQuery({ attraction: undefined })}
-							className={
-								attraction ? styles.filterChip : styles.filterChipActive
-							}
+							className={attraction ? styles.filterChip : styles.filterChipActive}
 						>
 							Все аттракционы
 						</Link>
@@ -116,11 +110,7 @@ const Page = async ({
 							<Link
 								key={item.id}
 								href={buildQuery({ attraction: item.slug })}
-								className={
-									attraction?.id === item.id
-										? styles.filterChipActive
-										: styles.filterChip
-								}
+								className={attraction?.id === item.id ? styles.filterChipActive : styles.filterChip}
 							>
 								{item.title}
 								<span className={styles.filterType}>
@@ -149,10 +139,7 @@ const Page = async ({
 					</nav>
 
 					{attraction && (
-						<Link
-							href={`/attractions/${attraction.slug}`}
-							className={styles.backToAttraction}
-						>
+						<Link href={`/attractions/${attraction.slug}`} className={styles.backToAttraction}>
 							← О аттракционе
 						</Link>
 					)}

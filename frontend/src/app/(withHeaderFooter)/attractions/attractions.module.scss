@@ -1,5 +1,5 @@
 .hero {
-	padding-top: 40px;
+	padding-bottom: 0px;
 }
 
 .lead {
@@ -24,7 +24,9 @@
 	padding: 12px 22px;
 	font-size: 16px;
 	color: var(--grey60);
-	transition: border-color 0.2s ease, color 0.2s ease;
+	transition:
+		border-color 0.2s ease,
+		color 0.2s ease;
 }
 
 .filter:hover {
