@@ -55,6 +55,7 @@ export async function submitGuestRequest(
   // Согласие на обработку персональных данных обязательно (152-ФЗ).
   if (!consent) fieldErrors.consent = "Требуется согласие на обработку данных";
 
+
   if (Object.keys(fieldErrors).length > 0) {
     return { error: "Проверьте заполнение формы", fieldErrors };
   }
@@ -203,12 +204,17 @@ export async function createBooking(
   }
   if (!consent) fieldErrors.consent = "Требуется согласие на обработку данных";
 
+  // Тариф обязателен: отдельного варианта «без тарифа» в форме
+  // больше нет — обычный тариф и есть полная цена. Пустое значение
+  // приходит только при подделанной форме.
+  const tariffRaw = formData.get("tariff");
+  const tariff = parseCount(tariffRaw, 1, Number.MAX_SAFE_INTEGER);
+  if (tariff === null) fieldErrors.tariff = "Выберите тариф";
+
   if (Object.keys(fieldErrors).length > 0) {
     return { error: "Проверьте заполнение формы", fieldErrors };
   }
 
-  const tariffRaw = formData.get("tariff");
-  const tariff = parseCount(tariffRaw, 1, Number.MAX_SAFE_INTEGER);
   const wishes = clamp(cleanText(formData.get("wishes")) ?? "", 1000);
 
   const result = await strapiFetch<{ data: any }>("/bookings", {

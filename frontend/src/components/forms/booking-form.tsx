@@ -20,9 +20,6 @@ interface Props {
 	tariffs: ITicketPrice[];
 }
 
-/** Тариф без записи — просто полная цена места. */
-const NO_TARIFF = "none";
-
 /**
  * Форма бронирования (ТЗ F-1.9).
  *
@@ -40,7 +37,7 @@ export const BookingForm = ({ sessions, tariffs }: Props) => {
 	const [sessionId, setSessionId] = useState<string>("");
 	const [adults, setAdults] = useState(2);
 	const [children, setChildren] = useState(1);
-	const [tariffId, setTariffId] = useState<string>(NO_TARIFF);
+	const [tariffId, setTariffId] = useState<string>("");
 
 	// В форму попадают только открытые сеансы: закрытые нельзя выбрать.
 	const available = useMemo(
@@ -77,38 +74,43 @@ export const BookingForm = ({ sessions, tariffs }: Props) => {
 		});
 	}, [ticketTariffs, selected, adults, children]);
 
-	// Состав изменился — ранее выбранный тариф мог стать недоступным.
-	useEffect(() => {
-		if (tariffId === NO_TARIFF) return;
-
-		const chosen = options.find((option) => String(option.tariff.id) === tariffId);
-		if (chosen && !chosen.available) {
-			setTariffId(NO_TARIFF);
-		}
-	}, [options, tariffId]);
 
 	const guests = adults + children;
-	const noTariffTotal = selected ? guests * selected.price : 0;
 
 	// Выбранный тариф подсвечивается, а из доступных показываем
 	// самый выгодный — на нём гость скорее всего и остановится.
-	const cheapest = options
-		.filter((option) => option.available)
-		.reduce<(typeof options)[number] | null>(
-			(best, option) => (!best || option.total < best.total ? option : best),
-			null
-		);
+	const availableOptions = options.filter((option) => option.available);
+
+	const cheapest = availableOptions.reduce<(typeof options)[number] | null>(
+		(best, option) => (!best || option.total < best.total ? option : best),
+		null
+	);
+
+	// Тариф со скидкой 100% и есть обычный: он же запасной вариант,
+	// когда выбранный стал недоступен.
+	const ordinary = availableOptions.find(
+		(option) =>
+			(option.tariff.adultPercent ?? 100) === 100 &&
+			(option.tariff.childPercent ?? 100) === 100
+	);
+
+	// По умолчанию берём обычный тариф: он доступен при любом составе,
+	// а «самый выгодный» подставлять молча нельзя — гость должен
+	// видеть, за что платит.
+	const fallbackId = String(ordinary?.tariff.id ?? ticketTariffs[0]?.id ?? "");
+
+	// Состав изменился — ранее выбранный тариф мог стать недоступным.
+	useEffect(() => {
+		const chosen = options.find((option) => String(option.tariff.id) === tariffId);
+		if (!chosen || chosen.available) return;
+
+		setTariffId(fallbackId);
+	}, [options, tariffId, fallbackId]);
 
 	const current =
-		tariffId === NO_TARIFF
-			? null
-			: options.find((option) => String(option.tariff.id) === tariffId) ?? null;
+		options.find((option) => String(option.tariff.id) === (tariffId || fallbackId)) ?? null;
 
-	const estimate = selected
-		? current?.available
-			? current.total
-			: noTariffTotal
-		: 0;
+	const estimate = current?.available ? current.total : 0;
 
 	const fieldError = (field: string) => state.fieldErrors?.[field];
 
@@ -203,28 +205,11 @@ export const BookingForm = ({ sessions, tariffs }: Props) => {
 
 					{/* Тарифы карточками с готовой суммой: гостю не нужно
 					    считать, чем дешевле пойти с семьёй. */}
-					<label
-						className={`${styles.tariff} ${
-							tariffId === NO_TARIFF ? styles.tariffChecked : ""
-						}`}
-					>
-						<input
-							type="radio"
-							name="tariffChoice"
-							value={NO_TARIFF}
-							checked={tariffId === NO_TARIFF}
-							onChange={() => setTariffId(NO_TARIFF)}
-						/>
-						<span className={styles.tariffName}>Без тарифа</span>
-						<span className={styles.tariffHint}>Полная цена за каждого гостя</span>
-						<span className={styles.tariffTotal}>
-							{noTariffTotal.toLocaleString("ru-RU")} ₽
-						</span>
-					</label>
 
 					{options.map(({ tariff, available, reason, total }) => {
 						const isBest = available && cheapest?.tariff.id === tariff.id;
-						const checked = tariffId === String(tariff.id);
+						// Пустой tariffId означает «выбран обычный по умолчанию».
+						const checked = String(tariff.id) === (tariffId || fallbackId);
 
 						return (
 							<label
@@ -267,7 +252,9 @@ export const BookingForm = ({ sessions, tariffs }: Props) => {
 
 			{/* id выбранного тарифа уходит на сервер отдельным полем:
 			    радиокнопки выше нужны только для показа сумм. */}
-			<input type="hidden" name="tariff" value={tariffId === NO_TARIFF ? "" : tariffId} />
+			{/* На сервер всегда уходит конкретный тариф: обычный —
+			    это и есть «полная цена», отдельного режима без тарифа нет. */}
+			<input type="hidden" name="tariff" value={tariffId || fallbackId} />
 
 			<div className={styles.field}>
 				<label htmlFor="booking-wishes">Пожелания</label>

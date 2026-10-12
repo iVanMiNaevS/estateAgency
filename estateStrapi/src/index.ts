@@ -85,7 +85,10 @@ const ensurePermission = async (strapi: any, action: Action, roleId: number): Pr
     .findOne({
       where: { id: roleId },
       populate: { permissions: true },
-      select: ['id', 'permissions'],
+      // Права лежат в связующей таблице, а не колонкой роли: если
+      // указать их ещё и в select, запрос падает с «no such column:
+      // t0.permissions», и allowlist не применяется совсем.
+      select: ['id'],
     });
 
   const alreadyGranted = (existing?.permissions ?? []).some((p: any) => p.action === action);
@@ -119,7 +122,10 @@ const revokeExtraPermissions = async (
     .findOne({
       where: { id: roleId },
       populate: { permissions: true },
-      select: ['id', 'permissions'],
+      // Права лежат в связующей таблице, а не колонкой роли: если
+      // указать их ещё и в select, запрос падает с «no such column:
+      // t0.permissions», и allowlist не применяется совсем.
+      select: ['id'],
     });
 
   const current = role?.permissions ?? [];
