@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./footer.module.scss";
 import Link from "next/link";
 import Image from "next/image";
-import logo from "@/../public/imgs/Logo.svg";
+import logo from "@/../public/imgs/ParkMark.svg";
 import {FormEmail} from "./formEmail";
 import {AppRouter} from "@/AppRouter";
 type Props = {
@@ -75,7 +75,8 @@ export const Footer = ({isAuthenticated = false}: Props) => {
 		<footer className={styles.footer}>
 			<div className="container">
 				<div className={styles.feedback}>
-					<Image src={logo} alt="Логотип парка Чудес" />
+					<Image src={logo} alt="" width={48} height={48} />
+					<span className={styles.logoName}>Парк Чудес</span>
 					<FormEmail />
 				</div>
 				<div className={styles.linksWrapp}>

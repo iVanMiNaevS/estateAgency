@@ -496,7 +496,9 @@ const insertBooking = db.prepare(`
 
 /** Тариф хранится в отдельной таблице связей — как это делает Strapi. */
 const linkBookingTariff = db.prepare(
-  'insert into bookings_tariff_lnk (booking_id, tariff_id, booking_ord) values (?, ?, 1)'
+  // Имя колонки связи берётся Strapi из цели отношения
+  // (ticket-price -> ticket_price_id), а не из имени атрибута.
+  'insert into bookings_tariff_lnk (booking_id, ticket_price_id, booking_ord) values (?, ?, 1)'
 );
 
 const linkBookingUser = db.prepare(

@@ -1,7 +1,7 @@
 'use client'
 import Image from "next/image";
 import React, { useState } from "react";
-import logo from "@/../public/imgs/Logo.svg";
+import logo from "@/../public/imgs/ParkMark.svg";
 import {AppRouter} from "@/AppRouter";
 import Link from "next/link";
 import styles from "./header.module.scss";
@@ -40,7 +40,10 @@ export const Header = ({user = null}: Props) => {
 		<header className={styles.header}>
 			<div className={styles.header__container + " container"}>
 				<Link href={AppRouter.home} className={styles.logo}>
-					<Image src={logo} alt="Логотип парка Чудес" />
+					<Image src={logo} alt="" width={40} height={40} />
+					{/* Название обычным текстом: в старом SVG оно было
+					    нарисовано контурами и осталось от шаблона. */}
+					<span className={styles.logoName}>Парк Чудес</span>
 				</Link>
 
 				<button

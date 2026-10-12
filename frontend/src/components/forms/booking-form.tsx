@@ -2,6 +2,7 @@
 
 import React, { useActionState, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import { AppRouter } from "@/AppRouter";
 import type { ISession, ITicketPrice } from "@/types/park.interface";
 import { createBooking, type ActionState } from "@/app/actions/public";
 import {
@@ -270,7 +271,7 @@ export const BookingForm = ({ sessions, tariffs }: Props) => {
 				<input type="checkbox" name="consent" value="yes" required />
 				<span>
 					Я согласен на обработку персональных данных в соответствии с{" "}
-					<Link href="/privacy">политикой конфиденциальности</Link>
+					<Link href={AppRouter.privacy}>политикой конфиденциальности</Link>
 				</span>
 			</label>
 			{fieldError("consent") && <span className={styles.fieldError}>{fieldError("consent")}</span>}

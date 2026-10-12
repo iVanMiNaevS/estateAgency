@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useActionState, useState } from "react";
+import Link from "next/link";
+import { AppRouter } from "@/AppRouter";
 import styles from "./request-form.module.scss";
 import { submitGuestRequest, type ActionState } from "@/app/actions/public";
 
@@ -94,7 +96,7 @@ export const RequestForm = () => {
         <input type="checkbox" name="consent" value="yes" required />
         <span>
           Я согласен на обработку персональных данных в соответствии с{" "}
-          <a href="/privacy">политикой конфиденциальности</a>
+          <Link href={AppRouter.privacy}>политикой конфиденциальности</Link>
         </span>
       </label>
       {fieldError("consent") && <span className={styles.fieldError}>{fieldError("consent")}</span>}

@@ -5,11 +5,28 @@
 	.logo {
 		display: flex;
 		align-items: center;
+		gap: 10px;
+		white-space: nowrap;
+		/* Знак не должен сжиматься по ширине: внутри flex он
+		   вытягивался в узкую полоску. */
+		img {
+			flex-shrink: 0;
+		}
+		/* Вложено в .logo: правило на уровне .header давало класс
+		   header__name, а разметка ищет logoName. */
+		&__name {
+			font-size: 20px;
+			font-weight: 600;
+			letter-spacing: -0.01em;
+		}
 	}
 	&__container {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
+		/* Отступ между логотипом и первым пунктом меню: раньше
+		   название примыкало к «Главной» вплотную. */
+		gap: 32px;
 		font-size: 18px;
 		a {
 			transition: 0.3s;
@@ -28,17 +45,9 @@
 				color: var(--purple60);
 			}
 			display: flex;
-			gap: 30px;
+			gap: 22px;
+			font-size: 17px;
 			align-items: center;
-		}
-		.buttonLink.mob{
-			display: none;
-		}
-		.buttonLink:hover {
-			background: var(--grey10);
-		}
-		.active.buttonLink:hover{
-			background: var(--purple60);
 		}
 		.account {
 			margin-left: 24px;
@@ -85,15 +94,6 @@
 					bottom: 0;
 					left: 0;
 					transform: translateY(100%);
-				}
-			}
-			.buttonLink{
-				display: none;
-				&.activeMob{
-					display: flex;
-				}
-				&.activeMob.active{
-					background: var(--grey10);
 				}
 			}
 		}
