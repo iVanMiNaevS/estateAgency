@@ -121,7 +121,6 @@ $RECYCLE.BIN/
 ssl
 .idea
 nbproject
-/estateStrapi/public/uploads/*
 !/estateStrapi/public/uploads/.gitkeep
 .tsbuildinfo
 .eslintcache
