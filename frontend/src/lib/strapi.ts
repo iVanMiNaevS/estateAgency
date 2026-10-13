@@ -16,6 +16,15 @@ import { cookies } from "next/headers";
 export const AUTH_COOKIE = "park_jwt";
 
 /**
+ * Время жизни кеша публичных GET-ответов Strapi (ISR), секунды.
+ *
+ * Страницы пререндериваются на билде вместе с данными и обновляются
+ * раз в этот интервал без пересборки. Только для публичного контента:
+ * авторизованные запросы и мутации кешировать нельзя.
+ */
+const REVALIDATE_SECONDS = 60;
+
+/**
  * Корень REST API Strapi, без завершающего слэша.
  *
  * В .env адрес задан как http://localhost:1337/api, поэтому хвост /api
@@ -147,7 +156,13 @@ export const strapiFetch = async <T>(
       method,
       headers,
       body: body === undefined ? undefined : JSON.stringify(body),
-      cache: "no-store",
+      // Публичные GET кешируются (ISR): на билде страницы пререндерятся
+      // вместе с данными Strapi и обновляются раз в REVALIDATE_SECONDS.
+      // Авторизованные запросы зависят от кук, а мутации меняют данные —
+      // их кешировать нельзя, поэтому они всегда идут напрямую.
+      ...(method === "GET" && !auth
+        ? { next: { revalidate: REVALIDATE_SECONDS } }
+        : { cache: "no-store" as const }),
     });
 
     const payload = await res.json().catch(() => ({}));
